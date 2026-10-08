@@ -1,0 +1,9 @@
+{
+  "steps": [
+    {"tool":"get_tradeflow_context","arguments":{}},
+    {"tool":"list_business_operations","arguments":{"category":"orders","search":"get_orders","limit":50}},
+    {"tool":"get_business_operation_contract","arguments":{"operation":"get_orders"}},
+    {"tool":"execute_business_operation","arguments":{"operation":"get_orders","query":{"page":1,"limit":20}}}
+  ],
+  "note": "Synthetic tutorial. Continue using the live website's pagination fields; the first page is not complete coverage."
+}

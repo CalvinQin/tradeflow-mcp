@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "tradeflow": {
+      "type": "http",
+      "url": "https://tradeflow.example.test/api/mcp"
+    }
+  }
+}

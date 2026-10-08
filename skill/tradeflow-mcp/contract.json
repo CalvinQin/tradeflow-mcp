@@ -1,0 +1,25 @@
+{
+  "package": "@calvinqin/tradeflow-mcp",
+  "version": "1.0.0",
+  "contractHash": "2cae9654d8e986b7c45a6ea0ab6a8a5ad47e436e5fba95fe47dc2143ca9c37dc",
+  "formatVersion": 1,
+  "roles": [
+    "BOSS",
+    "SALES",
+    "PACKER",
+    "ACCOUNTANT",
+    "SOCIAL_OPERATOR"
+  ],
+  "tools": [
+    "get_tradeflow_context",
+    "list_business_operations",
+    "get_business_operation_contract",
+    "execute_business_operation",
+    "prepare_business_action",
+    "get_business_operation_result",
+    "execute_business_batch",
+    "read_business_response_file"
+  ],
+  "operationCount": 510,
+  "serverContractAuthority": "Live OAuth server discovery; source indices do not override website domain validations or ACLs."
+}
