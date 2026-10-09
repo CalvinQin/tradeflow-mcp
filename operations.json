@@ -1,5 +1,5 @@
 {
-  "contractHash": "904037d8d3ea12e5355608c3fa5d1166eac1f2920151bd61c16f0881919fdccc",
+  "contractHash": "0b29a0beb99bbe07e63be4762b3b6490843c75d6729d66c4d69cb2d778fdd7c2",
   "formatVersion": 1,
   "operations": [
     {
@@ -554,6 +554,59 @@
       "responseMode": "json"
     },
     {
+      "id": "delete_exhibition_leads_by_id",
+      "category": "exhibition-leads",
+      "method": "DELETE",
+      "path": "/api/exhibition-leads/:id",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "delete"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "delete_exhibitions_by_id_background_images",
       "category": "exhibitions",
       "method": "DELETE",
@@ -713,7 +766,11 @@
         }
       ],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "channelId",
+          "sessionId",
+          "throughEventId"
+        ],
         "query": [],
         "params": [
           "id"
@@ -721,7 +778,26 @@
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "channelId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "sessionId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "throughEventId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "id": {
@@ -733,6 +809,7 @@
           }
         },
         "validationMessages": [
+          "访问记录无效，请刷新后重试",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -1480,6 +1557,7 @@
         },
         "validationMessages": [
           "删除刀模请求无效",
+          "该刀模仍有有效产品绑定，请先解除绑定再删除",
           "需要登录"
         ],
         "schemaReferences": [
@@ -1572,6 +1650,7 @@
           }
         },
         "validationMessages": [
+          "包装绑定已被其他人调整，请刷新后重试",
           "解除包装绑定请求无效",
           "需要登录"
         ],
@@ -1674,7 +1753,10 @@
           }
         },
         "validationMessages": [
+          "已发布或已归档的包装版本属于历史记录，不能永久删除",
           "永久删除刀模请求无效",
+          "确认名称与当前刀模名称不一致，已取消永久删除",
+          "该刀模存在产品绑定历史，只能移入归档，不能永久删除",
           "需要登录"
         ],
         "schemaReferences": [
@@ -1783,7 +1865,14 @@
           }
         },
         "validationMessages": [
+          "已发布版本属于生产审计记录，不能永久删除",
+          "每个刀模至少保留一个版本；如需移除全部内容，请永久删除整个刀模",
           "永久删除刀模版本请求无效",
+          "版本已被其他人删除，请刷新后重试",
+          "确认版本号与当前版本不一致，已取消永久删除",
+          "该版本仍是后续修订的基础，请先删除依赖它的后续版本",
+          "该版本存在产品绑定历史，不能永久删除",
+          "该版本已保存为模板，请先删除或改用其他模板来源",
           "需要登录"
         ],
         "schemaReferences": [
@@ -2841,13 +2930,43 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "country",
+          "limit",
+          "page",
+          "search"
+        ],
         "params": []
       },
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "country": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "limit": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "page": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "search": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {}
         },
         "validationMessages": [],
@@ -2911,7 +3030,11 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "limit",
+          "page",
+          "search"
+        ],
         "params": [
           "dataset"
         ]
@@ -2919,7 +3042,26 @@
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "limit": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "page": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "search": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {
             "dataset": {
               "type": "unknown",
@@ -3025,13 +3167,64 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "dateFrom",
+          "dateTo",
+          "limit",
+          "page",
+          "search",
+          "sort",
+          "status"
+        ],
         "params": []
       },
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "dateFrom": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "dateTo": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "limit": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "page": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "search": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "sort": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "status": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {}
         },
         "validationMessages": [],
@@ -3104,13 +3297,43 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "category",
+          "limit",
+          "page",
+          "search"
+        ],
         "params": []
       },
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "category": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "limit": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "page": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "search": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {}
         },
         "validationMessages": [],
@@ -4229,7 +4452,9 @@
       "path": "/api/customers/check-follow-ups",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "send"
+      ],
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -5452,6 +5677,169 @@
       "responseMode": "json"
     },
     {
+      "id": "get_exhibition_leads_by_id",
+      "category": "exhibition-leads",
+      "method": "GET",
+      "path": "/api/exhibition-leads/:id",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_exhibition_leads_by_id_business_card",
+      "category": "exhibition-leads",
+      "method": "GET",
+      "path": "/api/exhibition-leads/:id/business-card",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "名片原图存储路径无效",
+          "名片原图文件类型无效",
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_exhibition_leads_by_id_interests_by_interestId_photo",
+      "category": "exhibition-leads",
+      "method": "GET",
+      "path": "/api/exhibition-leads/:id/interests/:interestId/photo",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id",
+          "interestId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "interestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "产品参考照片存储路径无效",
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_exhibitions",
       "category": "exhibitions",
       "method": "GET",
@@ -5474,13 +5862,29 @@
       ],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "mine",
+          "status"
+        ],
         "params": []
       },
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "mine": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "status": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {}
         },
         "validationMessages": [
@@ -5675,7 +6079,10 @@
       ],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "ownerUserId",
+          "stage"
+        ],
         "params": [
           "id"
         ]
@@ -5683,7 +6090,20 @@
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "ownerUserId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "stage": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {
             "id": {
               "type": "unknown",
@@ -5726,7 +6146,14 @@
       ],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "limit",
+          "ownerUserId",
+          "page",
+          "queue",
+          "search",
+          "stage"
+        ],
         "params": [
           "id"
         ]
@@ -5734,7 +6161,44 @@
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "limit": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "ownerUserId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "page": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "queue": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "search": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "stage": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {
             "id": {
               "type": "unknown",
@@ -5745,7 +6209,10 @@
           }
         },
         "validationMessages": [
-          "需要登录"
+          "展会ID无效",
+          "队列无效",
+          "需要登录",
+          "页码超出范围"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
@@ -5828,7 +6295,10 @@
       ],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "days",
+          "limit"
+        ],
         "params": [
           "id"
         ]
@@ -5836,7 +6306,20 @@
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "days": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "limit": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {
             "id": {
               "type": "unknown",
@@ -5847,6 +6330,8 @@
           }
         },
         "validationMessages": [
+          "展会ID无效",
+          "您不是该展会的有效成员",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -8336,14 +8821,24 @@
               "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^\\d{4}-\\d{2}-\\d{2}$/"
+                }
+              ],
               "enum": []
             },
             "until": {
               "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^\\d{4}-\\d{2}-\\d{2}$/"
+                }
+              ],
               "enum": []
             }
           },
@@ -8363,7 +8858,10 @@
           }
         },
         "validationMessages": [],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "dates",
+          "z\n    .object({\n      level: levelSchema.default(\"campaign\"),\n      since: z.string(),\n      until: z.string(),\n      after: z.string().max(2048).optional(),\n      parentId: numeric.optional(),\n    })\n    .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -8452,7 +8950,9 @@
           }
         },
         "validationMessages": [],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z.object({ level: levelSchema, since: z.string(), until: z.string() }).strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -9165,7 +9665,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": true,
+      "upload": false,
       "responseMode": "json"
     },
     {
@@ -9279,7 +9779,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": true,
+      "upload": false,
       "responseMode": "json"
     },
     {
@@ -12799,9 +13299,7 @@
       "path": "/api/system/logistics-address-presets",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "delete"
-      ],
+      "effects": [],
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -14285,6 +14783,168 @@
       "responseMode": "json"
     },
     {
+      "id": "patch_exhibition_leads_by_id",
+      "category": "exhibition-leads",
+      "method": "PATCH",
+      "path": "/api/exhibition-leads/:id",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "companyName",
+          "confirmHolidayDate",
+          "contactName",
+          "country",
+          "email",
+          "jobTitle",
+          "nextFollowUpAt",
+          "notes",
+          "ownerTransferReason",
+          "ownerUserId",
+          "phone",
+          "stage",
+          "website",
+          "wechat",
+          "whatsapp"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "companyName": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "confirmHolidayDate": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactName": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "country": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "email": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "jobTitle": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "nextFollowUpAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "notes": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "ownerTransferReason": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "ownerUserId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "phone": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "stage": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "website": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "wechat": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "whatsapp": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "只有客户归属人或老板可以修改客户资料、阶段、归属和跟进时间",
+          "只有老板可以转移客户归属",
+          "新负责人必须是该展会的有效成员",
+          "线索阶段无效",
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "patch_exhibitions_by_id",
       "category": "exhibitions",
       "method": "PATCH",
@@ -14306,7 +14966,25 @@
         }
       ],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "booth",
+          "currency",
+          "defaultLocale",
+          "description",
+          "enabledLocales",
+          "endAt",
+          "fallbackOwnerUserId",
+          "location",
+          "name",
+          "priceCurrency",
+          "priceExpiresAt",
+          "priceTerm",
+          "priceValidUntil",
+          "showPrices",
+          "startAt",
+          "timezone",
+          "venue"
+        ],
         "query": [],
         "params": [
           "id"
@@ -14314,7 +14992,110 @@
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "booth": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "currency": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "defaultLocale": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "description": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "enabledLocales": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "endAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "fallbackOwnerUserId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "location": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "name": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceCurrency": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceExpiresAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceTerm": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceValidUntil": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "showPrices": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "startAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "timezone": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "venue": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "id": {
@@ -14326,6 +15107,9 @@
           }
         },
         "validationMessages": [
+          "备用归属人必须是有效参展成员",
+          "展会名称不能为空",
+          "结束时间必须晚于开始时间",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -14634,9 +15418,13 @@
         },
         "validationMessages": [
           "包装分类更新内容无效",
+          "包装用途分类或盒型预设无效",
+          "当前刀模仍有单品/中包装绑定，请先解除后再改为外箱",
+          "当前刀模仍有外箱绑定，请先解除后再改为产品包装",
           "需要登录"
         ],
         "schemaReferences": [
+          "packagingDesignClassificationSchema",
           "packagingDesignMetadataRequestSchema"
         ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
@@ -14733,6 +15521,7 @@
           }
         },
         "validationMessages": [
+          "刀模名称不能为空",
           "刀模名称更新内容无效",
           "需要登录"
         ],
@@ -14762,7 +15551,9 @@
       ],
       "permissionGates": [],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "snapshot"
+        ],
         "query": [],
         "params": [
           "id"
@@ -14770,7 +15561,14 @@
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "snapshot": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "id": {
@@ -14798,7 +15596,9 @@
       "path": "/api/social/accounts/:id",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "approve"
+      ],
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -14912,7 +15712,9 @@
           "账号已变化，请刷新",
           "账号已变化，请核对最新状态"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n    .object({\n      name: z.string().trim().min(1).max(100).optional(),\n      expectedRevision: z.number().int().positive(),\n      members: z.array(z.number().int().positive()).max(30).optional(),\n      action: z.enum([\"update\", \"connect\", \"disconnect\"]).default(\"update\"),\n    })\n    .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -17466,7 +18268,6 @@
           "phone",
           "requestId",
           "sourceCode",
-          "submitted",
           "tagIds",
           "website",
           "wechat",
@@ -17557,12 +18358,6 @@
               "enum": []
             },
             "sourceCode": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "submitted": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -18231,7 +19026,10 @@
       "path": "/api/customers/workspace/merge",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "delete",
+        "approve"
+      ],
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -18549,6 +19347,260 @@
       "responseMode": "json"
     },
     {
+      "id": "post_exhibition_leads_by_id_activities",
+      "category": "exhibition-leads",
+      "method": "POST",
+      "path": "/api/exhibition-leads/:id/activities",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "content",
+          "metadata",
+          "type"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "content": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "metadata": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "type": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "活动内容不能为空",
+          "该活动类型只能由系统写入",
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_exhibition_leads_by_id_conversions",
+      "category": "exhibition-leads",
+      "method": "POST",
+      "path": "/api/exhibition-leads/:id/conversions",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "metadata",
+          "targetId",
+          "targetType"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "metadata": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "targetId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "targetType": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "只有客户归属人或老板可以建立转化关联",
+          "您无权关联该转化目标",
+          "订单已属于其他客户，请先核对客户身份",
+          "转化目标与当前客户身份不一致，请核对公司、邮箱或电话",
+          "转化目标无效",
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_exhibition_leads_by_id_followups_by_taskId_complete",
+      "category": "exhibition-leads",
+      "method": "POST",
+      "path": "/api/exhibition-leads/:id/followups/:taskId/complete",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "confirmHolidayDate",
+          "nextActionAt",
+          "nextFollowUpAt",
+          "result",
+          "terminalStage"
+        ],
+        "query": [],
+        "params": [
+          "id",
+          "taskId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "confirmHolidayDate": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "nextActionAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "nextFollowUpAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "result": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "terminalStage": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "taskId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "下一次行动时间与终态不能同时设置",
+          "只能完成分配给自己的跟进任务",
+          "完成跟进时必须设置下一次行动时间或选择终态",
+          "终态无效",
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_exhibition_ocr_business_card",
       "category": "exhibition-ocr",
       "method": "POST",
@@ -18605,7 +19657,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": true,
+      "upload": false,
       "responseMode": "json"
     },
     {
@@ -18615,9 +19667,7 @@
       "path": "/api/exhibition-ocr/business-card-preview",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "approve"
-      ],
+      "effects": [],
       "allowedRoles": [
         "BOSS",
         "SALES"
@@ -18666,7 +19716,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": true,
+      "upload": false,
       "responseMode": "json"
     },
     {
@@ -18691,17 +19741,28 @@
         }
       ],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "items"
+        ],
         "query": [],
         "params": []
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "items": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {}
         },
         "validationMessages": [
+          "clientRequestId不能为空",
+          "同步项目不能为空",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -18733,17 +19794,149 @@
         }
       ],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "booth",
+          "currency",
+          "defaultLocale",
+          "description",
+          "enabledLocales",
+          "endAt",
+          "fallbackOwnerUserId",
+          "location",
+          "memberUserIds",
+          "name",
+          "priceCurrency",
+          "priceExpiresAt",
+          "priceTerm",
+          "priceValidUntil",
+          "showPrices",
+          "startAt",
+          "timezone",
+          "venue"
+        ],
         "query": [],
         "params": []
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "booth": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "currency": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "defaultLocale": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "description": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "enabledLocales": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "endAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "fallbackOwnerUserId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "location": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "memberUserIds": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "name": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceCurrency": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceExpiresAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceTerm": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceValidUntil": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "showPrices": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "startAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "timezone": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "venue": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {}
         },
         "validationMessages": [
+          "参展成员必须是有效的老板或销售账号",
+          "备用归属人必须是参展成员",
+          "展会名称不能为空",
+          "结束时间必须晚于开始时间",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -19364,15 +20557,8 @@
       ],
       "parameterFields": {
         "body": [
-          "address",
-          "contact_person",
           "name",
-          "notes",
-          "phone",
-          "related_countries",
-          "related_customers",
-          "supports_customs",
-          "wechat"
+          "supports_customs"
         ],
         "query": [],
         "params": []
@@ -19380,43 +20566,7 @@
       "inputContract": {
         "fields": {
           "body": {
-            "address": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "contact_person": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
             "name": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "notes": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "phone": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "related_countries": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "related_customers": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -19427,18 +20577,16 @@
               "optional": true,
               "constraints": [],
               "enum": []
-            },
-            "wechat": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
             }
           },
           "query": {},
           "params": {}
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "支持报关必须是布尔值",
+          "货代名称不能为空，且不能超过255个字符",
+          "货代资料必须是对象"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -19502,7 +20650,10 @@
       "path": "/api/forwarders/merge",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "delete",
+        "approve"
+      ],
       "allowedRoles": [
         "BOSS",
         "SALES"
@@ -19661,7 +20812,9 @@
       "path": "/api/inquiries/batch-delete",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "delete"
+      ],
       "allowedRoles": [
         "BOSS",
         "SALES"
@@ -20033,7 +21186,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": false,
+      "upload": true,
       "responseMode": "json"
     },
     {
@@ -21723,9 +22876,19 @@
           }
         },
         "validationMessages": [
-          "请选择允许或拒绝授权，并填写有效凭证"
+          "凭证权限已变化，请重新发起授权",
+          "凭证连接已变化，请重新发起授权",
+          "授权请求已处理",
+          "授权链接已失效。请返回发起连接的 Agent，重新发起连接并打开新的授权链接。",
+          "此凭证不属于当前账号或已撤销",
+          "此凭证已绑定另一个连接，请为新 Agent 新建凭证",
+          "请使用有效的正式工作区账号授权",
+          "请选择允许或拒绝授权，并填写有效凭证",
+          "账号已停用"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z.object({ allow: z.boolean(), connectionId: z.number().int().positive().optional(), name: z.string().trim().min(1).max(100).optional() }).strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -22095,7 +23258,9 @@
       "path": "/api/meta-ads/connections",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "approve"
+      ],
       "allowedRoles": [
         "BOSS",
         "SOCIAL_OPERATOR"
@@ -22220,7 +23385,9 @@
           "请填写Meta用户或系统用户访问令牌",
           "连接已更新，请读取最新信息"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n    .object({\n      id: connectionId.optional(),\n      name: z.string().trim().min(1).max(80),\n      apiVersion: z.string().regex(/^v\\d+\\.0$/),\n      accessToken: z.string().min(20).max(4000).optional(),\n      appSecret: z.string().max(500).optional(),\n      allowManagement: z.boolean().default(false),\n      expectedRevision: z.number().int().positive().optional(),\n    })\n    .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -22234,9 +23401,7 @@
       "path": "/api/meta-ads/connections/:id/accounts/:accountId/preview",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "approve"
-      ],
+      "effects": [],
       "allowedRoles": [
         "BOSS",
         "SOCIAL_OPERATOR"
@@ -22447,7 +23612,9 @@
           "此币种的预算请在Meta官方编辑器修改",
           "此连接或广告账户尚未获得管理权限"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z.object({ level: levelSchema, id: numeric, patch: adPatch }).strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -22461,7 +23628,9 @@
       "path": "/api/meta-ads/connections/:id/execute",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "approve"
+      ],
       "allowedRoles": [
         "BOSS",
         "SOCIAL_OPERATOR"
@@ -22528,7 +23697,9 @@
           "权限已变化，新素材尚未关联；请核对原操作",
           "确认已过期或连接已变化，请重新预览"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n      .object({\n        confirmationToken: z.string().max(24000),\n        operationId: z.string().uuid(),\n      })\n      .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -22542,9 +23713,7 @@
       "path": "/api/meta-ads/connections/:id/pages/:pageId/preview",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "approve"
-      ],
+      "effects": [],
       "allowedRoles": [
         "BOSS",
         "SOCIAL_OPERATOR"
@@ -22672,7 +23841,9 @@
         "validationMessages": [
           "主页写入需要老板开启管理、pages_manage_metadata及主页管理权限"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z.object({ patch: pagePatch }).strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -22742,7 +23913,9 @@
         "validationMessages": [
           "连接已更新，请读取最新信息"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n    .object({ expectedRevision: z.number().int().positive() })\n    .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -22756,7 +23929,9 @@
       "path": "/api/mini-product-shares",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "send"
+      ],
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -22766,17 +23941,29 @@
       ],
       "permissionGates": [],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "productIds"
+        ],
         "query": [],
         "params": []
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "productIds": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {}
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "请选择1至50款有效产品",
+          "部分产品已不存在，请刷新目录后重新选择"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -25297,7 +26484,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": false,
+      "upload": true,
       "responseMode": "json"
     },
     {
@@ -25800,7 +26987,7 @@
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
       "effects": [
-        "send"
+        "approve"
       ],
       "allowedRoles": [
         "BOSS",
@@ -25873,6 +27060,7 @@
         },
         "validationMessages": [
           "包装版本发布请求无效",
+          "该版本尚不能发布",
           "需要登录"
         ],
         "schemaReferences": [
@@ -26288,7 +27476,10 @@
           }
         },
         "validationMessages": [
+          "修正目标不属于当前包装版本，请刷新后重试",
           "包装版本修正内容无效",
+          "只有已成功解析的包装版本可以创建修订",
+          "当前刀模展开宽度无效，不能校正比例",
           "需要登录"
         ],
         "schemaReferences": [
@@ -26392,6 +27583,8 @@
         },
         "validationMessages": [
           "保存模板内容无效",
+          "当前版本还没有可保存的刀模几何",
+          "模板名称不能为空",
           "需要登录"
         ],
         "schemaReferences": [
@@ -26585,7 +27778,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": false,
+      "upload": true,
       "responseMode": "json"
     },
     {
@@ -26595,9 +27788,7 @@
       "path": "/api/packaging-designs/product-bindings/resolve",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "approve"
-      ],
+      "effects": [],
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -26732,6 +27923,7 @@
         },
         "validationMessages": [
           "从模板创建设计的内容无效",
+          "模板源版本缺少有效刀模几何",
           "需要登录"
         ],
         "schemaReferences": [
@@ -27398,17 +28590,84 @@
       ],
       "permissionGates": [],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "currency",
+          "customerCompany",
+          "customerName",
+          "message",
+          "priceTerm",
+          "productIds",
+          "taxNote",
+          "title",
+          "visibleFields"
+        ],
         "query": [],
         "params": []
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "currency": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "customerCompany": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "customerName": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "message": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceTerm": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "productIds": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "taxNote": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "title": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "visibleFields": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {}
         },
         "validationMessages": [
+          "请至少选择一个产品",
+          "部分产品不存在或已被删除",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -28399,6 +29658,537 @@
       "responseMode": "json"
     },
     {
+      "id": "post_products_simulate_container",
+      "category": "products",
+      "method": "POST",
+      "path": "/api/products/simulate-container",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "PACKER"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "containerType",
+          "customCartons",
+          "customContainer",
+          "fixedSelections",
+          "maxContainers",
+          "maxQuantity",
+          "mode",
+          "selections",
+          "temporaryPacking",
+          "usePublishedPackaging"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "containerType": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "20GP",
+                "40GP",
+                "40HQ",
+                "CUSTOM"
+              ]
+            },
+            "customCartons": {
+              "type": "array",
+              "optional": true,
+              "nullable": false,
+              "fields": {
+                "model": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "cartonCount": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1_000_000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "length": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "width": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "height": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "grossWeight": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    }
+                  ],
+                  "enum": []
+                },
+                "rotationPolicy": {
+                  "type": "unknown",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": [
+                    "ALL",
+                    "UPRIGHT_ONLY"
+                  ]
+                }
+              },
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": []
+            },
+            "customContainer": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "fields": {
+                "length": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "width": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "height": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "maxWeight": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1_000_000"
+                    }
+                  ],
+                  "enum": []
+                }
+              },
+              "constraints": [
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "1_000_000"
+                }
+              ],
+              "enum": []
+            },
+            "fixedSelections": {
+              "type": "array",
+              "optional": true,
+              "nullable": false,
+              "fields": {
+                "productId": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "variantId": {
+                  "type": "unknown",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "rotationPolicy": {
+                  "type": "unknown",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": [
+                    "ALL",
+                    "UPRIGHT_ONLY"
+                  ]
+                }
+              },
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": []
+            },
+            "maxContainers": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "12"
+                }
+              ],
+              "enum": []
+            },
+            "maxQuantity": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1_000_000"
+                }
+              ],
+              "enum": []
+            },
+            "mode": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "simulate",
+                "fill"
+              ]
+            },
+            "selections": {
+              "type": "array",
+              "optional": true,
+              "nullable": false,
+              "fields": {
+                "productId": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "variantId": {
+                  "type": "unknown",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "rotationPolicy": {
+                  "type": "unknown",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": [
+                    "ALL",
+                    "UPRIGHT_ONLY"
+                  ]
+                }
+              },
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": []
+            },
+            "temporaryPacking": {
+              "type": "array",
+              "optional": true,
+              "nullable": false,
+              "fields": {
+                "productId": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "variantId": {
+                  "type": "unknown",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "qtyPerCarton": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1_000_000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "cartonSize": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "grossWeight": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    }
+                  ],
+                  "enum": []
+                },
+                "netWeight": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "nonnegative",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    }
+                  ],
+                  "enum": []
+                }
+              },
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": []
+            },
+            "usePublishedPackaging": {
+              "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "同一商品规格不能在同一列表重复，请先合并数量",
+          "同一商品规格的旋转设置须一致",
+          "固定商品与比例商品须分别选择，不能重复同一规格",
+          "按比例填满须至少选择一个可缩放商品",
+          "自定义纸箱编号不能重复",
+          "自定义纸箱编号与真实商品冲突",
+          "装箱模拟参数无效"
+        ],
+        "schemaReferences": [
+          "simulateContainerSchema"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_products_simulate_order",
+      "category": "products",
+      "method": "POST",
+      "path": "/api/products/simulate-order",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "PACKER"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "currency",
+          "productId",
+          "variantId",
+          "withTax"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "currency": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "USD",
+                "CNY"
+              ]
+            },
+            "productId": {
+              "type": "unknown",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "variantId": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "withTax": {
+              "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "模拟订货参数无效",
+          "请输入1至10亿的整数数量"
+        ],
+        "schemaReferences": [
+          "simulateOrderSchema"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_products_sync_images",
       "category": "products",
       "method": "POST",
@@ -28575,7 +30365,15 @@
       ],
       "permissionGates": [],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "anonymousSessionId",
+          "catalogVersion",
+          "clientEventId",
+          "eventType",
+          "locale",
+          "metadata",
+          "productId"
+        ],
         "query": [],
         "params": [
           "code"
@@ -28583,7 +30381,50 @@
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "anonymousSessionId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "catalogVersion": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "clientEventId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "eventType": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "locale": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "metadata": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "productId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "code": {
@@ -28594,7 +30435,16 @@
             }
           }
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "该展会目录尚未发布",
+          "页面事件产品不属于当前展会目录",
+          "页面事件关联线索无效",
+          "页面事件目录版本已失效",
+          "页面事件类型无效",
+          "页面事件缺少产品信息",
+          "页面事件缺少幂等标识或会话标识",
+          "页面会话事件幂等标识冲突"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -28668,7 +30518,11 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [
-          "companyFax"
+          "businessCardUploadToken",
+          "clientRequestId",
+          "companyFax",
+          "consent",
+          "interests"
         ],
         "query": [],
         "params": [
@@ -28678,7 +30532,31 @@
       "inputContract": {
         "fields": {
           "body": {
+            "businessCardUploadToken": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "clientRequestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "companyFax": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "consent": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "interests": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -28695,7 +30573,10 @@
             }
           }
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "该展会页面当前不接受客户资料",
+          "请先同意隐私说明后再提交资料"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -28741,13 +30622,14 @@
         },
         "validationMessages": [
           "该分享仅支持只读查看",
-          "请上传面单文件"
+          "请上传面单文件",
+          "请使用文件上传提交面单"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": false,
+      "upload": true,
       "responseMode": "json"
     },
     {
@@ -28767,7 +30649,12 @@
       ],
       "permissionGates": [],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "containerType",
+          "customerName",
+          "note",
+          "selections"
+        ],
         "query": [],
         "params": [
           "token"
@@ -28775,7 +30662,32 @@
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "containerType": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "customerName": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "note": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "selections": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "token": {
@@ -28786,7 +30698,11 @@
             }
           }
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "所选产品缺少有效装箱资料",
+          "柜型不可用",
+          "请至少选择一个产品数量"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -28923,7 +30839,9 @@
           "已达到当前服务20个扫码账号的连接容量，请联系管理员扩容",
           "账号绑定请求已用于其他对象"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n    .object({\n      name: z.string().trim().min(1).max(100),\n      accountKind: z.enum([\"PERSONAL\", \"BUSINESS_APP\"]).default(\"PERSONAL\"),\n      requestId: z.string().uuid(),\n    })\n    .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -28998,7 +30916,9 @@
           "演示环境不授权真实Meta账号",
           "管理员尚未配置Meta应用与Embedded Signup登录配置，请先完成一次性接入设置"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n    .object({\n      name: z.string().trim().min(1).max(100),\n      kind: z.enum([\"BUSINESS_APP\", \"WABA\"]),\n    })\n    .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -29102,7 +31022,9 @@
           "此号码已绑定其他账号，请让管理员分配协作权限",
           "此授权已处理"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n    .object({\n      state: z.string().uuid(),\n      code: z.string().min(10).max(4000),\n      phoneNumberId: z.string().regex(/^\\d{5,64}$/),\n      wabaId: z.string().regex(/^\\d{5,64}$/),\n    })\n    .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -29186,7 +31108,9 @@
         "validationMessages": [
           "账号未启用"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n    .object({\n      channelId: z.string().uuid(),\n      phone: z.string().min(1).max(32),\n      name: z.string().trim().max(255).optional(),\n    })\n    .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -29390,6 +31314,7 @@
         "validationMessages": [
           "AI 总结凭证无效，请重新总结",
           "AI 总结已过期或聊天新增消息，请重新总结",
+          "同一操作标识的内容已改变，请先核对原提交结果",
           "客户归属、资料或会话已变化，输入已保留，请重新核对",
           "当前等级或客户状态没有自动跟进日期，请手动选择",
           "更新背景需要核验过的 AI 总结",
@@ -29463,7 +31388,9 @@
           "正在总结，请稍后重试",
           "聊天或客户资料已变化，请重新总结"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n    .object({ automatic: z.boolean().optional() })\n    .strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -29897,7 +31824,9 @@
           "消息不属于当前会话",
           "翻译结果未完成，请使用原文或重试"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z\n    .object({\n      language: z.enum([\"zh\", \"en\", \"es\", \"fr\", \"de\", \"pt\", \"ru\", \"ar\", \"ja\"]),\n      messageId: z.string().uuid().optional(),\n      text: z.string().trim().min(1).max(10000).optional(),\n    })\n    .strict()\n    .refine(\n      (value) => Boolean(value.messageId) !== Boolean(value.text),\n      \"请选择一条消息或填写待翻译文本\",\n    )"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -30160,7 +32089,9 @@
       "path": "/api/system/agent-api-clients",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "approve"
+      ],
       "allowedRoles": [
         "BOSS"
       ],
@@ -30692,9 +32623,7 @@
       "path": "/api/system/logistics-address-presets",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "delete"
-      ],
+      "effects": [],
       "allowedRoles": [
         "BOSS"
       ],
@@ -30717,7 +32646,9 @@
           "query": {},
           "params": {}
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "物流地址预设编号已存在，请更新原地址或创建新地址"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -30730,8 +32661,8 @@
       "category": "system",
       "method": "POST",
       "path": "/api/system/mcp-clients",
-      "status": "supported",
-      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "status": "deprecated",
+      "reason": "原网站明确410废弃手工MCP密钥；保留原OAuth接入，不作为业务工具恢复密钥",
       "effects": [],
       "allowedRoles": [
         "BOSS",
@@ -30811,8 +32742,8 @@
       "category": "system",
       "method": "POST",
       "path": "/api/system/mcp-clients/:id/rotate",
-      "status": "supported",
-      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "status": "deprecated",
+      "reason": "原网站明确410废弃手工MCP密钥；保留原OAuth接入，不作为业务工具恢复密钥",
       "effects": [],
       "allowedRoles": [
         "BOSS",
@@ -30963,9 +32894,18 @@
           }
         },
         "validationMessages": [
-          "处理方式无效"
+          "买家已绑定其他客户，请刷新",
+          "候选客户已变化或属于其他负责人，请刷新后重试",
+          "只有老板可以处理 MCP 导入问题",
+          "处理方式无效",
+          "客户标签已变化或属于系统标签，请刷新上下文",
+          "消息时间超出当前时间或统计结束时间",
+          "现负责人已失效，请在客户管理重新分配",
+          "阿里账号尚未唯一绑定有效业务员，请先修复绑定"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z.object({ customerId: z.number().int().positive().optional(), createNew: z.boolean().optional(), acceptObservation: z.boolean().optional() }).strict()\n    .refine(v => !(v.customerId && v.createNew), '关联客户与新建只能选择一项')"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -31146,7 +33086,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": true,
+      "upload": false,
       "responseMode": "json-or-bytes"
     },
     {
@@ -31191,8 +33131,10 @@
           "params": {}
         },
         "validationMessages": [
+          "调价改动格式无效",
           "调价通知必须包含至少一条改动",
-          "调价通知缺少有效产品改动"
+          "调价通知缺少有效产品改动",
+          "调价通知金额必须是有效的非负数字"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
@@ -32360,12 +34302,8 @@
         }
       ],
       "parameterFields": {
-        "body": [
-          "content"
-        ],
-        "query": [
-          "format"
-        ],
+        "body": [],
+        "query": [],
         "params": [
           "documentId"
         ]
@@ -32462,9 +34400,7 @@
       "path": "/api/trade-documents/blank/:documentId/preview",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "approve"
-      ],
+      "effects": [],
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -32490,12 +34426,8 @@
         }
       ],
       "parameterFields": {
-        "body": [
-          "content"
-        ],
-        "query": [
-          "format"
-        ],
+        "body": [],
+        "query": [],
         "params": [
           "documentId"
         ]
@@ -32607,9 +34539,7 @@
       "path": "/api/trade-documents/:orderId/:type/preview",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "approve"
-      ],
+      "effects": [],
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -33031,7 +34961,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": true,
+      "upload": false,
       "responseMode": "json"
     },
     {
@@ -33152,7 +35082,7 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": true,
+      "upload": false,
       "responseMode": "json"
     },
     {
@@ -33162,7 +35092,9 @@
       "path": "/api/users",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "approve"
+      ],
       "allowedRoles": [
         "BOSS"
       ],
@@ -33176,18 +35108,253 @@
         }
       ],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "base_salary",
+          "employment_status",
+          "employment_type",
+          "isPlatformAdmin",
+          "monthlyOrderTarget",
+          "monthlySalesTarget",
+          "password",
+          "payroll_day",
+          "payroll_month_offset",
+          "performance_base",
+          "rate_base",
+          "rate_both",
+          "rate_customs",
+          "rate_repurchase",
+          "role",
+          "social_insurance",
+          "username",
+          "wxpusher_uid"
+        ],
         "query": [],
         "params": []
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "base_salary": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "employment_status": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "ACTIVE",
+                "LEFT"
+              ]
+            },
+            "employment_type": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "FULL_TIME",
+                "INTERN"
+              ]
+            },
+            "isPlatformAdmin": {
+              "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "monthlyOrderTarget": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "2_147_483_647"
+                }
+              ],
+              "enum": []
+            },
+            "monthlySalesTarget": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "password": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, '密码不能为空'"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
+              "enum": []
+            },
+            "payroll_day": {
+              "type": "number",
+              "optional": true,
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "31"
+                }
+              ],
+              "enum": []
+            },
+            "payroll_month_offset": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1"
+                }
+              ],
+              "enum": []
+            },
+            "performance_base": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "1_000_000"
+                }
+              ],
+              "enum": []
+            },
+            "rate_base": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "rate_both": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "rate_customs": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "rate_repurchase": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "role": {
+              "type": "unknown",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "SALES",
+                "BOSS",
+                "PACKER",
+                "ACCOUNTANT",
+                "SOCIAL_OPERATOR"
+              ]
+            },
+            "social_insurance": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "username": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
+              "enum": []
+            },
+            "wxpusher_uid": {
+              "type": "string",
+              "optional": true,
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {}
         },
-        "validationMessages": [],
-        "schemaReferences": [],
+        "validationMessages": [
+          "只有在职业务员可以被授权为平台管理员",
+          "用户名已存在",
+          "老板账号不能通过离职停用"
+        ],
+        "schemaReferences": [
+          "createUserBodySchema"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -33573,7 +35740,6 @@
           "phone",
           "requestId",
           "sourceCode",
-          "submitted",
           "tagIds",
           "website",
           "wechat",
@@ -33666,12 +35832,6 @@
               "enum": []
             },
             "sourceCode": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "submitted": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -34325,6 +36485,168 @@
       "responseMode": "json"
     },
     {
+      "id": "put_exhibition_leads_by_id",
+      "category": "exhibition-leads",
+      "method": "PUT",
+      "path": "/api/exhibition-leads/:id",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "companyName",
+          "confirmHolidayDate",
+          "contactName",
+          "country",
+          "email",
+          "jobTitle",
+          "nextFollowUpAt",
+          "notes",
+          "ownerTransferReason",
+          "ownerUserId",
+          "phone",
+          "stage",
+          "website",
+          "wechat",
+          "whatsapp"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "companyName": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "confirmHolidayDate": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactName": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "country": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "email": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "jobTitle": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "nextFollowUpAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "notes": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "ownerTransferReason": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "ownerUserId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "phone": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "stage": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "website": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "wechat": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "whatsapp": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "只有客户归属人或老板可以修改客户资料、阶段、归属和跟进时间",
+          "只有老板可以转移客户归属",
+          "新负责人必须是该展会的有效成员",
+          "线索阶段无效",
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "put_exhibitions_by_id_catalog",
       "category": "exhibitions",
       "method": "PUT",
@@ -34346,7 +36668,9 @@
         }
       ],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "snapshot"
+        ],
         "query": [],
         "params": [
           "id"
@@ -34354,7 +36678,14 @@
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "snapshot": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "id": {
@@ -34366,6 +36697,14 @@
           }
         },
         "validationMessages": [
+          "主推产品不能重复",
+          "展会类目名称和编号不能为空或重复",
+          "展会类目最多 200 个",
+          "当前产品主数据仅支持展示 USD 或 RMB 价格",
+          "网站产品目录暂无可公开商品",
+          "部分主推产品不存在、未启用或已归档",
+          "部分展会价格对应的产品已失效，请刷新后重试",
+          "隐藏产品列表无效",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -34397,7 +36736,12 @@
         }
       ],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "fallbackOwnerUserId",
+          "managerUserId",
+          "memberUserIds",
+          "userIds"
+        ],
         "query": [],
         "params": [
           "id"
@@ -34405,7 +36749,32 @@
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "fallbackOwnerUserId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "managerUserId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "memberUserIds": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "userIds": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "id": {
@@ -34417,6 +36786,10 @@
           }
         },
         "validationMessages": [
+          "参展成员必须是有效的老板或销售账号",
+          "备用归属人必须属于参展成员",
+          "展会至少需要一名参展成员",
+          "展会负责人必须属于参展成员",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -34449,15 +36822,8 @@
       ],
       "parameterFields": {
         "body": [
-          "address",
-          "contact_person",
           "name",
-          "notes",
-          "phone",
-          "related_countries",
-          "related_customers",
-          "supports_customs",
-          "wechat"
+          "supports_customs"
         ],
         "query": [],
         "params": [
@@ -34467,55 +36833,13 @@
       "inputContract": {
         "fields": {
           "body": {
-            "address": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "contact_person": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
             "name": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
               "enum": []
             },
-            "notes": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "phone": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "related_countries": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "related_customers": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
             "supports_customs": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
-              "enum": []
-            },
-            "wechat": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -34532,7 +36856,11 @@
             }
           }
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "支持报关必须是布尔值",
+          "货代名称不能为空，且不能超过255个字符",
+          "货代资料必须是对象"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -35173,6 +37501,9 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [
+          "alibabaContractShipmentDays",
+          "alibabaContractShipmentDueAt",
+          "alibabaContractShipmentRemindedAt",
           "balancePaidAt",
           "balancePaymentProofDetails",
           "balancePaymentProofs",
@@ -35181,10 +37512,12 @@
           "createdBy",
           "creditDueDate",
           "creditMode",
+          "creditStatementId",
           "creditStatementPeriod",
           "crmAccountId",
           "currency",
           "currencyChangeConfirmed",
+          "customCommissionRate",
           "customManual",
           "customPackaging",
           "customSticker",
@@ -35196,28 +37529,37 @@
           "customerWechat",
           "customerWhatsapp",
           "customsDocuments",
+          "customsStatus",
           "date",
           "depositRatio",
           "discountEnabled",
           "discountRate",
           "domesticShippingFeeCny",
           "domesticShippingFeeUpdatedAt",
+          "editVersion",
           "factoryPickup",
           "freight",
+          "groupId",
           "hasDeposit",
+          "headMark",
           "headMarkAttachments",
           "id",
           "invoiceNumber",
+          "isRepurchase",
           "items",
           "manualAttachments",
           "needsCustoms",
           "orderNumber",
           "packagingAttachments",
+          "packedAt",
+          "packedBy",
           "packingDetails",
           "packingImages",
           "paymentMethodId",
+          "paymentMethodName",
           "paymentProofDetails",
           "paymentProofs",
+          "plugType",
           "recipientAddress",
           "recipientName",
           "recipientPhone",
@@ -35234,7 +37576,8 @@
           "taxIncluded",
           "taxRate",
           "totalPrice",
-          "updatedBy"
+          "updatedBy",
+          "usdToRmbRate"
         ],
         "query": [],
         "params": [
@@ -35244,6 +37587,24 @@
       "inputContract": {
         "fields": {
           "body": {
+            "alibabaContractShipmentDays": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "alibabaContractShipmentDueAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "alibabaContractShipmentRemindedAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "balancePaidAt": {
               "type": "unknown",
               "optional": true,
@@ -35453,6 +37814,12 @@
                 "MONTHLY"
               ]
             },
+            "creditStatementId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "creditStatementPeriod": {
               "type": "string",
               "optional": true,
@@ -35495,6 +37862,12 @@
               "type": "boolean",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "customCommissionRate": {
+              "type": "unknown",
+              "optional": true,
               "constraints": [],
               "enum": []
             },
@@ -35583,6 +37956,12 @@
               "constraints": [],
               "enum": []
             },
+            "customsStatus": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "customSticker": {
               "type": "boolean",
               "optional": true,
@@ -35646,6 +38025,12 @@
               "constraints": [],
               "enum": []
             },
+            "editVersion": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "factoryPickup": {
               "type": "boolean",
               "optional": true,
@@ -35669,10 +38054,22 @@
               ],
               "enum": []
             },
+            "groupId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "hasDeposit": {
               "type": "boolean",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "headMark": {
+              "type": "unknown",
+              "optional": true,
               "constraints": [],
               "enum": []
             },
@@ -35694,6 +38091,12 @@
               "type": "unknown",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "isRepurchase": {
+              "type": "unknown",
+              "optional": true,
               "constraints": [],
               "enum": []
             },
@@ -36176,6 +38579,18 @@
               ],
               "enum": []
             },
+            "packedAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "packedBy": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "packingDetails": {
               "type": "unknown",
               "optional": true,
@@ -36191,6 +38606,12 @@
               "enum": []
             },
             "paymentMethodId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "paymentMethodName": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -36341,6 +38762,12 @@
                   "argument": "20"
                 }
               ],
+              "enum": []
+            },
+            "plugType": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
               "enum": []
             },
             "recipientAddress": {
@@ -36555,6 +38982,12 @@
               "nullable": false,
               "constraints": [],
               "enum": []
+            },
+            "usdToRmbRate": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
             }
           },
           "query": {},
@@ -36568,8 +39001,34 @@
           }
         },
         "validationMessages": [
+          "PI 草稿确认后才能加入客户月结",
+          "不能为其他负责人创建客户",
           "会计账号为只读权限",
+          "全款赊账仅适用于已开启付款凭证要求的全款订单",
+          "只有老板可以修改订单归属或提成",
+          "定金订单不能加入客户月结",
+          "客户归属已变化，请重新选择客户",
+          "客户月结需要填写客户名称",
+          "客户月结需要明确负责人",
+          "客户负责人不存在",
+          "客户选择无效",
+          "尾款凭证必须重新上传，不能复用付款凭证",
+          "已有付款凭证的订单不能改为客户月结；请先核对现有款项",
           "您没有权限修改该订单",
+          "打包员不能修改或确认 PI 草稿",
+          "打包员只能修改打包和发货资料",
+          "找到多个同名同国家客户，请选择本次订单对应的客户",
+          "月结已经收齐，不能再修改客户、负责人、付款方式、币种、金额或赊账类型",
+          "每类素材最多20个文件，文件地址须有效",
+          "缺少有效的订单编辑版本，请刷新订单后重试",
+          "订单ID与请求地址不一致",
+          "订单不存在",
+          "订单已被其他操作更新，请刷新核对后重试；本次修改未保存",
+          "订单状态无效",
+          "请至少添加一个商品",
+          "请通过关联或取消关联入口修改订单关联组",
+          "请通过订单编辑页的“切换币种并重算”确认后再保存",
+          "运费超出有效范围",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -36703,7 +39162,13 @@
           }
         },
         "validationMessages": [
+          "不能为已归档产品创建新的包装绑定",
+          "产品包装刀模不能作为运输外箱；请先把刀模分类改为外箱",
           "产品包装绑定请求无效",
+          "产品包装范围已被其他人调整，请刷新后重试",
+          "只有已经发布且仍通过验证的版本可以绑定产品",
+          "外箱刀模只能绑定到外箱层级",
+          "该产品、规格与包装层级已被其他版本绑定，请刷新后重试",
           "需要登录"
         ],
         "schemaReferences": [
@@ -36948,7 +39413,9 @@
       ],
       "permissionGates": [],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "snapshot"
+        ],
         "query": [],
         "params": [
           "id"
@@ -36956,7 +39423,14 @@
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "snapshot": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "id": {
@@ -37010,6 +39484,7 @@
           "hasVariants",
           "hsCodeCn",
           "hsCodeUs",
+          "id",
           "image",
           "images",
           "model",
@@ -37026,9 +39501,11 @@
           "relatedAccessoryIds",
           "size",
           "status",
+          "stock",
           "unit",
           "variantAxes",
-          "variants"
+          "variants",
+          "weight"
         ],
         "query": [],
         "params": [
@@ -37039,14 +39516,16 @@
         "fields": {
           "body": {
             "cartonSize": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "category": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -37057,87 +39536,222 @@
               "enum": []
             },
             "description": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "grossWeight": {
-              "type": "unknown",
+              "type": "number",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "hasVariants": {
-              "type": "unknown",
+              "type": "boolean",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "hsCodeCn": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "constraints": [],
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "32"
+                }
+              ],
               "enum": []
             },
             "hsCodeUs": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "constraints": [],
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "32"
+                }
+              ],
+              "enum": []
+            },
+            "id": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, \"Product ID is required\""
+                }
+              ],
               "enum": []
             },
             "image": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "images": {
-              "type": "unknown",
+              "type": "number",
               "optional": true,
-              "constraints": [],
+              "nullable": false,
+              "fields": {
+                "id": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    }
+                  ],
+                  "enum": []
+                },
+                "url": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    }
+                  ],
+                  "enum": []
+                },
+                "isPrimary": {
+                  "type": "boolean",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "sortOrder": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    }
+                  ],
+                  "enum": []
+                }
+              },
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                }
+              ],
               "enum": []
             },
             "model": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "constraints": [],
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, \"Model is required\""
+                }
+              ],
               "enum": []
             },
             "name": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "constraints": [],
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, \"Name is required\""
+                }
+              ],
               "enum": []
             },
             "nameCn": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "constraints": [],
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
               "enum": []
             },
             "nameEn": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "constraints": [],
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
               "enum": []
             },
             "netWeight": {
-              "type": "unknown",
+              "type": "number",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "options": {
-              "type": "unknown",
+              "type": "array",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "price": {
-              "type": "unknown",
+              "type": "number",
               "optional": true,
-              "constraints": [],
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "0, \"Price must be positive\""
+                }
+              ],
               "enum": []
             },
             "priceCny": {
@@ -37147,9 +39761,15 @@
               "enum": []
             },
             "priceWithTax": {
-              "type": "unknown",
+              "type": "number",
               "optional": true,
-              "constraints": [],
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "0"
+                }
+              ],
               "enum": []
             },
             "priceWithTaxCny": {
@@ -37159,27 +39779,64 @@
               "enum": []
             },
             "qtyPerCarton": {
-              "type": "unknown",
+              "type": "number",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "relatedAccessoryIds": {
-              "type": "unknown",
+              "type": "array",
               "optional": true,
-              "constraints": [],
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                },
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
               "enum": []
             },
             "size": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "status": {
               "type": "unknown",
               "optional": true,
+              "nullable": true,
               "constraints": [],
+              "enum": [
+                "active",
+                "draft",
+                "archived"
+              ]
+            },
+            "stock": {
+              "type": "number",
+              "optional": true,
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                }
+              ],
               "enum": []
             },
             "unit": {
@@ -37189,14 +39846,23 @@
               "enum": []
             },
             "variantAxes": {
-              "type": "unknown",
+              "type": "array",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "variants": {
-              "type": "unknown",
+              "type": "array",
               "optional": true,
+              "nullable": true,
+              "constraints": [],
+              "enum": []
+            },
+            "weight": {
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             }
@@ -37231,7 +39897,9 @@
       "path": "/api/social/channels",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "approve"
+      ],
       "allowedRoles": [
         "BOSS"
       ],
@@ -37480,9 +40148,7 @@
       "path": "/api/system/logistics-address-presets/:id",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "delete"
-      ],
+      "effects": [],
       "allowedRoles": [
         "BOSS"
       ],
@@ -37639,7 +40305,9 @@
         "validationMessages": [
           "请填写凭证名称和有效日期，不可指定其他权限或授权用户"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z.object({ name: nameRequired ? z.string().trim().min(1).max(100) : z.string().trim().min(1).max(100).optional(), expiresAt: z.string().optional(), accessMode: z.enum(['READ_ONLY', 'READ_WRITE']).optional(), allowCustomerDelete: z.boolean().optional(), allowReviewDelete: z.boolean().optional(), allowOrderDelete: z.boolean().optional(), allowBusinessDelete: z.boolean().optional() }).strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -37730,9 +40398,13 @@
           }
         },
         "validationMessages": [
+          "凭证名称须为1至100字",
+          "删除权限须由老板授予",
           "请选择只读或读写权限"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z.object({ accessMode: z.enum(['READ_ONLY', 'READ_WRITE']), allowCustomerDelete: z.boolean().optional(), allowReviewDelete: z.boolean().optional(), allowOrderDelete: z.boolean().optional(), allowBusinessDelete: z.boolean().optional() }).strict()"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -38560,7 +41232,9 @@
       "path": "/api/users/:id",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [],
+      "effects": [
+        "approve"
+      ],
       "allowedRoles": [
         "BOSS"
       ],
@@ -38574,7 +41248,26 @@
         }
       ],
       "parameterFields": {
-        "body": [],
+        "body": [
+          "base_salary",
+          "employment_status",
+          "employment_type",
+          "isPlatformAdmin",
+          "monthlyOrderTarget",
+          "monthlySalesTarget",
+          "password",
+          "payroll_day",
+          "payroll_month_offset",
+          "performance_base",
+          "rate_base",
+          "rate_both",
+          "rate_customs",
+          "rate_repurchase",
+          "role",
+          "social_insurance",
+          "username",
+          "wxpusher_uid"
+        ],
         "query": [],
         "params": [
           "id"
@@ -38582,7 +41275,217 @@
       },
       "inputContract": {
         "fields": {
-          "body": {},
+          "body": {
+            "base_salary": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "employment_status": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "ACTIVE",
+                "LEFT"
+              ]
+            },
+            "employment_type": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "FULL_TIME",
+                "INTERN"
+              ]
+            },
+            "isPlatformAdmin": {
+              "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "monthlyOrderTarget": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "2_147_483_647"
+                }
+              ],
+              "enum": []
+            },
+            "monthlySalesTarget": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "password": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, '密码不能为空'"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
+              "enum": []
+            },
+            "payroll_day": {
+              "type": "number",
+              "optional": true,
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "31"
+                }
+              ],
+              "enum": []
+            },
+            "payroll_month_offset": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1"
+                }
+              ],
+              "enum": []
+            },
+            "performance_base": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "1_000_000"
+                }
+              ],
+              "enum": []
+            },
+            "rate_base": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "rate_both": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "rate_customs": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "rate_repurchase": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "role": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "SALES",
+                "BOSS",
+                "PACKER",
+                "ACCOUNTANT",
+                "SOCIAL_OPERATOR"
+              ]
+            },
+            "social_insurance": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "username": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
+              "enum": []
+            },
+            "wxpusher_uid": {
+              "type": "string",
+              "optional": true,
+              "nullable": true,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "id": {
@@ -38598,7 +41501,9 @@
           "用户名已存在",
           "老板账号不能通过离职停用"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "updateUserSchema"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
