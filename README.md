@@ -2,17 +2,21 @@
 
 TradeFlow 的 OAuth 连接包和配套 Agent Skill。适用于支持远程 HTTP MCP/OAuth 的 Agent；全部业务由你公司的 TradeFlow 服务执行。这个包提供无密钥配置、Skill安装/更新和可重复的合成示例。
 
-## 1.0.3 候选版本（Prerelease）— 2026-10-09
+Skill 是给 Agent 使用的业务操作说明：指导它发现本人可用的操作、核对字段和版本、完成已授权任务并回读结果。OAuth 提供网站身份与访问范围，Skill 提供处理客户、产品、订单等任务的工作流；两者配合使用。
 
-本版本作为候选发布，严格全站验收仍未完成。阿里店铺授权到期后的续授权、Meta 广告执行仍缺少真实外部验收条件，保留未验说明。
+## 1.0.4 候选版本（Prerelease）— 2026-10-09
 
-客户月结的单次合成图片识别与结算已通过真实 OAuth、MCP SDK、原网站接口及隔离数据库的软件流程验收。识别服务对合成图片返回的原警告保持不变；人工核对图片所示金额后使用原签名票据结算。这不代表银行到账，也不证明上述两项外部流程已经完成。
+当前最终全站门禁仍为 **INCOMPLETE**。Meta 广告真实执行、阿里店铺授权到期后的续授权仍缺少真实外部验收条件，保留未验说明；本候选不宣称正式全功能验收完成。
+
+最终同源软件验收记录：453 项 ACTUAL、64 项 EXTERNAL_PREREQUISITE、2 项 UNVERIFIED；63 项原生验收通过，69/69 能力已有映射与章节，缺项为 0。完整隔离基线 147 项与独立付费识别 1 项通过。严格门禁拒绝陈旧或旧 Skill 说明的证据。
+
+公开包检查验证连接配置、Skill 安装更新和包内容。合成图片或隔离软件流程不代表银行到账，也不证明上述两项外部操作已经完成。
 
 五种角色使用本人账号连接：老板、业务员、打包员、会计、社媒运营。工具通过网站原路由运行，网站的岗位、对象归属、字段、金额、版本、审批、幂等和审计继续生效。连接授权不代表任意业务写入授权。
 
 ## 下载与连接
 
-从本仓库 Releases 下载同一版本的连接包/Skill。也可克隆仓库；Node.js 22以上，无第三方依赖。
+从[官方 Releases](https://github.com/CalvinQin/tradeflow-mcp/releases)取得连接包/Skill；按下方流程选择与服务器契约匹配的版本并校验。Node.js 22以上，无第三方依赖。以下命令在已下载、校验并解压的包根目录运行，`--dir` 使用接收 Agent 实际配置的 skills 目录。
 
 ```sh
 node bin/tradeflow-mcp.mjs config https://YOUR-COMPANY/api/mcp
@@ -42,16 +46,22 @@ node bin/tradeflow-mcp.mjs install-skill --dir /YOUR/AGENT/skills
 
 ## 更新与同步
 
-`contract.json` 和 `operations.json` 是同包发布的契约快照。开始任务先与 `get_tradeflow_context.contractHash` 核对；不一致时采用服务器当前发现结果并升级包。
+`contract.json` 和 `operations.json` 是同包发布的契约快照。已完成 OAuth 连接后，每次任务开始先读取 `get_tradeflow_context.contractHash`，与已安装 Skill 的 `contract.json` 比较；一致时继续使用。
+
+环境支持下载、SHA256 校验、Node.js 和写入 skills 目录时，首次安装或指纹不一致应由 Agent 自动完成：
+
+1. 查找包含该指纹的官方 Release（可能是候选版本），取得同一 Release 的 ZIP/TGZ 和 `SHA256SUMS`；不要只按最新版本号选择。
+2. 校验压缩包 SHA256 与 `SHA256SUMS` 一致后解压到独立目录，再确认包内 `contract.json.contractHash` 与服务器一致。
+3. 在该包根目录首次运行 `install-skill`，已有安装运行 `update-skill`；完成后回读目标目录的 `contract.json`，确认版本与指纹。
 
 ```sh
 node bin/tradeflow-mcp.mjs update-skill --dir /YOUR/AGENT/skills
 node bin/tradeflow-mcp.mjs contract
-node --test test/*.test.mjs
-node scripts/verify.mjs
 ```
 
-安装器只更新本包管理的Skill，并保留旧目录备份，不读取或覆盖其他Agent配置。网站项目的同步守卫比对路由、控制器、领域服务、schema、权限中间件、数据库模型字段和页面调用的实际指纹，不能只改版本号通过。网站发布与本包GitHub发布是独立验收阶段。网站维护者执行 `npm run mcp:sync` 同步契约、全站计划、场景 Skill 和公开快照，再用只读 `mcp:sync:check` 检查；手写操作配方不被覆盖。全站验收通过真实 OAuth、SDK、网站接口和隔离数据库运行，严格门禁检查当前源与实际场景证据；缺项和陈旧证据不能作为完整交付。详见网站项目 `docs/mcp/README.md`。
+`install-skill` / `update-skill` 只安装当前已下载包里的 Skill，不会联网下载新版本。安装器更新本包管理的目录前创建 `tradeflow-mcp.backup-*` 备份；保留备份，不覆盖非本包管理的 Skill 或其他 Agent 配置。没有匹配 Release，或环境缺少下载、校验、执行或写入能力时，报告具体未完成步骤，继续使用服务器实时发现的契约；不能把下载文件、输出命令或旧版本安装说成更新成功。
+
+网站项目的同步守卫比对路由、控制器、领域服务、schema、权限中间件、数据库模型字段和页面调用的实际指纹，不能只改版本号通过。网站发布与本包GitHub发布是独立验收阶段。网站维护者执行 `npm run mcp:sync` 同步契约、全站计划、场景 Skill 和公开快照，再用只读 `mcp:sync:check` 检查；手写操作配方不被覆盖。全站验收通过真实 OAuth、SDK、网站接口和隔离数据库运行，严格门禁检查当前源与实际场景证据；缺项和陈旧证据不能作为完整交付。详见网站项目 `docs/mcp/README.md`。
 
 文件单块最多256KiB，MCP请求上限24MiB，业务请求仍受各网站接口自己的上限；通用适配请求最多16MiB，二进制响应最多64MiB。写导出原件可读取7天。分页与批量示例、结果未知和错误处理见Skill参考文档。
 

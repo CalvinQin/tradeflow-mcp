@@ -3,9 +3,22 @@ name: tradeflow-mcp
 description: Use an OAuth-connected TradeFlow MCP to query and operate the current user's trade, customer, product, warehouse, finance, scheduling, exhibition and communications business. Discover the current website contracts before writing.
 ---
 
+This Skill guides website-authorized discovery, business workflows and result readback. OAuth supplies the user's identity and access scope; install the Skill in the receiving Agent's configured skills directory to make these instructions available.
+
 Use the TradeFlow connection already configured by the user. When absent, show the company `/api/mcp` endpoint and ask the user to select OAuth and click Authenticate in their MCP client's connection settings. The client owns registration, PKCE, callback and token renewal. Never manufacture a Client ID, copy a website JWT, request a background password, or treat an opened login page as a connected MCP.
 
-Start with `get_tradeflow_context`. Match its contractHash against the installed `contract.json`. If different, use the server's current discovery contracts and tell the user the Skill package needs updating; do not call cached operations or infer old fields.
+At every task start, read `get_tradeflow_context` and compare its contractHash with the installed `contract.json`. If missing or different, automatically install/update when the environment supports downloading, SHA256 checks, Node.js 22+ and writing the configured skills directory:
+
+1. Find a matching release at [official Releases](https://github.com/CalvinQin/tradeflow-mcp/releases), including prereleases when appropriate. Fetch its ZIP/TGZ and the same release's `SHA256SUMS`; a newer version number alone is insufficient.
+2. Verify the archive's SHA256 against `SHA256SUMS` before extracting into a separate directory. Confirm the downloaded package's `contract.json.contractHash` matches the live server.
+3. From that downloaded package root, run the existing CLI below, using the Agent's actual skills directory. Use `install-skill` for the first installation and `update-skill` thereafter; read back the installed `contract.json` to verify its version and hash.
+
+```sh
+node bin/tradeflow-mcp.mjs install-skill --dir /YOUR/AGENT/skills
+node bin/tradeflow-mcp.mjs update-skill --dir /YOUR/AGENT/skills
+```
+
+These commands copy the already downloaded package; `update-skill` does not fetch releases. Keep the installer-created `tradeflow-mcp.backup-*` backup. Update only this package's managed Skill; do not replace an unowned Skill or other Agent configuration. If no matching release exists or required capabilities are unavailable, report the unfinished steps and use the server's current discovery contracts for the task. Do not call cached operations, infer old fields, or claim installation/update succeeded from a download or printed command alone. After an update, use the newly installed instructions for the task.
 
 Discover only the task's categories using `list_business_operations` and continue `hasMore/nextOffset`. Read `get_business_operation_contract` for each operation. Use its original params, query, body, schema and validation messages. Source field indices with `unknown` are not permission to invent fields. Actual website routes decide role, platform management rights, ownership, data projections and domain validation on every call. OAuth consent does not authorize an unrelated business task.
 
