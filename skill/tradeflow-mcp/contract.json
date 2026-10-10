@@ -1,7 +1,7 @@
 {
   "package": "@calvinqin/tradeflow-mcp",
-  "version": "1.0.6",
-  "contractHash": "3343b44347c24dcddce06e6e8e5fe5fbc2027edb74f8c3cd5cddc76e84525cf9",
+  "version": "1.0.7",
+  "contractHash": "d57f77d3ceb564e09fbaed6c9ea24f2abb7ba9d5ff9d1dcc04662214283df62a",
   "formatVersion": 1,
   "roles": [
     "BOSS",
