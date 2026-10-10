@@ -4,7 +4,7 @@
 
 ## 找到正确的客户，读完需要的资料
 
-1. `get_customers_workspace`，query `{search, page}`。搜索覆盖公司、联系方式、背景、标签和时间线。按公司、国家、渠道身份与负责人交叉确认，不能仅凭同名就判断为同一买家。可组合 `ownerId`、`country`、`level`、`stage`、`source`、`storeId`、`tagIds`、`tagMatch`；具体筛选值先查 `get_customers_workspace_options`。queue 的 `due/planned/unplanned/purchased/prospect` 分别定位待跟进、已安排、未安排、正式订单客户和未成单客户。根据 total/page 继续分页。
+1. `get_customers_workspace`，query `{search, page}`。搜索覆盖公司、联系方式、背景、标签和时间线。按公司、国家、渠道身份与负责人交叉确认，不能仅凭同名就判断为同一买家。可组合 `ownerId`、`country`、`level`、`stage`、`source`、`storeId`、`tagIds`、`tagMatch`；具体筛选值先查 `get_customers_workspace_options`。queue 的 `due/planned/unplanned/purchased/prospect` 分别定位未来48小时计划及既有逾期待处理客户（按计划时间跨页升序）、已安排、未安排、正式订单客户和未成单客户。根据 total/page 继续分页。
 2. `get_customers_workspace_by_id`，params `{id}`。分别保存 `profileVersion`、`reviewVersion`、`addressVersion`，不能混用。读 contacts、background_info、tags、orders、formalOrderCount、followups 和 activities。时间线按返回 `nextCursor` 继续，query `{before:nextCursor}`；一页不是全部记录。
 3. 大量名片、意向产品和历史购买用 `get_customers_workspace_by_id_context`，query `{kind:"cards"|"interests"|"purchases",limit:1..30,cursor}`，沿 nextCursor 取完。purchases 是正式订单的原币种数量、单位和成交价格，不重新估价。
 4. 名片/意向图用 `get_customers_workspace_by_id_context_media_by_kind_by_mediaId`，params `{id,kind:"card"|"legacy-card"|"interest",mediaId}`；query 的 variant 可为 thumb 或 preview。读取真实文件并按首份 file.responseId 续读，校验 totalBytes/sha256。角色、客户归属、附件删除或文件过期后，续读也可能拒绝，不绕过权限访问存储路径。
@@ -42,7 +42,7 @@
 
 示例文字不能当作任何实际客户事实。followup 可带当前真实 taskId；content 空白时网站记录“已跟进”。自动安排日期以回执 followupState.nextDate 和回读 OPEN 任务为准，不凭固定天数猜测。手动指定 `nextDate` 应用完整带时区的时间；节假日冲突先解释网站提示，只有用户明确选择该日才传 `confirmHolidayDate:true`。首次已发生跟进会从新客户进入跟进中；复盘、背景修改和模型建议本身不能冒充已发生的人类联系。
 
-E 级统一 DORMANT/暂缓，暂不安排跟进，既有 OPEN 任务会取消。不能一边保持 E 一边填写下次时间。当前未成单分级为 E、D、C1、C2、B1、B2；成单/复购由真实正式关联订单决定。PI 草稿不算成交。已经明确暂停或关闭的客户不能因为一条 AI 建议被自行重新安排。
+E 级统一 DORMANT/暂缓，暂不安排跟进，普通 OPEN 任务会取消，老板核实未跟进产生的强制逾期待办保留。不能一边保持 E 一边填写下次时间。当前未成单分级为 E、D、C1、C2、B1、B2；成单/复购由真实正式关联订单决定。PI 草稿不算成交。已经明确暂停或关闭的客户不能因为一条 AI 建议被自行重新安排。
 
 仅记录沟通可用 `post_customers_workspace_by_id_followups`，body `{content,requestId,taskId?,nextDate?,stage?,confirmHolidayDate?}`。人工普通客户若仍需继续跟进，必须给有效下次日期或在统一保存入口采用系统自动安排。做真实沟通记录前确认沟通确实发生；“请复盘客户”通常写复盘分析，不自动写 FOLLOW_UP。
 
@@ -79,9 +79,9 @@ E 级统一 DORMANT/暂缓，暂不安排跟进，既有 OPEN 任务会取消。
 
 删除先检查客户正式订单、公开分享与引用，完成原 prepare 和具体删除授权。`delete_customers_workspace_by_id` 当前软删除，不能说立即永久删除。原 legacy 删除会删除旧源行并保留 CRM 回收站记录。关联正式订单等保护会拒绝，不能先删订单来绕过。
 
-老板 `get_customers_workspace_trash`，query `{search,page}` 取完需要的页；`get_customers_workspace_trash_by_id` 返回完整快照，包括 deletedAt、原负责人、联系人、背景和任务。恢复用 `post_customers_workspace_trash_by_id_restore`，body `{ownerId,deletedAt:快照原值,requestId}`；根据用户意图还给原主人或选真实在职负责人。回读正式列表、归属和原 OPEN 任务。15天期限、已经清理、合并来源等保护以原网站提示为准，不保证受保护记录可以任意恢复。
+老板 `get_customers_workspace_trash`，query `{search,page}` 取完需要的页；`get_customers_workspace_trash_by_id` 返回完整快照，包括 deletedAt、原负责人、联系人、背景和任务。恢复用 `post_customers_workspace_trash_by_id_restore`，body `{ownerId,deletedAt:快照原值,requestId}`；根据用户意图还给原主人或选真实在职负责人。回读正式列表、归属和原 OPEN 任务。30天期限、已经清理、合并来源等保护以原网站提示为准，不保证受保护记录可以任意恢复。
 
-`get_customers_workspace_overdue_report` 仅老板，query `{view:"week"|"month",anchor:"2026-10-09",ownerId?,state?,page?}`。日期按北京时间业务日，逾期在保存的截止时间后享有24小时宽限期；期间不计逾期。已删除客户不计跟进/成单统计。conversion 是实际 FOLLOW_UP 与正式关联订单的核算，资料编辑、复盘和 PI 草稿不算人类跟进或成交。给出实际周期、分母、分子和可查明细，不能把待跟进数量当成成交率。
+`get_customers_workspace_overdue_report` 仅老板，query `{view:"week"|"month",anchor:"2026-10-09",ownerId?,state?,page?}`。日期按北京时间业务日，逾期在保存的截止时间后享有12小时宽限期；期间不计逾期。已删除客户不计跟进/成单统计。conversion 是实际 FOLLOW_UP（包括老板明确核实并归给负责人的有效跟进）与正式关联订单的核算，资料编辑、复盘和 PI 草稿不算人类跟进或成交。给出实际周期、分母、分子和可查明细，不能把待跟进数量当成成交率。
 
 阶段名称管理仅老板：`get_customers_workspace_options` 读 stages；`put_customers_workspace_stages` body `{labels,previousLabels:刚读的stages}`。保留受保护阶段与真实语义，不能通过重命名把暂缓改成成单；冲突先刷新。
 
@@ -90,3 +90,13 @@ E 级统一 DORMANT/暂缓，暂不安排跟进，既有 OPEN 任务会取消。
 `get_customers_check_follow_ups` 虽然 HTTP 是 GET，实际会创建并发送提醒，合同标记 write/send。普通查客户不调用它；明确要求发提醒时用 prepare 和稳定 operationId，先核对收件范围。`post_customers_test_push` 也是真实通知动作。回读站内通知与外部渠道实际状态；未配置外部渠道会跳过，不能报告微信已送达。
 
 400/409 说明参数、版本、状态或资料冲突；403/404 可能是角色/对象权限，不推断客户不存在。429 按 Retry-After 等待；UNKNOWN/PENDING 查原 operationId 和对象，保留同一载荷，不换 ID 再写。完成回复用大白话，例如：“8位客户资料已更新，标签和复盘也保存了；2位账号没绑定，已跳过。没有给客户发消息。”仅在最后一句确实有记录支持时这样说。
+
+## 老板核实、沉底与群发批注提醒
+
+老板先读 `get_customers_workspace_by_id` 的 `reviewVersion` 和 `targetActivityId`，用 `put_customers_workspace_by_id_review` 单独提交 `{managerVerification:"REVIEWED"|"FOLLOWED_UP"|"NOT_FOLLOWED_UP",managerReply:"",targetActivityId:原值或null,expectedVersion:reviewVersion,requestId}`。空批注保存“已查阅”。SOCIAL_OPERATOR 只能沿用普通 managerReply，不能核实；AI复盘不能代替老板决定绿勾/红勾。每次动作保留同一operationId/载荷，先prepare，再根据老板明确授权执行并回读档案、任务、时间线和统计。
+
+绿勾是老板确认有效跟进，即使业务员未记沟通也会计入负责人完成情况并解除当前逾期；操作人仍为老板。红勾撤销负责人的最新有效沟通及其完成/自动后续安排，原始快照保留于审计，并立即建立逾期、计入本轮核实周期与提醒。红勾需 `business:approve`、`business:delete`、`business:send`；准备票据时展示目标记录、负责人、批注与删除/提醒影响，旧CRM写工具禁止绕过。已核查客户在老板普通列表沉底，有新跟进会回到待核查队列；48小时队列按任务时间排列。
+
+`post_customers_workspace_manager_review_broadcast` 仅老板，覆盖全部在职SALES，独立于当前客户筛选。body `{requestId}` 先prepare，预览返回的body带 `expectedRecipientIds`；向老板展示名单和完整通知，用完全相同body、operationId和票据执行。名单变化409则重新预览，未知回执保持原键核对，不重复发送。站内保存与外部微信渠道送达分别报告。
+
+客户 `urgency` 为OVERDUE红色、DUE_SOON黄色（实际逾期前12小时）、NORMAL正常；强制红勾优先于等级、暂停和客户提醒开关。计划跟进时间23:59:59北京时间，实际逾期截止为计划加12小时；即将逾期每小时提醒一次。回收站30天，仍存旧15天记录沿原起点延长15天，不恢复已永久清理的资料。

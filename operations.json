@@ -1,5 +1,5 @@
 {
-  "contractHash": "cfd5d76176adff7b384cef962de3bab91285f2d3997e837eb9067831e17c449f",
+  "contractHash": "2d2368a1901a27174502c49fcbd6c69b1c3171d9877167432d35aeab91785ad2",
   "formatVersion": 1,
   "operations": [
     {
@@ -19020,6 +19020,75 @@
       "responseMode": "json"
     },
     {
+      "id": "post_customers_workspace_manager_review_broadcast",
+      "category": "customers",
+      "method": "POST",
+      "path": "/api/customers/workspace/manager-review/broadcast",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "send",
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        },
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "expectedRecipientIds",
+          "requestId"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "expectedRecipientIds": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "requestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "在职业务员名单已变化，请重新预览提醒范围",
+          "请重新提交批注提醒"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_customers_workspace_merge",
       "category": "customers",
       "method": "POST",
@@ -19336,7 +19405,7 @@
           "删除记录已变化，请刷新后恢复",
           "原负责人已离职或不可用，请重新分配",
           "客户已恢复或已永久删除，请刷新",
-          "已超过 15 天保留期，无法恢复",
+          "已超过 30 天保留期，无法恢复",
           "请重新打开恢复窗口"
         ],
         "schemaReferences": [],
@@ -36063,6 +36132,18 @@
       "effects": [
         "approve"
       ],
+      "conditionalEffects": {
+        "managerVerification": {
+          "FOLLOWED_UP": [
+            "approve"
+          ],
+          "NOT_FOLLOWED_UP": [
+            "approve",
+            "delete",
+            "send"
+          ]
+        }
+      },
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -36091,6 +36172,7 @@
           "lastDate",
           "level",
           "managerReply",
+          "managerVerification",
           "moveToFront",
           "name",
           "nextDate",
@@ -36099,7 +36181,8 @@
           "reminderEnabled",
           "requestId",
           "sourceCode",
-          "stage"
+          "stage",
+          "targetActivityId"
         ],
         "query": [],
         "params": [
@@ -36175,6 +36258,12 @@
               "constraints": [],
               "enum": []
             },
+            "managerVerification": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "moveToFront": {
               "type": "unknown",
               "optional": true,
@@ -36228,6 +36317,12 @@
               "optional": true,
               "constraints": [],
               "enum": []
+            },
+            "targetActivityId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
             }
           },
           "query": {},
@@ -36251,16 +36346,24 @@
           "展会名称最多255字",
           "录入日期不能为空",
           "成单和复购客户的分级由真实订单决定",
+          "批注内容无效",
+          "批注最多10000字",
           "提醒状态无效",
+          "核实与批注请单独提交",
           "沟通记录或跟进任务无效",
           "没有转交客户权限",
           "置顶状态无效",
           "老板批注与客户转交请从各自入口操作",
           "请先选择展会来源",
+          "请刷新客户后提交核实结果",
           "请刷新客户资料后再一起保存",
+          "请选择有效的核实结果",
+          "请重新读取待核实的跟进记录",
           "负责人不存在",
           "负责人不存在或已离职",
-          "跟进状态已变化，请刷新后重试"
+          "负责人最新跟进已变化，请刷新后重新核实；批注仍保留",
+          "跟进状态已变化，请刷新后重试",
+          "这条旧跟进关联多个完成任务，无法安全撤销，请先核对记录"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"

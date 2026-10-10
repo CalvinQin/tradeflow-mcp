@@ -10,7 +10,7 @@
 
 回读档案、联系人/地址、时间线和当天待办；核对负责人、等级、最新沟通和下次时间。删除后查回收站，恢复后查正式列表。
 
-E级不生成首次或重复跟进；人工非E暂停/关闭保留。新事实可按规则恢复E造成的暂缓。正式订单决定成交/复购；PI草稿不计成交。外部AI回复建议和推送需各自配置与授权。
+E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿勾计有效跟进，AI复盘不得自行核实。due队列为48小时计划及逾期待办，12小时宽限，回收站30天；人工非E暂停/关闭保留。新事实可按规则恢复E造成的暂缓。正式订单决定成交/复购；PI草稿不计成交。外部AI回复建议和推送需各自配置与授权。
 
 具体执行顺序、输入和失败恢复见[本领域操作配方](../recipes/customers.md)；仅其中明确列出的流程有执行规格，其余候选仍须补齐实际验收。
 
@@ -60,6 +60,7 @@ E级不生成首次或重复跟进；人工非E暂停/关闭保留。新事实�
 - `post_customers_workspace_duplicates_review`：POST /api/customers/workspace/duplicates/review；外部前提候选：客户工作台真实模型配置
 - `post_customers_workspace_followups_batch`：POST /api/customers/workspace/followups/batch
 - `post_customers_workspace_import`：POST /api/customers/workspace/import
+- `post_customers_workspace_manager_review_broadcast`：POST /api/customers/workspace/manager-review/broadcast；外部前提候选：外发或企业微信真实连接
 - `post_customers_workspace_merge`：POST /api/customers/workspace/merge
 - `post_customers_workspace_merge_review`：POST /api/customers/workspace/merge/review；外部前提候选：客户工作台真实模型配置
 - `post_customers_workspace_tags`：POST /api/customers/workspace/tags
@@ -137,6 +138,7 @@ E级不生成首次或重复跟进；人工非E暂停/关闭保留。新事实�
 - `get_customers_workspace_tags`：GET /api/customers/workspace/tags
 - `get_system_mcp_clients_reviews`：GET /api/system/mcp-clients/reviews
 - `post_customers_workspace_duplicates_review`：POST /api/customers/workspace/duplicates/review；外部前提候选：客户工作台真实模型配置
+- `post_customers_workspace_manager_review_broadcast`：POST /api/customers/workspace/manager-review/broadcast；外部前提候选：外发或企业微信真实连接
 - `post_customers_workspace_merge_review`：POST /api/customers/workspace/merge/review；外部前提候选：客户工作台真实模型配置
 - `post_customers_workspace_tags`：POST /api/customers/workspace/tags
 - `post_system_mcp_clients_reviews_by_id_dismiss`：POST /api/system/mcp-clients/reviews/:id/dismiss
