@@ -1,5 +1,5 @@
 {
-  "contractHash": "d57f77d3ceb564e09fbaed6c9ea24f2abb7ba9d5ff9d1dcc04662214283df62a",
+  "contractHash": "c6d6876ba713ec574e3f0ffb86cf874f5ce5d11d411ba9d8dc463fa817402b3c",
   "formatVersion": 1,
   "operations": [
     {
@@ -4877,6 +4877,83 @@
       "responseMode": "json-or-bytes"
     },
     {
+      "id": "get_customers_workspace_by_id_followup_preview",
+      "category": "customers",
+      "method": "GET",
+      "path": "/api/customers/workspace/:id/followup-preview",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "completing",
+          "level",
+          "stage"
+        ],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "completing": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "level": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "stage": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "客户阶段无效",
+          "成单和复购客户的分级由真实订单决定"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_customers_workspace_by_id_order_candidates",
       "category": "customers",
       "method": "GET",
@@ -9327,6 +9404,8 @@
           "size",
           "sort",
           "status",
+          "tag",
+          "tagOptions",
           "view"
         ],
         "params": []
@@ -9480,6 +9559,18 @@
               "enum": []
             },
             "status": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "tag": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "tagOptions": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -24108,6 +24199,7 @@
           "balancePaymentProofDetails",
           "balancePaymentProofs",
           "balanceStatus",
+          "colorAttachments",
           "country",
           "createdBy",
           "creditDueDate",
@@ -24116,7 +24208,10 @@
           "crmAccountId",
           "currency",
           "currencyChangeConfirmed",
+          "customColor",
           "customManual",
+          "customMaterialName",
+          "customOther",
           "customPackaging",
           "customSticker",
           "customerAddress",
@@ -24143,6 +24238,7 @@
           "manualAttachments",
           "needsCustoms",
           "orderNumber",
+          "otherAttachments",
           "packagingAttachments",
           "packingDetails",
           "packingImages",
@@ -24341,6 +24437,26 @@
                 "月结已收齐"
               ]
             },
+            "colorAttachments": {
+              "type": "array",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "2000"
+                },
+                {
+                  "rule": "max",
+                  "argument": "20"
+                }
+              ],
+              "enum": []
+            },
             "country": {
               "type": "string",
               "optional": false,
@@ -24427,6 +24543,13 @@
               "constraints": [],
               "enum": []
             },
+            "customColor": {
+              "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
             "customerAddress": {
               "type": "unknown",
               "optional": false,
@@ -24492,6 +24615,25 @@
               "enum": []
             },
             "customManual": {
+              "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "customMaterialName": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "40"
+                }
+              ],
+              "enum": []
+            },
+            "customOther": {
               "type": "boolean",
               "optional": true,
               "nullable": false,
@@ -25083,6 +25225,26 @@
               "optional": false,
               "nullable": false,
               "constraints": [],
+              "enum": []
+            },
+            "otherAttachments": {
+              "type": "array",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "2000"
+                },
+                {
+                  "rule": "max",
+                  "argument": "20"
+                }
+              ],
               "enum": []
             },
             "packagingAttachments": {
@@ -37611,6 +37773,7 @@
           "balancePaymentProofDetails",
           "balancePaymentProofs",
           "balanceStatus",
+          "colorAttachments",
           "country",
           "createdBy",
           "creditDueDate",
@@ -37620,8 +37783,11 @@
           "crmAccountId",
           "currency",
           "currencyChangeConfirmed",
+          "customColor",
           "customCommissionRate",
           "customManual",
+          "customMaterialName",
+          "customOther",
           "customPackaging",
           "customSticker",
           "customerAddress",
@@ -37653,6 +37819,7 @@
           "manualAttachments",
           "needsCustoms",
           "orderNumber",
+          "otherAttachments",
           "packagingAttachments",
           "packedAt",
           "packedBy",
@@ -37876,6 +38043,26 @@
                 "月结已收齐"
               ]
             },
+            "colorAttachments": {
+              "type": "array",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "2000"
+                },
+                {
+                  "rule": "max",
+                  "argument": "20"
+                }
+              ],
+              "enum": []
+            },
             "country": {
               "type": "string",
               "optional": true,
@@ -37968,6 +38155,13 @@
               "constraints": [],
               "enum": []
             },
+            "customColor": {
+              "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
             "customCommissionRate": {
               "type": "unknown",
               "optional": true,
@@ -38039,6 +38233,25 @@
               "enum": []
             },
             "customManual": {
+              "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "customMaterialName": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "40"
+                }
+              ],
+              "enum": []
+            },
+            "customOther": {
               "type": "boolean",
               "optional": true,
               "nullable": false,
@@ -38662,6 +38875,26 @@
               "constraints": [],
               "enum": []
             },
+            "otherAttachments": {
+              "type": "array",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "2000"
+                },
+                {
+                  "rule": "max",
+                  "argument": "20"
+                }
+              ],
+              "enum": []
+            },
             "packagingAttachments": {
               "type": "array",
               "optional": true,
@@ -39109,6 +39342,7 @@
           "会计账号为只读权限",
           "全款赊账仅适用于已开启付款凭证要求的全款订单",
           "只有老板可以修改订单归属或提成",
+          "定制选项须为布尔值",
           "定金订单不能加入客户月结",
           "客户归属已变化，请重新选择客户",
           "客户月结需要填写客户名称",
@@ -39124,6 +39358,7 @@
           "月结已经收齐，不能再修改客户、负责人、付款方式、币种、金额或赊账类型",
           "每类素材最多20个文件，文件地址须有效",
           "缺少有效的订单编辑版本，请刷新订单后重试",
+          "自定义素材名称须填写1至40个字",
           "订单ID与请求地址不一致",
           "订单不存在",
           "订单已被其他操作更新，请刷新核对后重试；本次修改未保存",

@@ -9,7 +9,8 @@
 1. `get_tradeflow_context`，发现 products 分类，读取 `post_products` 契约的 `wireInput.body`。
 2. 查当前目录/类目，避免型号重复；单位、规格、选配、价格和报关参数以用户资料为准。图片先通过真实上传端点取得已保存引用。
 3. 生成新产品 `id` 和本次 `operationId`；字段为 `model/name/price/unit/description/declarationElements/hasVariants/variantAxes/variants/options` 等。规格稳定身份用 `variantId`，电压映射放 `axisValues`；不要把数据库列名 `product_unit` 当 JSON 参数。
-4. 执行 `post_products`，回读 `get_products_summary`（query.ids）和必要的完整产品列表/选择器，核对规格、单位、参数与价格。网站没有保存成功时不得声称已经新建。
+4. 保存规格前读取当前价格模式与汇率：`rmb_base` 下每个规格的人民币基价使用 `priceCny`，含税基价使用 `priceWithTaxCny`；只传 `price` 不能保证新规格美元价已保存。只有已核实汇率为6.8时，68元基价才对应10美元。不要为测试切换全局价格模式。
+5. 执行 `post_products`，回读 `get_products_summary`（query.ids）和必要的完整产品列表/选择器，核对规格、单位、参数与价格。网站没有保存成功时不得声称已经新建；商品目录价与用户确认的订单行单价分开核对。
 
 ## 修改产品
 

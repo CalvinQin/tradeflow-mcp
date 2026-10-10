@@ -39,6 +39,7 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `get_customers_workspace_by_id`：GET /api/customers/workspace/:id
 - `get_customers_workspace_by_id_context`：GET /api/customers/workspace/:id/context
 - `get_customers_workspace_by_id_context_media_by_kind_by_mediaId`：GET /api/customers/workspace/:id/context/media/:kind/:mediaId
+- `get_customers_workspace_by_id_followup_preview`：GET /api/customers/workspace/:id/followup-preview
 - `get_customers_workspace_by_id_order_candidates`：GET /api/customers/workspace/:id/order-candidates
 - `get_customers_workspace_duplicates`：GET /api/customers/workspace/duplicates
 - `get_customers_workspace_followups_preview`：GET /api/customers/workspace/followups/preview
@@ -97,6 +98,7 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `delete_todos_by_id`：DELETE /api/todos/:id
 - `get_customers_workspace`：GET /api/customers/workspace
 - `get_customers_workspace_by_id`：GET /api/customers/workspace/:id
+- `get_customers_workspace_by_id_followup_preview`：GET /api/customers/workspace/:id/followup-preview
 - `get_customers_workspace_followups_preview`：GET /api/customers/workspace/followups/preview
 - `get_todos`：GET /api/todos
 - `post_customers_workspace`：POST /api/customers/workspace
@@ -134,6 +136,7 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `get_customers_workspace_by_id`：GET /api/customers/workspace/:id
 - `get_customers_workspace_by_id_context`：GET /api/customers/workspace/:id/context
 - `get_customers_workspace_by_id_context_media_by_kind_by_mediaId`：GET /api/customers/workspace/:id/context/media/:kind/:mediaId
+- `get_customers_workspace_by_id_followup_preview`：GET /api/customers/workspace/:id/followup-preview
 - `get_customers_workspace_followups_preview`：GET /api/customers/workspace/followups/preview
 - `get_customers_workspace_tags`：GET /api/customers/workspace/tags
 - `get_system_mcp_clients_reviews`：GET /api/system/mcp-clients/reviews
