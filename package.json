@@ -1,6 +1,6 @@
 {
   "name": "@calvinqin/tradeflow-mcp",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "OAuth connection package and Agent Skill for TradeFlow's website-authorized business MCP",
   "type": "module",
   "license": "MIT",
