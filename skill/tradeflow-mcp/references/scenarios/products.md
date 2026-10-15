@@ -53,6 +53,7 @@
 - `post_products_simulate_container`：POST /api/products/simulate-container
 - `post_products_simulate_order`：POST /api/products/simulate-order
 - `post_products_sync_images`：POST /api/products/sync-images
+- `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `post_system_categories`：POST /api/system/categories
 - `post_system_price_adjustment_notice`：POST /api/system/price-adjustment-notice
 - `post_system_pricing_mode`：POST /api/system/pricing-mode
@@ -87,6 +88,7 @@
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `post_products`：POST /api/products
+- `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `put_products_by_id`：PUT /api/products/:id
 
 验收情景编号：`capability:product-editor`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。
@@ -113,6 +115,7 @@
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `post_products`：POST /api/products
+- `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `put_products_by_id`：PUT /api/products/:id
 
 验收情景编号：`capability:product-variants`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。
@@ -160,6 +163,7 @@
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `post_products`：POST /api/products
+- `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `put_products_by_id`：PUT /api/products/:id
 
 验收情景编号：`capability:product-copy`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。

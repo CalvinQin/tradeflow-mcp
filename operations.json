@@ -1,5 +1,5 @@
 {
-  "contractHash": "66ea351bf0e7e2079d8367884f54414133886d76c6cd74072ff4a5a98b88c97d",
+  "contractHash": "f4f8059d55e141cc0e7721b2dc35ec03e9303469f002bbb039c499ac226f7b10",
   "formatVersion": 1,
   "operations": [
     {
@@ -31006,6 +31006,147 @@
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_products_variant_options_recognize",
+      "category": "products",
+      "method": "POST",
+      "path": "/api/products/variant-options/recognize",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "PACKER"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "category",
+          "model",
+          "variants"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "category": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "200"
+                }
+              ],
+              "enum": []
+            },
+            "model": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "200"
+                }
+              ],
+              "enum": []
+            },
+            "variants": {
+              "type": "array",
+              "optional": false,
+              "nullable": false,
+              "fields": {
+                "id": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "200"
+                    }
+                  ],
+                  "enum": []
+                },
+                "name": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "500"
+                    }
+                  ],
+                  "enum": []
+                }
+              },
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "200"
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "500"
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "200"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "variantOptionRecognitionSchema"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [
+        "variantOptionRecognitionSchema"
+      ],
       "upload": false,
       "responseMode": "json"
     },
