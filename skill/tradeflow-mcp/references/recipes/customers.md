@@ -100,3 +100,10 @@ E 级统一 DORMANT/暂缓，暂不安排跟进，普通 OPEN 任务会取消，
 `post_customers_workspace_manager_review_broadcast` 仅老板，覆盖全部在职SALES，独立于当前客户筛选。body `{requestId}` 先prepare，预览返回的body带 `expectedRecipientIds`；向老板展示名单和完整通知，用完全相同body、operationId和票据执行。名单变化409则重新预览，未知回执保持原键核对，不重复发送。站内保存与外部微信渠道送达分别报告。
 
 客户 `urgency` 为OVERDUE红色、DUE_SOON黄色（实际逾期前12小时）、NORMAL正常；强制红勾优先于等级、暂停和客户提醒开关。计划跟进时间23:59:59北京时间，实际逾期截止为计划加12小时；即将逾期每小时提醒一次。回收站30天，仍存旧15天记录沿原起点延长15天，不恢复已永久清理的资料。
+
+
+## 同次跟进、老板批注与独立背景
+
+先回读客户详情的 `reviewVersion`、`targetActivityId` 和 `followupThread`，再查 `put_customers_workspace_by_id_review` 的 `inputContract.workflow`。选择一条跟进时同时使用该条的ID与version；历史跟进只能用REVIEWED批注，核实已跟进/未跟进必须指向负责人最新目标。老板的文字、核实、客户等级、阶段、下次联系及提醒可在一个请求中提交；该请求不包含backgroundInfo或followup。背景单独请求，不调用记录沟通接口。
+
+新增沟通通过followup.content提交，补录日期用followup.occurredAt；不得填未来日期。服务端依据真实订单校对等级和阶段，自动排期仍使用工作日日历，回读followupState和客户详情确认最终值。红色核实保留审批、删除、外发三项授权及prepare门禁。未知结果保持原operationId/requestId/目标/完整负载，查询回执后回读，不能换ID重做；旧批注回放不会清除员工后来产生的待批注。

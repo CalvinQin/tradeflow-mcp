@@ -33,14 +33,18 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `delete_customers_by_id`：DELETE /api/customers/:id
 - `delete_customers_workspace_by_id`：DELETE /api/customers/workspace/:id
 - `delete_customers_workspace_by_id_activities_by_activityId`：DELETE /api/customers/workspace/:id/activities/:activityId
+- `delete_customers_workspace_overdue_records_by_taskId`：DELETE /api/customers/workspace/overdue-records/:taskId
 - `get_customers`：GET /api/customers
 - `get_customers_check_follow_ups`：GET /api/customers/check-follow-ups
 - `get_customers_workspace`：GET /api/customers/workspace
 - `get_customers_workspace_by_id`：GET /api/customers/workspace/:id
+- `get_customers_workspace_by_id_activities_by_activityId`：GET /api/customers/workspace/:id/activities/:activityId
 - `get_customers_workspace_by_id_context`：GET /api/customers/workspace/:id/context
 - `get_customers_workspace_by_id_context_media_by_kind_by_mediaId`：GET /api/customers/workspace/:id/context/media/:kind/:mediaId
 - `get_customers_workspace_by_id_followup_preview`：GET /api/customers/workspace/:id/followup-preview
+- `get_customers_workspace_by_id_followup_thread`：GET /api/customers/workspace/:id/followup-thread
 - `get_customers_workspace_by_id_order_candidates`：GET /api/customers/workspace/:id/order-candidates
+- `get_customers_workspace_by_id_overdue_records`：GET /api/customers/workspace/:id/overdue-records
 - `get_customers_workspace_duplicates`：GET /api/customers/workspace/duplicates
 - `get_customers_workspace_followups_preview`：GET /api/customers/workspace/followups/preview
 - `get_customers_workspace_matches`：GET /api/customers/workspace/matches
@@ -98,7 +102,9 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `delete_todos_by_id`：DELETE /api/todos/:id
 - `get_customers_workspace`：GET /api/customers/workspace
 - `get_customers_workspace_by_id`：GET /api/customers/workspace/:id
+- `get_customers_workspace_by_id_activities_by_activityId`：GET /api/customers/workspace/:id/activities/:activityId
 - `get_customers_workspace_by_id_followup_preview`：GET /api/customers/workspace/:id/followup-preview
+- `get_customers_workspace_by_id_followup_thread`：GET /api/customers/workspace/:id/followup-thread
 - `get_customers_workspace_followups_preview`：GET /api/customers/workspace/followups/preview
 - `get_todos`：GET /api/todos
 - `post_customers_workspace`：POST /api/customers/workspace
@@ -124,7 +130,7 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 2. 展开最新复盘，读取统计区间、沟通状态、建议等级、分级依据以及买家最近消息和卖家最近回复；未显示的时间不补成事实。
 3. 查看需求明细、买家主页与“原始会话”链接，再展开“查看 Accio 提交的客户资料”核对接待账号和背景字段。
 4. 建议等级仅供人工复核，当前客户分级、负责人及已填资料按档案保留；更早复盘从时间线继续查阅。
-5. 需要补充背景与实际沟通时在“客户背景与本次沟通”修改并“保存全部”；版本冲突先核对新资料，结果未知点击“重试核对提交”。原始Agent复盘仍作为来源记录保留。
+5. 需要补充实际沟通时点击“新增跟进记录”，老板在对应跟进旁点击评论图标，一并保存批注及分级/日期安排；客户背景在下方独立保存。版本冲突先核对新资料，结果未知用原请求“重试核对提交”。原始Agent复盘仍作为来源记录保留。
 6. 订单、名片、展会或询盘证据读取失败时在对应证据分区重试；身份未确认的导入由老板在待处理队列核对，不猜测负责人。
 
 角色候选：BOSS、SALES、SOCIAL_OPERATOR。前置对象：owned-account、foreign-account、contact、address、tag、activity、followup、review、deleted-account；具体必填值先查网站契约与已授权数据，缺失商业事实再询问，不编造值。
@@ -134,6 +140,7 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `delete_customers_workspace_by_id`：DELETE /api/customers/workspace/:id
 - `delete_customers_workspace_by_id_activities_by_activityId`：DELETE /api/customers/workspace/:id/activities/:activityId
 - `get_customers_workspace_by_id`：GET /api/customers/workspace/:id
+- `get_customers_workspace_by_id_activities_by_activityId`：GET /api/customers/workspace/:id/activities/:activityId
 - `get_customers_workspace_by_id_context`：GET /api/customers/workspace/:id/context
 - `get_customers_workspace_by_id_context_media_by_kind_by_mediaId`：GET /api/customers/workspace/:id/context/media/:kind/:mediaId
 - `get_customers_workspace_by_id_followup_preview`：GET /api/customers/workspace/:id/followup-preview

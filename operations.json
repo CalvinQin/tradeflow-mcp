@@ -1,5 +1,5 @@
 {
-  "contractHash": "2a98c787a19e1416498cef12787a1914f79506a11ac49d551e2949e48cdf3c86",
+  "contractHash": "4a091b64411d29b352335801fbe529bfbcd6dfaa259780422abf66f77c46a69d",
   "formatVersion": 1,
   "operations": [
     {
@@ -493,7 +493,10 @@
       "parameterFields": {
         "body": [
           "content",
+          "expectedVersion",
           "occurredAt",
+          "requestId",
+          "settings",
           "version"
         ],
         "query": [],
@@ -511,7 +514,25 @@
               "constraints": [],
               "enum": []
             },
+            "expectedVersion": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "occurredAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "requestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "settings": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -542,9 +563,92 @@
         },
         "validationMessages": [
           "客户或时间线记录无效",
+          "沟通记录的客户安排无效",
           "系统动态请从原业务入口处理；内部批注需老板或社媒运营权限",
+          "记录创建时间不能修改；请更新客户端后在最近联系字段修改联系时间",
+          "请先读取最新客户资料后再保存安排",
           "请填写沟通内容（最多10000字）和有效时间",
+          "这条旧跟进关联多个完成任务，无法安全更正，请先核对记录",
           "这条记录已被修改，请刷新后重试"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "delete_customers_workspace_overdue_records_by_taskId",
+      "category": "customers",
+      "method": "DELETE",
+      "path": "/api/customers/workspace/overdue-records/:taskId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "delete"
+      ],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        },
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "expectedVersion",
+          "requestId"
+        ],
+        "query": [],
+        "params": [
+          "taskId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "expectedVersion": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "requestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "taskId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "仅老板可删除逾期统计记录",
+          "该任务当前不是逾期记录",
+          "请重新读取逾期记录后删除",
+          "逾期记录已变化，请刷新后重新核对"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
@@ -4516,13 +4620,19 @@
         "body": [],
         "query": [
           "country",
+          "createdFrom",
+          "createdTo",
           "exhibitionName",
           "hasPI",
+          "lastContactFrom",
+          "lastContactTo",
           "lastOrderFrom",
           "lastOrderTo",
           "level",
           "maxAmount",
           "minAmount",
+          "nextContactFrom",
+          "nextContactTo",
           "ownerId",
           "page",
           "queue",
@@ -4546,6 +4656,18 @@
               "constraints": [],
               "enum": []
             },
+            "createdFrom": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "createdTo": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "exhibitionName": {
               "type": "unknown",
               "optional": true,
@@ -4553,6 +4675,18 @@
               "enum": []
             },
             "hasPI": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "lastContactFrom": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "lastContactTo": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -4583,6 +4717,18 @@
               "enum": []
             },
             "minAmount": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "nextContactFrom": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "nextContactTo": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -4709,6 +4855,64 @@
             }
           },
           "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_customers_workspace_by_id_activities_by_activityId",
+      "category": "customers",
+      "method": "GET",
+      "path": "/api/customers/workspace/:id/activities/:activityId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "activityId",
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "activityId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "id": {
               "type": "unknown",
               "optional": true,
@@ -4954,6 +5158,73 @@
       "responseMode": "json"
     },
     {
+      "id": "get_customers_workspace_by_id_followup_thread",
+      "category": "customers",
+      "method": "GET",
+      "path": "/api/customers/workspace/:id/followup-thread",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "before",
+          "targetActivityId"
+        ],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "before": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "targetActivityId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_customers_workspace_by_id_order_candidates",
       "category": "customers",
       "method": "GET",
@@ -4997,6 +5268,66 @@
               "enum": []
             },
             "search": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_customers_workspace_by_id_overdue_records",
+      "category": "customers",
+      "method": "GET",
+      "path": "/api/customers/workspace/:id/overdue-records",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "before"
+        ],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "before": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -7671,6 +8002,7 @@
           "ownerTradeflowUserId",
           "page",
           "paymentStatus",
+          "pendingShipmentOnly",
           "priority",
           "search",
           "shipmentMethod",
@@ -7806,6 +8138,12 @@
               "enum": []
             },
             "paymentStatus": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "pendingShipmentOnly": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -18621,6 +18959,7 @@
           "confirmHolidayDate",
           "content",
           "nextDate",
+          "occurredAt",
           "requestId",
           "stage",
           "taskId"
@@ -18646,6 +18985,12 @@
               "enum": []
             },
             "nextDate": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "occurredAt": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -18683,6 +19028,7 @@
         "validationMessages": [
           "E级暂不安排跟进，请先修改客户分级",
           "关闭或暂缓客户时不能同时安排下次跟进",
+          "最近联系时间无效或晚于当前时间",
           "请先在客户状态中设置一个跟进中状态",
           "请刷新后重试",
           "请安排下次跟进，或选择已成交 / 暂缓 / 不再跟进",
@@ -24341,6 +24687,22 @@
                   ],
                   "enum": []
                 },
+                "shortfallReason": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "4"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "500"
+                    }
+                  ],
+                  "enum": []
+                },
                 "recognitionToken": {
                   "type": "string",
                   "optional": true,
@@ -24389,6 +24751,14 @@
                 {
                   "rule": "max",
                   "argument": "MAX_ORDER_MONEY"
+                },
+                {
+                  "rule": "min",
+                  "argument": "4"
+                },
+                {
+                  "rule": "max",
+                  "argument": "500"
                 },
                 {
                   "rule": "max",
@@ -25353,6 +25723,22 @@
                   ],
                   "enum": []
                 },
+                "shortfallReason": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "4"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "500"
+                    }
+                  ],
+                  "enum": []
+                },
                 "recognitionToken": {
                   "type": "string",
                   "optional": true,
@@ -25401,6 +25787,14 @@
                 {
                   "rule": "max",
                   "argument": "MAX_ORDER_MONEY"
+                },
+                {
+                  "rule": "min",
+                  "argument": "4"
+                },
+                {
+                  "rule": "max",
+                  "argument": "500"
                 },
                 {
                   "rule": "max",
@@ -29157,10 +29551,9 @@
           "nameEn",
           "netWeight",
           "options",
-          "price",
-          "priceCny",
-          "priceWithTax",
-          "priceWithTaxCny",
+          "priceTerm",
+          "priceTiers",
+          "priceTiersCurrency",
           "qtyPerCarton",
           "relatedAccessoryIds",
           "size",
@@ -29412,41 +29805,196 @@
               "constraints": [],
               "enum": []
             },
-            "price": {
-              "type": "number",
-              "optional": false,
-              "nullable": false,
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "0, \"Price must be positive\""
-                }
-              ],
-              "enum": []
-            },
-            "priceCny": {
+            "priceTerm": {
               "type": "unknown",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
-            "priceWithTax": {
+            "priceTiers": {
               "type": "number",
               "optional": true,
               "nullable": true,
+              "fields": {
+                "minQuantity": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1_000_000_000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "price": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "999_999_999"
+                    }
+                  ],
+                  "enum": []
+                },
+                "taxRate": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1e13"
+                    }
+                  ],
+                  "enum": []
+                },
+                "taxAmount": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "999_999_999"
+                    }
+                  ],
+                  "enum": []
+                },
+                "priceWithTax": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "999_999_999"
+                    }
+                  ],
+                  "enum": []
+                }
+              },
               "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1_000_000_000"
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
                 {
                   "rule": "min",
                   "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "999_999_999"
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1e13"
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "999_999_999"
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "999_999_999"
+                },
+                {
+                  "rule": "max",
+                  "argument": "50"
                 }
               ],
               "enum": []
             },
-            "priceWithTaxCny": {
+            "priceTiersCurrency": {
               "type": "unknown",
               "optional": true,
+              "nullable": true,
               "constraints": [],
-              "enum": []
+              "enum": [
+                "USD",
+                "RMB"
+              ]
             },
             "qtyPerCarton": {
               "type": "number",
@@ -36152,7 +36700,10 @@
       "parameterFields": {
         "body": [
           "content",
+          "expectedVersion",
           "occurredAt",
+          "requestId",
+          "settings",
           "version"
         ],
         "query": [],
@@ -36170,7 +36721,25 @@
               "constraints": [],
               "enum": []
             },
+            "expectedVersion": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "occurredAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "requestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "settings": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -36201,8 +36770,12 @@
         },
         "validationMessages": [
           "客户或时间线记录无效",
+          "沟通记录的客户安排无效",
           "系统动态请从原业务入口处理；内部批注需老板或社媒运营权限",
+          "记录创建时间不能修改；请更新客户端后在最近联系字段修改联系时间",
+          "请先读取最新客户资料后再保存安排",
           "请填写沟通内容（最多10000字）和有效时间",
+          "这条旧跟进关联多个完成任务，无法安全更正，请先核对记录",
           "这条记录已被修改，请刷新后重试"
         ],
         "schemaReferences": [],
@@ -36344,7 +36917,8 @@
           "requestId",
           "sourceCode",
           "stage",
-          "targetActivityId"
+          "targetActivityId",
+          "targetActivityVersion"
         ],
         "query": [],
         "params": [
@@ -36485,6 +37059,12 @@
               "optional": true,
               "constraints": [],
               "enum": []
+            },
+            "targetActivityVersion": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
             }
           },
           "query": {},
@@ -36508,14 +37088,15 @@
           "展会名称最多255字",
           "录入日期不能为空",
           "成单和复购客户的分级由真实订单决定",
+          "批注仅可同时修改分级、阶段和联系安排；背景请单独保存",
           "批注内容无效",
           "批注最多10000字",
           "提醒状态无效",
-          "核实与批注请单独提交",
           "沟通记录或跟进任务无效",
           "没有转交客户权限",
           "置顶状态无效",
           "老板批注与客户转交请从各自入口操作",
+          "请从客户工作区一起提交批注与联系安排",
           "请先选择展会来源",
           "请刷新客户后提交核实结果",
           "请刷新客户资料后再一起保存",
@@ -36525,10 +37106,73 @@
           "负责人不存在或已离职",
           "负责人最新跟进已变化，请刷新后重新核实；批注仍保留",
           "跟进状态已变化，请刷新后重试",
-          "这条旧跟进关联多个完成任务，无法安全撤销，请先核对记录"
+          "跟进记录无效",
+          "跟进记录版本无效",
+          "这条旧跟进关联多个完成任务，无法安全撤销，请先核对记录",
+          "这条跟进记录已撤销或删除，请刷新后核对；批注仍保留",
+          "这条跟进记录已被修改，请刷新后核对；批注仍保留"
         ],
         "schemaReferences": [],
-        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段",
+        "workflow": {
+          "readBeforeWrite": [
+            "get_customers_workspace_by_id",
+            "get_customers_workspace_by_id_followup_thread"
+          ],
+          "version": "使用客户详情的reviewVersion作为expectedVersion；对具体跟进批注时带targetActivityId及其version作为targetActivityVersion。",
+          "variants": [
+            {
+              "id": "followup",
+              "fields": [
+                "followup",
+                "level",
+                "stage",
+                "nextDate",
+                "lastDate",
+                "createdDate",
+                "reminderEnabled",
+                "pinned"
+              ],
+              "note": "followup.content记录沟通；补录沟通时间使用followup.occurredAt，日期不得在未来。分级、阶段和日期与跟进一次提交。"
+            },
+            {
+              "id": "manager_review",
+              "roles": [
+                "BOSS"
+              ],
+              "fields": [
+                "managerReply",
+                "managerVerification",
+                "targetActivityId",
+                "targetActivityVersion",
+                "level",
+                "stage",
+                "nextDate",
+                "lastDate",
+                "createdDate",
+                "reminderEnabled",
+                "pinned",
+                "confirmHolidayDate"
+              ],
+              "note": "REVIEWED可批注历史跟进；FOLLOWED_UP和NOT_FOLLOWED_UP只能核实负责人最新目标。背景、followup及转交字段不能混入。"
+            },
+            {
+              "id": "background",
+              "fields": [
+                "backgroundInfo"
+              ],
+              "note": "客户背景独立保存，沿用expectedVersion/requestId；不混入批注或完成跟进。"
+            }
+          ],
+          "atomicity": "批注、核实与客户安排由原网站在同一事务执行；非法日期、状态或目标版本使整次回滚。",
+          "replay": "UNKNOWN保持operationId、requestId、目标、版本和完整负载不变，先查原回执并回读；不能换ID重做。已完成的旧回执不会清除员工之后的新待批注。",
+          "readback": [
+            "reviewVersion",
+            "manager_review_pending",
+            "followupState",
+            "followupThread"
+          ]
+        }
       },
       "schemas": [],
       "upload": false,
@@ -37947,6 +38591,22 @@
                   ],
                   "enum": []
                 },
+                "shortfallReason": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "4"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "500"
+                    }
+                  ],
+                  "enum": []
+                },
                 "recognitionToken": {
                   "type": "string",
                   "optional": true,
@@ -37995,6 +38655,14 @@
                 {
                   "rule": "max",
                   "argument": "MAX_ORDER_MONEY"
+                },
+                {
+                  "rule": "min",
+                  "argument": "4"
+                },
+                {
+                  "rule": "max",
+                  "argument": "500"
                 },
                 {
                   "rule": "max",
@@ -39018,6 +39686,22 @@
                   ],
                   "enum": []
                 },
+                "shortfallReason": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "4"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "500"
+                    }
+                  ],
+                  "enum": []
+                },
                 "recognitionToken": {
                   "type": "string",
                   "optional": true,
@@ -39066,6 +39750,14 @@
                 {
                   "rule": "max",
                   "argument": "MAX_ORDER_MONEY"
+                },
+                {
+                  "rule": "min",
+                  "argument": "4"
+                },
+                {
+                  "rule": "max",
+                  "argument": "500"
                 },
                 {
                   "rule": "max",
@@ -39831,10 +40523,9 @@
           "nameEn",
           "netWeight",
           "options",
-          "price",
-          "priceCny",
-          "priceWithTax",
-          "priceWithTaxCny",
+          "priceTerm",
+          "priceTiers",
+          "priceTiersCurrency",
           "qtyPerCarton",
           "relatedAccessoryIds",
           "size",
@@ -40080,41 +40771,196 @@
               "constraints": [],
               "enum": []
             },
-            "price": {
-              "type": "number",
-              "optional": true,
-              "nullable": false,
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "0, \"Price must be positive\""
-                }
-              ],
-              "enum": []
-            },
-            "priceCny": {
+            "priceTerm": {
               "type": "unknown",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
-            "priceWithTax": {
+            "priceTiers": {
               "type": "number",
               "optional": true,
               "nullable": true,
+              "fields": {
+                "minQuantity": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1_000_000_000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "price": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "999_999_999"
+                    }
+                  ],
+                  "enum": []
+                },
+                "taxRate": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1e13"
+                    }
+                  ],
+                  "enum": []
+                },
+                "taxAmount": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "999_999_999"
+                    }
+                  ],
+                  "enum": []
+                },
+                "priceWithTax": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "999_999_999"
+                    }
+                  ],
+                  "enum": []
+                }
+              },
               "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1_000_000_000"
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
                 {
                   "rule": "min",
                   "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "999_999_999"
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1e13"
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "999_999_999"
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "999_999_999"
+                },
+                {
+                  "rule": "max",
+                  "argument": "50"
                 }
               ],
               "enum": []
             },
-            "priceWithTaxCny": {
+            "priceTiersCurrency": {
               "type": "unknown",
               "optional": true,
+              "nullable": true,
               "constraints": [],
-              "enum": []
+              "enum": [
+                "USD",
+                "RMB"
+              ]
             },
             "qtyPerCarton": {
               "type": "number",
