@@ -41,3 +41,5 @@
 产品规格通过 `imagesLinkedToProduct` 选择持续双向联动主图组；省略或 false 表示独立图集。关联后主图或规格图片变更同步到所有已链接规格，订单新增图片也沿此关系回流；未链接时订单图只加入目标规格。删除引用不删除历史订单图片。阿里巴巴绑定图库维持实时投影，不固化同步图片。
 
 统一数据以用户选定的来源规格为准，只复制装箱数、单品尺寸、箱规及净重/毛重。保留目标规格的全部价格、阶梯、税率、币种、价格条款，以及 variantId、规格名称、选配绑定、图集和链接状态。开启规格时只填写各规格报价，不再同时填写主产品报价；首次开启仍从主产品继承到第一个规格。不要对历史订单或已发布快照批量重算。规格识别返回必选维度，附加选配不重复收取规格价格；手动维度不得被后台识别覆盖。
+
+Public exhibition catalogue reads expose only active specification packing and quotes when specifications are enabled. Missing specification values remain unknown; never substitute retained parent values or rewrite historical published snapshots to repair display. Explicitly disabled specification mode uses the parent product.
