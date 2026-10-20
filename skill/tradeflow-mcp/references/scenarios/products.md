@@ -50,6 +50,7 @@
 - `post_products_catalog`：POST /api/products/catalog
 - `post_products_catalog_by_categories`：POST /api/products/catalog-by-categories
 - `post_products_description_optimize`：POST /api/products/description/optimize；外部前提候选：真实付费模型、OCR或供应商
+- `post_products_quotation`：POST /api/products/quotation
 - `post_products_simulate_container`：POST /api/products/simulate-container
 - `post_products_simulate_order`：POST /api/products/simulate-order
 - `post_products_sync_images`：POST /api/products/sync-images
@@ -88,6 +89,7 @@
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `post_products`：POST /api/products
+- `post_products_quotation`：POST /api/products/quotation
 - `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `put_products_by_id`：PUT /api/products/:id
 
@@ -115,6 +117,7 @@
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `post_products`：POST /api/products
+- `post_products_quotation`：POST /api/products/quotation
 - `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `put_products_by_id`：PUT /api/products/:id
 
@@ -163,6 +166,7 @@
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `post_products`：POST /api/products
+- `post_products_quotation`：POST /api/products/quotation
 - `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `put_products_by_id`：PUT /api/products/:id
 

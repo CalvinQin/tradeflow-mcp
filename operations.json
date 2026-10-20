@@ -1,5 +1,5 @@
 {
-  "contractHash": "f0fd594b25268b022cacd4a6069b1c20476f4d60e76bd69ddb04725dd3e354d0",
+  "contractHash": "34eb057edc156ad4ebf63c54ce8f56e7c52c4553f1b042f63bb766b59aa01b9d",
   "formatVersion": 1,
   "operations": [
     {
@@ -24448,7 +24448,10 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [
-          "productIds"
+          "currency",
+          "priceOverrides",
+          "productIds",
+          "showPrices"
         ],
         "query": [],
         "params": []
@@ -24456,7 +24459,25 @@
       "inputContract": {
         "fields": {
           "body": {
+            "currency": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "priceOverrides": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "productIds": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "showPrices": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -24467,6 +24488,12 @@
           "params": {}
         },
         "validationMessages": [
+          "价格展示开关无效",
+          "分享价格不能重复",
+          "分享价格列表无效",
+          "分享币种仅支持人民币或美元",
+          "分享规格名称无效",
+          "请填写有效的分享价格及产品规格",
           "请选择1至50款有效产品",
           "部分产品已不存在，请刷新目录后重新选择"
         ],
@@ -30435,6 +30462,262 @@
       "schemas": [],
       "upload": false,
       "responseMode": "json"
+    },
+    {
+      "id": "post_products_quotation",
+      "category": "products",
+      "method": "POST",
+      "path": "/api/products/quotation",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "PACKER"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "country",
+          "currency",
+          "customerName",
+          "items",
+          "validUntil"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "country": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, '请填写国家'"
+                },
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": []
+            },
+            "currency": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "USD",
+                "RMB"
+              ]
+            },
+            "customerName": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, '请填写客户名称或公司'"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
+              "enum": []
+            },
+            "items": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "fields": {
+                "productId": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
+                  "enum": []
+                },
+                "variantId": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
+                  "enum": []
+                },
+                "variantIndex": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    }
+                  ],
+                  "enum": []
+                },
+                "variantName": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
+                  "enum": []
+                },
+                "variantSku": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
+                  "enum": []
+                },
+                "unitPrice": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "99999999.99"
+                    }
+                  ],
+                  "enum": []
+                }
+              },
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                },
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                },
+                {
+                  "rule": "finite",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "99999999.99"
+                },
+                {
+                  "rule": "min",
+                  "argument": "1, '请先选择产品'"
+                },
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": []
+            },
+            "validUntil": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^\\d{4}-\\d{2}-\\d{2}$/, '请填写有效截止日期'"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "同一产品不能重复报价",
+          "同一规格不能重复报价",
+          "所选规格已变化，请重新选择",
+          "部分产品已归档或不存在，请重新选择"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [
+        "productQuotationSchema"
+      ],
+      "upload": false,
+      "responseMode": "json-or-bytes"
     },
     {
       "id": "post_products_simulate_container",
