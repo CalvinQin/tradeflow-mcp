@@ -19,15 +19,12 @@
 
 自然语言任务：请按当前权限完成“智能指挥中心”所需操作，并回读实际结果。业务步骤：
 
-1. Gemini 当前固定使用托管 gemini-3.8-flash。
-2. DeepSeek 当前提供 V4 Flash · 0731 与 V4 Pro · 0813；选择器会按北京时间自动标注当前高峰/低谷时段及每百万 tokens 的缓存、输入、输出价格。
-3. DeepSeek 高峰时段为北京时间 09:00–12:00、14:00–18:00，其余时间按低谷价格显示；实际账单仍以 DeepSeek 官方为准。
-4. 图片能力按当前模型目录逐个识别；DeepSeek、OpenRouter 等供应商不会再被整家固定标成仅文本。
-5. 留空不会覆盖既有密钥，显式清除才会删除。
-6. 自定义供应商需同时核对地址、模型和兼容接口。
-7. 先保存或使用当前编辑配置测试。
-8. 查看错误分类、延迟、Token 和余额。
-9. 不要把真实密钥复制到文档或聊天。
+1. Gemini、DeepSeek、OpenRouter 与自定义供应商均先读取当前安全配置、可用模型与本人平台管理权限；不能假定 Gemini 固定托管或固定型号。
+2. Gemini 在网站受保护配置表单填写并保存 Google API Key，再获取模型列表和选择模型；密钥不放进聊天、截图、文档或命令。旧阿里代理令牌不能当作 Google 密钥。
+3. 模型目录以当前服务器发现结果为准；source: fallback 是备选目录，不证明供应商已连通。图片、工具和上下文能力逐模型核对，不用旧版型号或参考价格代替实时目录。
+4. 空密钥按当前供应商保留规则处理，显式清除才删除；切换供应商不能借用另一家的凭据。自定义地址、模型和兼容接口须单独核对。
+5. 保存配置与真实调用分别验证。测试、模型发现和向量服务涉及授权网络与可能费用；没有实际响应时不称 Google 或其他供应商可用，不自动回退旧阿里代理或另一付费服务。
+6. 查看安全错误分类、延迟、Token 和费用状态；未知费用不当作零费用，参考价格不等于账单。真实 Gemini 调用按当前任务授权另行验收。
 
 角色候选：PLATFORM_ADMIN。前置对象：conversation、local-document、knowledge-record、usage-record、unconfigured-provider、local-image；具体必填值先查网站契约与已授权数据，缺失商业事实再询问，不编造值。
 
@@ -55,7 +52,7 @@
 - `post_ai_config_embedding`：POST /api/ai/config/embedding
 - `post_ai_config_features`：POST /api/ai/config/features
 - `post_ai_config_models_discover`：POST /api/ai/config/models/discover
-- `post_ai_confirm`：POST /api/ai/confirm
+- `post_ai_confirm`：POST /api/ai/confirm（仅限本人网站助手通道；业务Agent不得调用、自我确认、读取确认凭据或取消确认）
 - `post_ai_decision_config`：POST /api/ai/decision/config
 - `post_ai_decision_test`：POST /api/ai/decision/test；外部前提候选：真实付费模型、OCR或供应商
 - `post_ai_knowledge_upload`：POST /api/ai/knowledge/upload

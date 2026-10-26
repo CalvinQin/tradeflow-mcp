@@ -1,5 +1,5 @@
 {
-  "contractHash": "34eb057edc156ad4ebf63c54ce8f56e7c52c4553f1b042f63bb766b59aa01b9d",
+  "contractHash": "d570f414de230ed6c8af63def90352b36415ec4bb447c16bfd290158464d2c2a",
   "formatVersion": 1,
   "operations": [
     {
@@ -5662,7 +5662,7 @@
               "enum": []
             },
             "state": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -5673,7 +5673,7 @@
               ]
             },
             "view": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -9226,10 +9226,15 @@
               "enum": []
             },
             "parentId": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^\\d{1,40}$/"
+                }
+              ],
               "enum": []
             },
             "since": {
@@ -13684,6 +13689,41 @@
       "responseMode": "json"
     },
     {
+      "id": "get_system_deployment_notice",
+      "category": "system",
+      "method": "GET",
+      "path": "/api/system/deployment-notice",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_system_jobs",
       "category": "system",
       "method": "GET",
@@ -15821,18 +15861,28 @@
               "enum": []
             },
             "boxStyle": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [
+                "CUSTOM",
+                "RSC",
+                "TUCK_END",
+                "AUTO_LOCK",
+                "MAILER",
+                "SLEEVE"
+              ]
             },
             "kind": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [
+                "PRODUCT",
+                "MASTER"
+              ]
             }
           },
           "query": {},
@@ -16059,7 +16109,7 @@
         "fields": {
           "body": {
             "action": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -16086,18 +16136,10 @@
               "enum": []
             },
             "members": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
                 {
                   "rule": "max",
                   "argument": "30"
@@ -16275,7 +16317,7 @@
               "enum": []
             },
             "state": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -16759,11 +16801,9 @@
       "category": "ai",
       "method": "POST",
       "path": "/api/ai/confirm",
-      "status": "supported",
-      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
-      "effects": [
-        "approve"
-      ],
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -19094,11 +19134,17 @@
               "enum": []
             },
             "language": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [
+                "English",
+                "中文",
+                "Español",
+                "Français",
+                "العربية"
+              ]
             },
             "previousMessage": {
               "type": "string",
@@ -23860,7 +23906,7 @@
               "enum": []
             },
             "id": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -23937,10 +23983,15 @@
         "fields": {
           "body": {
             "id": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^\\d{1,40}$/"
+                }
+              ],
               "enum": []
             },
             "level": {
@@ -23954,6 +24005,8 @@
               "type": "object",
               "optional": false,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "name": {
                   "type": "string",
@@ -23972,7 +24025,7 @@
                   "enum": []
                 },
                 "status": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": true,
                   "nullable": false,
                   "constraints": [],
@@ -23982,17 +24035,27 @@
                   ]
                 },
                 "daily_budget": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": true,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "regex",
+                      "argument": "/^[1-9]\\d{0,10}$/"
+                    }
+                  ],
                   "enum": []
                 },
                 "lifetime_budget": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": true,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "regex",
+                      "argument": "/^[1-9]\\d{0,10}$/"
+                    }
+                  ],
                   "enum": []
                 },
                 "start_time": {
@@ -24023,6 +24086,8 @@
                   "type": "object",
                   "optional": true,
                   "nullable": false,
+                  "constraints": [],
+                  "enum": [],
                   "fields": {
                     "title": {
                       "type": "string",
@@ -24068,34 +24133,9 @@
                       ],
                       "enum": []
                     }
-                  },
-                  "constraints": [
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "255"
-                    },
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "3000"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "500"
-                    }
-                  ],
-                  "enum": []
+                  }
                 }
-              },
-              "constraints": [],
-              "enum": []
+              }
             }
           },
           "query": {},
@@ -24250,6 +24290,8 @@
               "type": "object",
               "optional": false,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "about": {
                   "type": "string",
@@ -24276,19 +24318,10 @@
                   "enum": []
                 },
                 "website": {
-                  "type": "string",
+                  "type": "unknown",
                   "optional": true,
                   "nullable": false,
-                  "constraints": [
-                    {
-                      "rule": "url",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "1000"
-                    }
-                  ],
+                  "constraints": [],
                   "enum": []
                 },
                 "phone": {
@@ -24309,23 +24342,13 @@
                   "nullable": false,
                   "constraints": [
                     {
-                      "rule": "email",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "254"
-                    },
-                    {
                       "rule": "max",
                       "argument": "5"
                     }
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [],
-              "enum": []
+              }
             }
           },
           "query": {},
@@ -24643,16 +24666,23 @@
         "fields": {
           "body": {
             "balancePaidAt": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "balancePaymentProofDetails": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "20"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "url": {
                   "type": "string",
@@ -24667,14 +24697,19 @@
                   "enum": []
                 },
                 "amount": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    }
+                  ],
                   "enum": []
                 },
                 "currency": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -24684,7 +24719,7 @@
                   ]
                 },
                 "kind": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -24761,52 +24796,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                },
-                {
-                  "rule": "min",
-                  "argument": "4"
-                },
-                {
-                  "rule": "max",
-                  "argument": "500"
-                },
-                {
-                  "rule": "max",
-                  "argument": "8000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "20"
-                }
-              ],
-              "enum": [
-                "USD",
-                "RMB",
-                "FULL",
-                "DEPOSIT",
-                "BALANCE"
-              ]
+              }
             },
             "balancePaymentProofs": {
               "type": "array",
@@ -24821,7 +24811,7 @@
               "enum": []
             },
             "balanceStatus": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": true,
               "constraints": [],
@@ -24839,14 +24829,6 @@
               "optional": true,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
                 {
                   "rule": "max",
                   "argument": "20"
@@ -24867,9 +24849,9 @@
               "enum": []
             },
             "createdBy": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -24886,7 +24868,7 @@
               "enum": []
             },
             "creditMode": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": true,
               "constraints": [],
@@ -24902,7 +24884,7 @@
               "constraints": [
                 {
                   "rule": "regex",
-                  "argument": "/^\\d{4}-(0[1-9]|1[0-2]"
+                  "argument": "/^\\d{4}-(0[1-9]|1[0-2])$/, '月结账期格式应为 YYYY-MM'"
                 }
               ],
               "enum": []
@@ -24924,7 +24906,7 @@
               "enum": []
             },
             "currency": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
@@ -24948,9 +24930,9 @@
               "enum": []
             },
             "customerAddress": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -24967,9 +24949,9 @@
               "enum": []
             },
             "customerEmail": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -24986,16 +24968,16 @@
               "enum": []
             },
             "customerPhone": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "customerWechat": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -25059,9 +25041,9 @@
               "enum": []
             },
             "date": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -25089,7 +25071,7 @@
               "enum": []
             },
             "discountRate": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -25122,19 +25104,10 @@
               "enum": []
             },
             "freight": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "hasDeposit": {
@@ -25159,16 +25132,23 @@
               "enum": []
             },
             "invoiceNumber": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "items": {
-              "type": "number",
-              "optional": true,
-              "nullable": true,
+              "type": "array",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, \"Order must have at least one item\""
+                }
+              ],
+              "enum": [],
               "fields": {
                 "unit": {
                   "type": "string",
@@ -25211,53 +25191,31 @@
                   "enum": []
                 },
                 "productModel": {
-                  "type": "unknown",
-                  "optional": false,
-                  "nullable": false,
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
                   "constraints": [],
                   "enum": []
                 },
                 "productImage": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
+                  "constraints": [],
+                  "enum": []
+                },
+                "quantity": {
                   "type": "unknown",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
                   "enum": []
                 },
-                "quantity": {
-                  "type": "number",
-                  "optional": false,
-                  "nullable": false,
-                  "constraints": [
-                    {
-                      "rule": "int",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "positive",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "MAX_ORDER_ITEM_QUANTITY"
-                    }
-                  ],
-                  "enum": []
-                },
                 "unitPrice": {
-                  "type": "number",
+                  "type": "unknown",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [
-                    {
-                      "rule": "min",
-                      "argument": "0"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "MAX_ORDER_MONEY"
-                    }
-                  ],
+                  "constraints": [],
                   "enum": []
                 },
                 "variantId": {
@@ -25273,23 +25231,30 @@
                   "enum": []
                 },
                 "variantSku": {
-                  "type": "unknown",
-                  "optional": false,
-                  "nullable": false,
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
                   "constraints": [],
                   "enum": []
                 },
                 "variantName": {
-                  "type": "unknown",
-                  "optional": false,
-                  "nullable": false,
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
                   "constraints": [],
                   "enum": []
                 },
                 "options": {
-                  "type": "number",
+                  "type": "array",
                   "optional": true,
                   "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "max",
+                      "argument": "50"
+                    }
+                  ],
+                  "enum": [],
                   "fields": {
                     "groupId": {
                       "type": "string",
@@ -25409,62 +25374,7 @@
                       ],
                       "enum": []
                     }
-                  },
-                  "constraints": [
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "64"
-                    },
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "100"
-                    },
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "64"
-                    },
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "100"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "100"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "100"
-                    },
-                    {
-                      "rule": "int",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "positive",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "50"
-                    }
-                  ],
-                  "enum": []
+                  }
                 },
                 "optionSignature": {
                   "type": "string",
@@ -25479,130 +25389,19 @@
                   "enum": []
                 },
                 "productRemark": {
-                  "type": "unknown",
-                  "optional": false,
-                  "nullable": false,
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
                   "constraints": [],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "32"
-                },
-                {
-                  "rule": "regex",
-                  "argument": "/^[A-Za-z0-9_-]{1,64}$/"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_ITEM_QUANTITY"
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                },
-                {
-                  "rule": "max",
-                  "argument": "64"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "64"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "64"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                },
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
-                {
-                  "rule": "max",
-                  "argument": "50"
-                },
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1, \"Order must have at least one item\""
-                }
-              ],
-              "enum": []
+              }
             },
             "manualAttachments": {
               "type": "array",
               "optional": true,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
                 {
                   "rule": "max",
                   "argument": "20"
@@ -25618,9 +25417,9 @@
               "enum": []
             },
             "orderNumber": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -25629,14 +25428,6 @@
               "optional": true,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
                 {
                   "rule": "max",
                   "argument": "20"
@@ -25649,14 +25440,6 @@
               "optional": true,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
                 {
                   "rule": "max",
                   "argument": "20"
@@ -25679,16 +25462,28 @@
               "enum": []
             },
             "paymentMethodId": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, '请选择付款方式'"
+                }
+              ],
               "enum": []
             },
             "paymentProofDetails": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "20"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "url": {
                   "type": "string",
@@ -25703,14 +25498,19 @@
                   "enum": []
                 },
                 "amount": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    }
+                  ],
                   "enum": []
                 },
                 "currency": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -25720,7 +25520,7 @@
                   ]
                 },
                 "kind": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -25797,52 +25597,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                },
-                {
-                  "rule": "min",
-                  "argument": "4"
-                },
-                {
-                  "rule": "max",
-                  "argument": "500"
-                },
-                {
-                  "rule": "max",
-                  "argument": "8000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "20"
-                }
-              ],
-              "enum": [
-                "USD",
-                "RMB",
-                "FULL",
-                "DEPOSIT",
-                "BALANCE"
-              ]
+              }
             },
             "paymentProofs": {
               "type": "array",
@@ -25857,30 +25612,30 @@
               "enum": []
             },
             "recipientAddress": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "recipientName": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "recipientPhone": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "remarks": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -25892,9 +25647,11 @@
               "enum": []
             },
             "shippingLabelOcrResults": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "url": {
                   "type": "string",
@@ -25952,9 +25709,7 @@
                   "constraints": [],
                   "enum": []
                 }
-              },
-              "constraints": [],
-              "enum": []
+              }
             },
             "shippingLabels": {
               "type": "array",
@@ -26009,14 +25764,6 @@
               "nullable": false,
               "constraints": [
                 {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
-                {
                   "rule": "max",
                   "argument": "20"
                 }
@@ -26047,25 +25794,16 @@
               "enum": []
             },
             "totalPrice": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "updatedBy": {
-              "type": "unknown",
-              "optional": false,
-              "nullable": false,
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             }
@@ -27202,15 +26940,10 @@
               "enum": []
             },
             "metadata": {
-              "type": "string",
+              "type": "unknown",
               "optional": false,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "max",
-                  "argument": "8000"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "operationId": {
@@ -27236,6 +26969,17 @@
               "type": "array",
               "optional": false,
               "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "500"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "sourceRow": {
                   "type": "number",
@@ -27266,14 +27010,14 @@
                   "enum": []
                 },
                 "quantity": {
-                  "type": "number",
+                  "type": "unknown",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
                   "enum": []
                 },
                 "unitPrice": {
-                  "type": "number",
+                  "type": "unknown",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -27353,18 +27097,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "500"
-                }
-              ],
-              "enum": []
+              }
             },
             "targetId": {
               "type": "string",
@@ -27824,6 +27557,8 @@
               "type": "object",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "lengthMm": {
                   "type": "number",
@@ -27873,21 +27608,26 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [],
-              "enum": []
+              }
             },
             "material": {
-              "type": "number",
+              "type": "object",
               "optional": true,
-              "nullable": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "type": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
-                  "enum": []
+                  "enum": [
+                    "PAPERBOARD",
+                    "CORRUGATED",
+                    "PLASTIC",
+                    "CUSTOM"
+                  ]
                 },
                 "name": {
                   "type": "string",
@@ -27933,30 +27673,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0.05"
-                },
-                {
-                  "rule": "max",
-                  "argument": "20"
-                },
-                {
-                  "rule": "regex",
-                  "argument": "/^#[0-9a-fA-F]{6}$/"
-                }
-              ],
-              "enum": []
+              }
             },
             "note": {
               "type": "string",
@@ -27992,9 +27709,11 @@
               "enum": []
             },
             "topology": {
-              "type": "number",
+              "type": "object",
               "optional": true,
-              "nullable": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "snapToleranceMm": {
                   "type": "number",
@@ -28045,14 +27764,6 @@
                   "nullable": false,
                   "constraints": [
                     {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "128"
-                    },
-                    {
                       "rule": "max",
                       "argument": "PACKAGING_MAX_SEGMENTS"
                     }
@@ -28073,42 +27784,7 @@
                   "constraints": [],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0.001"
-                },
-                {
-                  "rule": "max",
-                  "argument": "5"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "128"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "128"
-                },
-                {
-                  "rule": "max",
-                  "argument": "PACKAGING_MAX_SEGMENTS"
-                }
-              ],
-              "enum": []
+              }
             }
           },
           "query": {},
@@ -28294,11 +27970,17 @@
         "fields": {
           "body": {
             "boxStyle": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [
+                "RSC",
+                "TUCK_END",
+                "AUTO_LOCK",
+                "MAILER",
+                "SLEEVE"
+              ]
             },
             "description": {
               "type": "string",
@@ -28316,38 +27998,80 @@
               "type": "object",
               "optional": false,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "lengthMm": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "5"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "3_000"
+                    }
+                  ],
                   "enum": []
                 },
                 "widthMm": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "5"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "3_000"
+                    }
+                  ],
                   "enum": []
                 },
                 "heightMm": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "5"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "3_000"
+                    }
+                  ],
                   "enum": []
                 }
-              },
-              "constraints": [],
-              "enum": []
+              }
             },
             "kind": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [
+                "PRODUCT",
+                "MASTER"
+              ]
             },
             "name": {
               "type": "string",
@@ -28471,14 +28195,6 @@
               "optional": false,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
                 {
                   "rule": "min",
                   "argument": "1"
@@ -29677,16 +29393,18 @@
               "enum": []
             },
             "image": {
-              "type": "string",
-              "optional": true,
-              "nullable": true,
+              "type": "unknown",
+              "optional": false,
+              "nullable": false,
               "constraints": [],
               "enum": []
             },
             "images": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "id": {
                   "type": "number",
@@ -29739,30 +29457,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                }
-              ],
-              "enum": []
+              }
             },
             "map": {
               "type": "unknown",
@@ -29840,9 +29535,16 @@
               "enum": []
             },
             "priceTiers": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": true,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "50"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "minQuantity": {
                   "type": "number",
@@ -29944,77 +29646,10 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1_000_000_000"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "999_999_999"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1e13"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "999_999_999"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "999_999_999"
-                },
-                {
-                  "rule": "max",
-                  "argument": "50"
-                }
-              ],
-              "enum": []
+              }
             },
             "priceTiersCurrency": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": true,
               "constraints": [],
@@ -30035,14 +29670,6 @@
               "optional": true,
               "nullable": true,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
                 {
                   "rule": "max",
                   "argument": "100"
@@ -30070,7 +29697,7 @@
               "enum": []
             },
             "status": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": true,
               "constraints": [],
@@ -30491,6 +30118,7 @@
           "country",
           "currency",
           "customerName",
+          "format",
           "items",
           "validUntil"
         ],
@@ -30517,7 +30145,7 @@
               "enum": []
             },
             "currency": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -30542,10 +30170,31 @@
               ],
               "enum": []
             },
-            "items": {
-              "type": "number",
+            "format": {
+              "type": "string",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [
+                "pdf",
+                "xlsx"
+              ]
+            },
+            "items": {
+              "type": "array",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, '请先选择产品'"
+                },
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "productId": {
                   "type": "string",
@@ -30615,6 +30264,18 @@
                   ],
                   "enum": []
                 },
+                "imageUrls": {
+                  "type": "array",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "max",
+                      "argument": "3, '每个产品或规格最多选择3张图片'"
+                    }
+                  ],
+                  "enum": []
+                },
                 "unitPrice": {
                   "type": "number",
                   "optional": true,
@@ -30635,58 +30296,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "99999999.99"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1, '请先选择产品'"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                }
-              ],
-              "enum": []
+              }
             },
             "validUntil": {
               "type": "string",
@@ -30707,6 +30317,7 @@
         "validationMessages": [
           "同一产品不能重复报价",
           "同一规格不能重复报价",
+          "所选图片不属于当前产品或规格，或已变化；请重新选择（最多3张）",
           "所选规格已变化，请重新选择",
           "部分产品已归档或不存在，请重新选择"
         ],
@@ -30762,7 +30373,7 @@
         "fields": {
           "body": {
             "containerType": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -30777,12 +30388,28 @@
               "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "model": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
                   "enum": []
                 },
                 "cartonCount": {
@@ -30806,24 +30433,63 @@
                   "enum": []
                 },
                 "length": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
                   "enum": []
                 },
                 "width": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
                   "enum": []
                 },
                 "height": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
                   "enum": []
                 },
                 "grossWeight": {
@@ -30843,7 +30509,7 @@
                   "enum": []
                 },
                 "rotationPolicy": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": true,
                   "nullable": false,
                   "constraints": [],
@@ -30852,39 +30518,73 @@
                     "UPRIGHT_ONLY"
                   ]
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "max",
-                  "argument": "100"
-                }
-              ],
-              "enum": []
+              }
             },
             "customContainer": {
-              "type": "number",
+              "type": "object",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "length": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
                   "enum": []
                 },
                 "width": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
                   "enum": []
                 },
                 "height": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
                   "enum": []
                 },
                 "maxWeight": {
@@ -30907,44 +30607,54 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "max",
-                  "argument": "1_000_000"
-                }
-              ],
-              "enum": []
+              }
             },
             "fixedSelections": {
               "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "productId": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
                   "enum": []
                 },
                 "variantId": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": true,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
                   "enum": []
                 },
                 "rotationPolicy": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": true,
                   "nullable": false,
                   "constraints": [],
@@ -30953,14 +30663,7 @@
                     "UPRIGHT_ONLY"
                   ]
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "max",
-                  "argument": "100"
-                }
-              ],
-              "enum": []
+              }
             },
             "maxContainers": {
               "type": "number",
@@ -31003,7 +30706,7 @@
               "enum": []
             },
             "mode": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -31016,23 +30719,48 @@
               "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "productId": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
                   "enum": []
                 },
                 "variantId": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": true,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
                   "enum": []
                 },
                 "rotationPolicy": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": true,
                   "nullable": false,
                   "constraints": [],
@@ -31041,32 +30769,50 @@
                     "UPRIGHT_ONLY"
                   ]
                 }
-              },
+              }
+            },
+            "temporaryPacking": {
+              "type": "array",
+              "optional": true,
+              "nullable": false,
               "constraints": [
                 {
                   "rule": "max",
                   "argument": "100"
                 }
               ],
-              "enum": []
-            },
-            "temporaryPacking": {
-              "type": "array",
-              "optional": true,
-              "nullable": false,
+              "enum": [],
               "fields": {
                 "productId": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
                   "enum": []
                 },
                 "variantId": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": true,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
                   "enum": []
                 },
                 "qtyPerCarton": {
@@ -31128,14 +30874,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "max",
-                  "argument": "100"
-                }
-              ],
-              "enum": []
+              }
             },
             "usePublishedPackaging": {
               "type": "boolean",
@@ -31203,7 +30942,7 @@
         "fields": {
           "body": {
             "currency": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -31213,17 +30952,35 @@
               ]
             },
             "productId": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
               "enum": []
             },
             "variantId": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "255"
+                }
+              ],
               "enum": []
             },
             "withTax": {
@@ -31355,6 +31112,17 @@
               "type": "array",
               "optional": false,
               "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "200"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "id": {
                   "type": "string",
@@ -31388,34 +31156,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "200"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "500"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "200"
-                }
-              ],
-              "enum": []
+              }
             }
           },
           "query": {},
@@ -32002,7 +31743,7 @@
         "fields": {
           "body": {
             "accountKind": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -32086,7 +31827,7 @@
         "fields": {
           "body": {
             "kind": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
@@ -32445,7 +32186,7 @@
               "enum": []
             },
             "mode": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
@@ -32682,9 +32423,11 @@
               "type": "object",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "kind": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -32722,7 +32465,7 @@
                   "enum": []
                 },
                 "type": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -32743,36 +32486,14 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "64"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1024"
-                }
-              ],
-              "enum": [
-                "order",
-                "customer",
-                "image",
-                "document"
-              ]
+              }
             },
             "template": {
-              "type": "array",
+              "type": "object",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "name": {
                   "type": "string",
@@ -32793,7 +32514,7 @@
                   "constraints": [
                     {
                       "rule": "regex",
-                      "argument": "/^[a-z]{2,3}(?:_[A-Z]{2}"
+                      "argument": "/^[a-z]{2,3}(?:_[A-Z]{2})?$/"
                     }
                   ],
                   "enum": []
@@ -32805,35 +32526,12 @@
                   "constraints": [
                     {
                       "rule": "max",
-                      "argument": "1024"
-                    },
-                    {
-                      "rule": "max",
                       "argument": "20"
                     }
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "regex",
-                  "argument": "/^[a-z0-9_]{1,512}$/"
-                },
-                {
-                  "rule": "regex",
-                  "argument": "/^[a-z]{2,3}(?:_[A-Z]{2}"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1024"
-                },
-                {
-                  "rule": "max",
-                  "argument": "20"
-                }
-              ],
-              "enum": []
+              }
             },
             "text": {
               "type": "string",
@@ -32855,6 +32553,8 @@
               "type": "object",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "stageToken": {
                   "type": "string",
@@ -32884,22 +32584,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "8000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1024"
-                }
-              ],
-              "enum": []
+              }
             }
           },
           "query": {},
@@ -32971,7 +32656,7 @@
         "fields": {
           "body": {
             "language": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
@@ -33812,6 +33497,50 @@
         "validationMessages": [
           "演示访问验证来源未授权"
         ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_system_deployment_notice_acknowledge",
+      "category": "system",
+      "method": "POST",
+      "path": "/api/system/deployment-notice/acknowledge",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [
+          "noticeId"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "noticeId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -36345,7 +36074,7 @@
               "enum": []
             },
             "employment_status": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -36355,7 +36084,7 @@
               ]
             },
             "employment_type": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -36372,23 +36101,10 @@
               "enum": []
             },
             "monthlyOrderTarget": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2_147_483_647"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "monthlySalesTarget": {
@@ -36415,59 +36131,24 @@
               "enum": []
             },
             "payroll_day": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": true,
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "31"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "payroll_month_offset": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "performance_base": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
-                {
-                  "rule": "max",
-                  "argument": "1_000_000"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "rate_base": {
@@ -36499,7 +36180,7 @@
               "enum": []
             },
             "role": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
@@ -38944,16 +38625,23 @@
               "enum": []
             },
             "balancePaidAt": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "balancePaymentProofDetails": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "20"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "url": {
                   "type": "string",
@@ -38968,14 +38656,19 @@
                   "enum": []
                 },
                 "amount": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    }
+                  ],
                   "enum": []
                 },
                 "currency": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -38985,7 +38678,7 @@
                   ]
                 },
                 "kind": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -39062,52 +38755,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                },
-                {
-                  "rule": "min",
-                  "argument": "4"
-                },
-                {
-                  "rule": "max",
-                  "argument": "500"
-                },
-                {
-                  "rule": "max",
-                  "argument": "8000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "20"
-                }
-              ],
-              "enum": [
-                "USD",
-                "RMB",
-                "FULL",
-                "DEPOSIT",
-                "BALANCE"
-              ]
+              }
             },
             "balancePaymentProofs": {
               "type": "array",
@@ -39122,7 +38770,7 @@
               "enum": []
             },
             "balanceStatus": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": true,
               "constraints": [],
@@ -39140,14 +38788,6 @@
               "optional": true,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
                 {
                   "rule": "max",
                   "argument": "20"
@@ -39168,9 +38808,9 @@
               "enum": []
             },
             "createdBy": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -39187,7 +38827,7 @@
               "enum": []
             },
             "creditMode": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": true,
               "constraints": [],
@@ -39209,7 +38849,7 @@
               "constraints": [
                 {
                   "rule": "regex",
-                  "argument": "/^\\d{4}-(0[1-9]|1[0-2]"
+                  "argument": "/^\\d{4}-(0[1-9]|1[0-2])$/, '月结账期格式应为 YYYY-MM'"
                 }
               ],
               "enum": []
@@ -39231,7 +38871,7 @@
               "enum": []
             },
             "currency": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -39261,9 +38901,9 @@
               "enum": []
             },
             "customerAddress": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -39280,9 +38920,9 @@
               "enum": []
             },
             "customerEmail": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -39299,16 +38939,16 @@
               "enum": []
             },
             "customerPhone": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "customerWechat": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -39378,9 +39018,9 @@
               "enum": []
             },
             "date": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -39408,7 +39048,7 @@
               "enum": []
             },
             "discountRate": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -39447,19 +39087,10 @@
               "enum": []
             },
             "freight": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "groupId": {
@@ -39496,9 +39127,9 @@
               "enum": []
             },
             "invoiceNumber": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -39509,9 +39140,16 @@
               "enum": []
             },
             "items": {
-              "type": "number",
+              "type": "array",
               "optional": true,
-              "nullable": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1, \"Order must have at least one item\""
+                }
+              ],
+              "enum": [],
               "fields": {
                 "unit": {
                   "type": "string",
@@ -39554,53 +39192,31 @@
                   "enum": []
                 },
                 "productModel": {
-                  "type": "unknown",
-                  "optional": false,
-                  "nullable": false,
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
                   "constraints": [],
                   "enum": []
                 },
                 "productImage": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
+                  "constraints": [],
+                  "enum": []
+                },
+                "quantity": {
                   "type": "unknown",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
                   "enum": []
                 },
-                "quantity": {
-                  "type": "number",
-                  "optional": false,
-                  "nullable": false,
-                  "constraints": [
-                    {
-                      "rule": "int",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "positive",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "MAX_ORDER_ITEM_QUANTITY"
-                    }
-                  ],
-                  "enum": []
-                },
                 "unitPrice": {
-                  "type": "number",
+                  "type": "unknown",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [
-                    {
-                      "rule": "min",
-                      "argument": "0"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "MAX_ORDER_MONEY"
-                    }
-                  ],
+                  "constraints": [],
                   "enum": []
                 },
                 "variantId": {
@@ -39616,23 +39232,30 @@
                   "enum": []
                 },
                 "variantSku": {
-                  "type": "unknown",
-                  "optional": false,
-                  "nullable": false,
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
                   "constraints": [],
                   "enum": []
                 },
                 "variantName": {
-                  "type": "unknown",
-                  "optional": false,
-                  "nullable": false,
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
                   "constraints": [],
                   "enum": []
                 },
                 "options": {
-                  "type": "number",
+                  "type": "array",
                   "optional": true,
                   "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "max",
+                      "argument": "50"
+                    }
+                  ],
+                  "enum": [],
                   "fields": {
                     "groupId": {
                       "type": "string",
@@ -39752,62 +39375,7 @@
                       ],
                       "enum": []
                     }
-                  },
-                  "constraints": [
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "64"
-                    },
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "100"
-                    },
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "64"
-                    },
-                    {
-                      "rule": "min",
-                      "argument": "1"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "100"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "100"
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "100"
-                    },
-                    {
-                      "rule": "int",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "positive",
-                      "argument": ""
-                    },
-                    {
-                      "rule": "max",
-                      "argument": "50"
-                    }
-                  ],
-                  "enum": []
+                  }
                 },
                 "optionSignature": {
                   "type": "string",
@@ -39822,130 +39390,19 @@
                   "enum": []
                 },
                 "productRemark": {
-                  "type": "unknown",
-                  "optional": false,
-                  "nullable": false,
+                  "type": "string",
+                  "optional": true,
+                  "nullable": true,
                   "constraints": [],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "32"
-                },
-                {
-                  "rule": "regex",
-                  "argument": "/^[A-Za-z0-9_-]{1,64}$/"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_ITEM_QUANTITY"
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                },
-                {
-                  "rule": "max",
-                  "argument": "64"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "64"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "64"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                },
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
-                {
-                  "rule": "max",
-                  "argument": "50"
-                },
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1, \"Order must have at least one item\""
-                }
-              ],
-              "enum": []
+              }
             },
             "manualAttachments": {
               "type": "array",
               "optional": true,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
                 {
                   "rule": "max",
                   "argument": "20"
@@ -39961,9 +39418,9 @@
               "enum": []
             },
             "orderNumber": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -39972,14 +39429,6 @@
               "optional": true,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
                 {
                   "rule": "max",
                   "argument": "20"
@@ -39992,14 +39441,6 @@
               "optional": true,
               "nullable": false,
               "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
                 {
                   "rule": "max",
                   "argument": "20"
@@ -40046,9 +39487,16 @@
               "enum": []
             },
             "paymentProofDetails": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "20"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "url": {
                   "type": "string",
@@ -40063,14 +39511,19 @@
                   "enum": []
                 },
                 "amount": {
-                  "type": "unknown",
+                  "type": "number",
                   "optional": false,
                   "nullable": false,
-                  "constraints": [],
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    }
+                  ],
                   "enum": []
                 },
                 "currency": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -40080,7 +39533,7 @@
                   ]
                 },
                 "kind": {
-                  "type": "unknown",
+                  "type": "string",
                   "optional": false,
                   "nullable": false,
                   "constraints": [],
@@ -40157,52 +39610,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                },
-                {
-                  "rule": "min",
-                  "argument": "4"
-                },
-                {
-                  "rule": "max",
-                  "argument": "500"
-                },
-                {
-                  "rule": "max",
-                  "argument": "8000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1000"
-                },
-                {
-                  "rule": "max",
-                  "argument": "20"
-                }
-              ],
-              "enum": [
-                "USD",
-                "RMB",
-                "FULL",
-                "DEPOSIT",
-                "BALANCE"
-              ]
+              }
             },
             "paymentProofs": {
               "type": "array",
@@ -40223,30 +39631,30 @@
               "enum": []
             },
             "recipientAddress": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "recipientName": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "recipientPhone": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
             "remarks": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "nullable": false,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -40258,9 +39666,11 @@
               "enum": []
             },
             "shippingLabelOcrResults": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "url": {
                   "type": "string",
@@ -40318,9 +39728,7 @@
                   "constraints": [],
                   "enum": []
                 }
-              },
-              "constraints": [],
-              "enum": []
+              }
             },
             "shippingLabels": {
               "type": "array",
@@ -40375,14 +39783,6 @@
               "nullable": false,
               "constraints": [
                 {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2000"
-                },
-                {
                   "rule": "max",
                   "argument": "20"
                 }
@@ -40413,25 +39813,16 @@
               "enum": []
             },
             "totalPrice": {
-              "type": "number",
-              "optional": true,
-              "nullable": false,
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "MAX_ORDER_MONEY"
-                }
-              ],
-              "enum": []
-            },
-            "updatedBy": {
               "type": "unknown",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "updatedBy": {
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -40560,11 +39951,15 @@
               "enum": []
             },
             "level": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [
+                "UNIT",
+                "INNER",
+                "MASTER"
+              ]
             },
             "productId": {
               "type": "string",
@@ -40583,19 +39978,10 @@
               "enum": []
             },
             "variantId": {
-              "type": "string",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "64"
-                }
-              ],
+              "constraints": [],
               "enum": []
             }
           },
@@ -41046,16 +40432,18 @@
               "enum": []
             },
             "image": {
-              "type": "string",
+              "type": "unknown",
               "optional": true,
-              "nullable": true,
+              "nullable": false,
               "constraints": [],
               "enum": []
             },
             "images": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": [],
               "fields": {
                 "id": {
                   "type": "number",
@@ -41108,30 +40496,7 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                }
-              ],
-              "enum": []
+              }
             },
             "model": {
               "type": "string",
@@ -41203,9 +40568,16 @@
               "enum": []
             },
             "priceTiers": {
-              "type": "number",
+              "type": "array",
               "optional": true,
               "nullable": true,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "50"
+                }
+              ],
+              "enum": [],
               "fields": {
                 "minQuantity": {
                   "type": "number",
@@ -41307,77 +40679,10 @@
                   ],
                   "enum": []
                 }
-              },
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1_000_000_000"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "999_999_999"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1e13"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "999_999_999"
-                },
-                {
-                  "rule": "finite",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "999_999_999"
-                },
-                {
-                  "rule": "max",
-                  "argument": "50"
-                }
-              ],
-              "enum": []
+              }
             },
             "priceTiersCurrency": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": true,
               "constraints": [],
@@ -41399,14 +40704,6 @@
               "nullable": true,
               "constraints": [
                 {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "255"
-                },
-                {
                   "rule": "max",
                   "argument": "100"
                 }
@@ -41421,7 +40718,7 @@
               "enum": []
             },
             "status": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": true,
               "constraints": [],
@@ -41831,7 +41128,7 @@
         "fields": {
           "body": {
             "accessMode": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -41876,27 +41173,10 @@
               "enum": []
             },
             "name": {
-              "type": "string",
-              "optional": true,
+              "type": "unknown",
+              "optional": false,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "100"
-                }
-              ],
+              "constraints": [],
               "enum": []
             }
           },
@@ -41957,7 +41237,7 @@
         "fields": {
           "body": {
             "accessMode": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
               "constraints": [],
@@ -42892,7 +42172,7 @@
               "enum": []
             },
             "employment_status": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -42902,7 +42182,7 @@
               ]
             },
             "employment_type": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -42919,23 +42199,10 @@
               "enum": []
             },
             "monthlyOrderTarget": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "2_147_483_647"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "monthlySalesTarget": {
@@ -42962,59 +42229,24 @@
               "enum": []
             },
             "payroll_day": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": true,
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "1"
-                },
-                {
-                  "rule": "max",
-                  "argument": "31"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "payroll_month_offset": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "min",
-                  "argument": "0"
-                },
-                {
-                  "rule": "max",
-                  "argument": "1"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "performance_base": {
-              "type": "number",
+              "type": "unknown",
               "optional": true,
               "nullable": false,
-              "constraints": [
-                {
-                  "rule": "positive",
-                  "argument": ""
-                },
-                {
-                  "rule": "max",
-                  "argument": "1_000_000"
-                }
-              ],
+              "constraints": [],
               "enum": []
             },
             "rate_base": {
@@ -43046,7 +42278,7 @@
               "enum": []
             },
             "role": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -43269,6 +42501,7 @@
     }
   ],
   "limitations": [
+    "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
     "allowedRoles 是可见路由中间件候选；处理器/服务/对象ACL仍以执行时网站判断为准",
     "parameterFields 为源码可见字段索引；schemas/runtimeContract 和原网站业务校验为权威",
     "数据库字段逐项登记但不能直接作为读取或写入权限",

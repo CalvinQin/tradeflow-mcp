@@ -19,7 +19,7 @@
 
 - 普通成员用 `get_ai_chat_models` 查看可用聊天模型及图片、工具能力；不读取服务端密钥或供应商内部配置。
 - 平台管理员用 `get_ai_config` 查看安全配置、`configuredProviders`、模型目录、功能模型和 embedding 状态。MCP 密钥字段遮罩，只根据配置状态判断，不能把 `[REDACTED]` 当成可用密钥提交。
-- 更改 `post_ai_config` 使用 `{provider,model?,baseUrl?,apiKey?}`。Gemini 是网站托管选择；其他供应商需当前真实地址、模型与受保护凭据。未配置时会明确拒绝，例如“请填写 API Key”。
+- 更改 `post_ai_config` 使用 `{provider,model?,baseUrl?,apiKey?}`。Gemini 与 DeepSeek、OpenRouter 一样支持当前供应商的受保护密钥配置及模型选择；Gemini 使用网站限定的 Google 直连接口，不固定托管型号，也不复用旧阿里代理令牌。密钥由用户在网站安全表单填写，不向用户索要聊天中的明文密钥，不读取服务器或客户端凭据文件。未配置时会明确拒绝，例如“请填写 API Key”。
 - 切换 provider 的保存成功只表示配置保存，不能宣称模型已实际回答。供应商测试、模型发现、余额、embedding 测试需要真实服务与费用授权；缺配置只报告缺什么。
 - 密钥留空保留已有值，显式清除用独立 delete 操作。不能把测试失败变成自动删除密钥，不能把真实 key 放进回复或截图。
 - 使用 `post_ai_chat` 的非流式结果；需要流式时按 `/api/ai/chat/stream` 原 SSE 协议，不能强行经通用 JSON 操作包装。核对安全阶段、实际文本、引用、模型/用量、取消状态；不展示内部推理。
@@ -35,12 +35,12 @@
 5. 向量配置 `post_ai_config_embedding` 使用 `{provider,model,baseUrl,apiKey?}`。同 provider 的空值或 `***` 是保留已有密钥；更换 provider 必须提供该供应商的真实密钥，不能把 MCP 返回的遮罩复制成密钥。核对安全 embedding 状态及 model，随后用 `post_ai_test_embedding` 验证实际服务；保存成功与向量测试成功分别报告。
 6. 显式清除向量密钥用 `delete_ai_config_embedding_key`。环境变量仍有密钥时安全配置可能继续显示已配置，按真实回读解释；不要误报服务完全停用。
 
-## “确认网站 AI 已准备好的删除或修改”
+## “查看网站 AI 确认卡与恢复结果”
 
-- `post_ai_confirm` 的 body 是 `{token}`，token 必须来自当前用户、当前原生网站 AI 的实际 confirmation 卡。另有 MCP 敏感操作票据时也要完成实时契约要求，两种票据不能互换；不可自行编造网站确认 token。
-- 网站票据短时有效、属于本人且只能消费一次，确认执行时再次读取当前角色权限。用户换角色后可能拒绝其中的动作；HTTP 200 也必须检查 reply、toolsUsed 和对象回读，不能仅凭状态码宣称全部完成。
-- 同一个 MCP operationId 的成功回执可以安全查回或重放；已经消费的网站 token 换一个 operationId 会被拒绝。超时后先查原 MCP 回执和对象，不能再确认第二遍。
-- 确认后把实际删掉、修改或未执行的对象分别说清楚。测试中的服务器签发票据只证明确认链与权限边界；它不证明模型能正确规划每种业务任务。
+- 业务 MCP 禁止模型自我确认：`post_ai_confirm` 及 `/api/ai/assistant` 确认、状态和取消通道不是业务 Agent 可执行的工具。不得读取确认凭据、手工 HTTP 或借浏览器会话绕过；提示本人在网站核对对象和影响，由本人完成确认或取消。
+- 网站 AI pending 状态持久保存并绑定当前用户、会话及动作快照。刷新、重启后由原网站恢复；执行时重新核验身份、对象权限及对应业务要求的版本和日期。动作至多认领执行一次；同一确认重复提交可回读既有持久状态和结果，不表示再次执行业务。
+- `executing` 表示执行中；`unknown` 表示结果尚未确定，不能自动重领或重做。完成、失败、取消和过期分别报告，业务对象必须独立回读；HTTP 200 或对话文字不是成功证据。不要为了重试新建一张同目标确认卡。
+- `prepare_business_action` 返回的是另一种 MCP 内容绑定预览票据，不是上述 AI pending 凭据，也不是人类授权。MCP 已获准的普通业务写入仍保留原 operationId 和完整载荷；结果未知查 `get_business_operation_result` 及对象，不更换 ID 重做。各原网站的导入、付款等专用票据仍按其自身契约处理，不能相互替换。
 
 ## “把售后条款放进知识库，再停用旧版本”
 

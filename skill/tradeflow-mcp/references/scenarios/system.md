@@ -192,6 +192,7 @@
 - `get_system_categories`：GET /api/system/categories
 - `get_system_company_access_requests`：GET /api/system/company-access-requests
 - `get_system_company_profile`：GET /api/system/company-profile
+- `get_system_deployment_notice`：GET /api/system/deployment-notice
 - `get_system_jobs`：GET /api/system/jobs
 - `get_system_logistics_address_presets`：GET /api/system/logistics-address-presets
 - `get_system_logs_login`：GET /api/system/logs/login
@@ -224,6 +225,7 @@
 - `post_system_demo_access_admin`：POST /api/system/demo-access/admin
 - `post_system_demo_access_chat`：POST /api/system/demo-access/chat（excluded，使用原协议）
 - `post_system_demo_access_verify`：POST /api/system/demo-access/verify（excluded，使用原协议）
+- `post_system_deployment_notice_acknowledge`：POST /api/system/deployment-notice/acknowledge
 - `post_system_logistics_address_presets`：POST /api/system/logistics-address-presets
 - `post_system_mcp_clients`：POST /api/system/mcp-clients（deprecated，使用原协议）
 - `post_system_mcp_clients_by_id_revoke`：POST /api/system/mcp-clients/:id/revoke

@@ -180,4 +180,4 @@ minCost/maxCost 比较整单有效成本人民币合计，与订单销售币种�
 
 动态 `get_management_activity_feed` 可传limit；时间线 `get_management_business_timeline` 用query `{orderId}`、`{inquiryId}`、`{email}` 或`{customerName}` 查相关订单、询盘、邮件、客户与库存。姓名相同不是同一客户的证明，查看具体关联来源后再作结论。无权订单会返回空关联，不据此说订单不存在，更不能替换成老板连接取得资料。
 
-风险项保留type、severity、owner、source和原href，描述下一步可做的事。客户到跟进日期是待办提示，不等于已经超过24小时宽限期的逾期统计；复盘面板用客户跟进报告核实。老板订单链接应到 /all-orders，业务员到 /my-orders。统计、风险和时间线均为读取；需要修改订单、客户或收款状态，按相应真实操作流程单独保存并回读。
+风险项保留type、severity、owner、source和原href，描述下一步可做的事。客户到跟进日期是待办提示，不等于已经超过12小时宽限期的逾期统计；复盘面板用客户跟进报告核实。老板订单链接应到 /all-orders，业务员到 /my-orders。统计、风险和时间线均为读取；需要修改订单、客户或收款状态，按相应真实操作流程单独保存并回读。
