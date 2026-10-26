@@ -104,12 +104,14 @@
 
 - `get_social_conversations`：GET /api/social/conversations
 - `get_social_conversations_by_id`：GET /api/social/conversations/:id
+- `get_social_conversations_by_id_customer_suggestions`：GET /api/social/conversations/:id/customer-suggestions
 - `get_social_conversations_by_id_customer_workspace`：GET /api/social/conversations/:id/customer-workspace
 - `get_social_conversations_by_id_media_by_messageId`：GET /api/social/conversations/:id/media/:messageId
 - `get_social_conversations_by_id_reply_by_intentId`：GET /api/social/conversations/:id/reply/:intentId；外部前提候选：WhatsApp渠道或真实模型
 - `get_social_metrics`：GET /api/social/metrics
 - `patch_social_conversations_by_id`：PATCH /api/social/conversations/:id
 - `post_social_conversations`：POST /api/social/conversations
+- `post_social_conversations_by_id_customer_suggestions_review`：POST /api/social/conversations/:id/customer-suggestions/review
 - `post_social_conversations_by_id_followup`：POST /api/social/conversations/:id/followup
 - `post_social_conversations_by_id_insights`：POST /api/social/conversations/:id/insights；外部前提候选：WhatsApp渠道或真实模型
 - `post_social_conversations_by_id_reply`：POST /api/social/conversations/:id/reply；外部前提候选：WhatsApp渠道或真实模型
@@ -140,6 +142,7 @@
 - `get_social_channels_by_id_templates`：GET /api/social/channels/:id/templates；外部前提候选：WhatsApp渠道或真实模型
 - `get_social_conversations`：GET /api/social/conversations
 - `get_social_conversations_by_id`：GET /api/social/conversations/:id
+- `get_social_conversations_by_id_customer_suggestions`：GET /api/social/conversations/:id/customer-suggestions
 - `get_social_conversations_by_id_customer_workspace`：GET /api/social/conversations/:id/customer-workspace
 - `get_social_conversations_by_id_media_by_messageId`：GET /api/social/conversations/:id/media/:messageId
 - `get_social_conversations_by_id_reply_by_intentId`：GET /api/social/conversations/:id/reply/:intentId；外部前提候选：WhatsApp渠道或真实模型
@@ -152,6 +155,7 @@
 - `post_social_accounts_signup`：POST /api/social/accounts/signup；外部前提候选：WhatsApp渠道或真实模型
 - `post_social_accounts_signup_complete`：POST /api/social/accounts/signup/complete；外部前提候选：WhatsApp渠道或真实模型
 - `post_social_conversations`：POST /api/social/conversations
+- `post_social_conversations_by_id_customer_suggestions_review`：POST /api/social/conversations/:id/customer-suggestions/review
 - `post_social_conversations_by_id_followup`：POST /api/social/conversations/:id/followup
 - `post_social_conversations_by_id_insights`：POST /api/social/conversations/:id/insights；外部前提候选：WhatsApp渠道或真实模型
 - `post_social_conversations_by_id_reply`：POST /api/social/conversations/:id/reply；外部前提候选：WhatsApp渠道或真实模型

@@ -1,7 +1,7 @@
 {
   "package": "@calvinqin/tradeflow-mcp",
-  "version": "1.0.32",
-  "contractHash": "f686c43893a6b859c7cc6b5bdc4da992dfab24b6273de1f46feb621af393acc6",
+  "version": "1.0.33",
+  "contractHash": "8190a578673a60613de9a57010288a10de967a2a0664fc043efcdd194e2f1c8e",
   "formatVersion": 1,
   "roles": [
     "BOSS",
@@ -20,6 +20,6 @@
     "execute_business_batch",
     "read_business_response_file"
   ],
-  "operationCount": 528,
+  "operationCount": 530,
   "serverContractAuthority": "Live OAuth server discovery; source indices do not override website domain validations or ACLs."
 }
