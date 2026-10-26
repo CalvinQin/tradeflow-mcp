@@ -146,7 +146,7 @@
 - `get_social_metrics`：GET /api/social/metrics
 - `get_social_staff`：GET /api/social/staff
 - `get_social_webhook`：GET /api/social/webhook（excluded，使用原协议）
-- `patch_social_accounts_by_id`：PATCH /api/social/accounts/:id；外部前提候选：连接动作需真实WhatsApp扫码运行时；名称和成员管理为本地业务
+- `patch_social_accounts_by_id`：PATCH /api/social/accounts/:id（普通update/connect/disconnect沿原business:write、business:approve及确认要求；body.action=delete还须business:delete、用户明确授权和内容绑定确认票据，仅原账号拥有者或BOSS可按expectedRevision删除从未绑定且无聊天记录的待登录WEB账号，原双守卫仍执行；旧目录不替代执行时权限复核）；外部前提候选：连接动作需真实WhatsApp扫码运行时；名称和成员管理为本地业务
 - `patch_social_conversations_by_id`：PATCH /api/social/conversations/:id
 - `post_social_accounts`：POST /api/social/accounts
 - `post_social_accounts_signup`：POST /api/social/accounts/signup；外部前提候选：WhatsApp渠道或真实模型
@@ -212,7 +212,7 @@
 - `get_social_accounts_config`：GET /api/social/accounts/config
 - `get_social_channels`：GET /api/social/channels
 - `get_social_channels_by_id_templates`：GET /api/social/channels/:id/templates；外部前提候选：WhatsApp渠道或真实模型
-- `patch_social_accounts_by_id`：PATCH /api/social/accounts/:id；外部前提候选：连接动作需真实WhatsApp扫码运行时；名称和成员管理为本地业务
+- `patch_social_accounts_by_id`：PATCH /api/social/accounts/:id（普通update/connect/disconnect沿原business:write、business:approve及确认要求；body.action=delete还须business:delete、用户明确授权和内容绑定确认票据，仅原账号拥有者或BOSS可按expectedRevision删除从未绑定且无聊天记录的待登录WEB账号，原双守卫仍执行；旧目录不替代执行时权限复核）；外部前提候选：连接动作需真实WhatsApp扫码运行时；名称和成员管理为本地业务
 - `post_social_accounts`：POST /api/social/accounts
 - `post_social_accounts_signup`：POST /api/social/accounts/signup；外部前提候选：WhatsApp渠道或真实模型
 - `post_social_accounts_signup_complete`：POST /api/social/accounts/signup/complete；外部前提候选：WhatsApp渠道或真实模型
