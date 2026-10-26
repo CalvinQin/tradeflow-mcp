@@ -1,5 +1,5 @@
 {
-  "contractHash": "d570f414de230ed6c8af63def90352b36415ec4bb447c16bfd290158464d2c2a",
+  "contractHash": "1554788be093eaff60a30c13fed89ce66e75412f81a7c4e322deb1d7f18a24ad",
   "formatVersion": 1,
   "operations": [
     {
@@ -16078,6 +16078,13 @@
       "effects": [
         "approve"
       ],
+      "conditionalEffects": {
+        "action": {
+          "delete": [
+            "delete"
+          ]
+        }
+      },
       "allowedRoles": [
         "BOSS",
         "SALES",
@@ -16116,7 +16123,8 @@
               "enum": [
                 "update",
                 "connect",
-                "disconnect"
+                "disconnect",
+                "delete"
               ]
             },
             "expectedRevision": {
@@ -16184,7 +16192,7 @@
           "账号已变化，请核对最新状态"
         ],
         "schemaReferences": [
-          "z\n    .object({\n      name: z.string().trim().min(1).max(100).optional(),\n      expectedRevision: z.number().int().positive(),\n      members: z.array(z.number().int().positive()).max(30).optional(),\n      action: z.enum([\"update\", \"connect\", \"disconnect\"]).default(\"update\"),\n    })\n    .strict()"
+          "z\n    .object({\n      name: z.string().trim().min(1).max(100).optional(),\n      expectedRevision: z.number().int().positive(),\n      members: z.array(z.number().int().positive()).max(30).optional(),\n      action: z.enum([\"update\", \"connect\", \"disconnect\", \"delete\"]).default(\"update\"),\n    })\n    .strict()"
         ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
