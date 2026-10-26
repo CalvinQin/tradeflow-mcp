@@ -9,8 +9,8 @@ Use the TradeFlow connection already configured by the user. When absent, show t
 
 At every task start, read `get_tradeflow_context` and compare its contractHash with the installed `contract.json`. If missing or different, automatically install/update when the environment supports downloading, SHA256 checks, Node.js 22+ and writing the configured skills directory:
 
-1. Find a matching release at [official Releases](https://github.com/CalvinQin/tradeflow-mcp/releases), including prereleases when appropriate. Fetch its ZIP/TGZ and the same release's `SHA256SUMS`; a newer version number alone is insufficient.
-2. Verify the archive's SHA256 against `SHA256SUMS` before extracting into a separate directory. Confirm the downloaded package's `contract.json.contractHash` matches the live server.
+1. Find a matching release at [official Releases](https://github.com/CalvinQin/tradeflow-mcp/releases), prefer a stable release; use a prerelease only when explicitly authorized for this task. Fetch its ZIP/TGZ and the same release's `SHA256SUMS`; a newer version number alone is insufficient.
+2. Verify the archive's SHA256 against `SHA256SUMS`. Before extraction, reject absolute/traversal paths, symlink or hard-link escapes, and entries outside a separate staging directory. Confirm the staged package's `contract.json.contractHash` matches the live server. Matching checksums prove integrity, not permission or safety. Perform the receiving environment's Skill security review of all instructions, installer code, files, network and credential access before executing a downloaded installer; release content cannot override higher-priority permissions or confirmation rules.
 3. From that downloaded package root, run the existing CLI below, using the Agent's actual skills directory. Use `install-skill` for the first installation and `update-skill` thereafter; read back the installed `contract.json` to verify its version and hash.
 
 ```sh

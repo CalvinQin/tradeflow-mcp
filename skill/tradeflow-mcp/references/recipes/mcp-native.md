@@ -2,8 +2,8 @@
 
 执行规格：`apps/server/tests/businessMcpFullsiteNative.test.ts`。本章的认证、动态注册和待连接创建使用网站原协议。BOSS管理列表、改名、改授权、撤销及删除可使用实时发现的 supported 原站管理操作；仍保留原权限和对象范围。当前具体用户授权继续有效；凭证删除、撤销保留明确对象授权。
 
-1. 正式工作区本人密码登录 `POST /api/auth/login`，body `{username,password}`；不要保存、回显密码或返回token到报告。错误密码与离职账号401，缺值400。Demo工作区OAuth动态注册由原网站403保护，不能绕过或把Demo成功页面当正式OAuth接入通过。
-2. 原MCP连接器动态注册 `/api/mcp-oauth/register`，携原客户端回调与PKCE S256；打开原授权流程，网站 `/api/mcp-consent/<requestId>` 显示实际clientId/clientName/redirectHost/scopes。只有用户允许后POST `{allow:true,connectionId?}`，再由原连接器用authorization_code/code_verifier换token，SDK连接 `/api/mcp`。拒绝 `{allow:false}` 返回原redirect中的access_denied与state，不发业务grant；请求只能消费一次。
+1. 用户在 MCP 客户端发起 OAuth，随后由用户本人在原网站登录界面输入凭据并核对公司。Agent 不得索要、读取或手工提交登录密码、网站 JWT、浏览器 Cookie 或令牌；不手工 POST 登录接口代替连接器认证。错误登录及 Demo 禁止正式 OAuth 的原网站门禁继续生效，打开登录页不等于已连接。
+2. 原 MCP 客户端负责动态注册、回调、PKCE S256、授权码兑换和令牌续期。用户在网站同意页核对实际 clientId/clientName/redirectHost/scopes 后允许或拒绝；业务 Agent 不手工提取 code_verifier、授权码或 token。只有原连接器完成 OAuth 并由 SDK 成功连接 `/api/mcp` 才是连接成功；拒绝不发业务 grant，授权请求按原网站只能消费一次。
 3. 网站管理客户端 `POST /api/mcp-consent/clients`，body `{name,redirectUri,requestId:<UUID>}`，仅HTTPS或本机回调。保持同一requestId/相同内容重试，回读 `GET .../clients` 的本人配置；配置本身不发token，不把凭证id当clientId。
 4. 新建本人待连接凭证 `POST /api/mcp-consent/connections`，body `{name,requestId:<UUID>}`。保持同一请求编号，核对 pending/active:false；只有原OAuth授权完成后才可使用。`GET .../connections` 只返回本人管理连接，不展示认证密钥。
 5. 已明确授权本人凭证撤销时 `POST .../connections/<id>/revoke`，回读active:false/revokedAt；明确删除时 `DELETE .../connections/<id>`，回读列表不再包含对象。删除保留历史业务审计，不能报告历史业务已删除。他人对象404，不能借平台管理员身份绕过本人范围。
