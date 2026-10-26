@@ -4,6 +4,14 @@ TradeFlow 的 OAuth 连接包和配套 Agent Skill。适用于支持远程 HTTP 
 
 Skill 是给 Agent 使用的业务操作说明：指导它发现本人可用的操作、核对字段和版本、完成已授权任务并回读结果。OAuth 提供网站身份与访问范围，Skill 提供处理客户、产品、订单等任务的工作流；两者配合使用。
 
+## 1.0.32 源码候选 — 2026-10-26
+
+同步 Web/API 5.1.2 的消息引用回复契约。`post_social_conversations_by_id_reply` 新增可选 `replyToMessageId`：必须是从当前会话回读的内部消息 UUID，不能猜测、跨会话引用或用渠道外部消息编号替代。原网站继续核验会话权限、消息可引用状态和实际渠道载荷。
+
+引用回复沿用 `business:write`、`business:send` 和用户明确发送授权。确认前展示实际收件会话、引用摘要与完整待发送正文；`prepare_business_action` 的票据绑定完整请求体，改变引用或正文须重新确认。保持原 `operationId`／`intentId`，结果未知先回读原结果，不换键盲目重发。普通无引用回复保持原规则。
+
+生成目录补记既有 Zod `.uuid()` 约束，不改变原网站校验或任何角色／scope，不新增数据库结构或运行依赖。本轮仍是源码候选；生成检查和合成测试不代表真实渠道发送、设备验收、网站部署或实时契约已匹配。生成时已验证的正式包为 1.0.31；1.0.32 发布和安装须在新网站实时契约匹配后分别完成。
+
 ## 1.0.31 源码候选 — 2026-10-26
 
 同步 Web/API 5.1.1 的 WhatsApp 管理契约。`patch_social_accounts_by_id` 的 `body.action=delete` 是删除动作：必须同时具有 `business:write`、`business:approve`、`business:delete`，先展示准确对象和删除影响并取得用户明确授权，再使用 `prepare_business_action` 返回的内容绑定票据和原 `operationId`。票据不等于人类授权；旧目录或旧票据不能绕过执行时的删除授权复核。
