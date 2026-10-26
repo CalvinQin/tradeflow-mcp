@@ -1,5 +1,5 @@
 {
-  "contractHash": "1554788be093eaff60a30c13fed89ce66e75412f81a7c4e322deb1d7f18a24ad",
+  "contractHash": "f686c43893a6b859c7cc6b5bdc4da992dfab24b6273de1f46feb621af393acc6",
   "formatVersion": 1,
   "operations": [
     {
@@ -23515,7 +23515,12 @@
               "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             }
           },
@@ -23582,7 +23587,12 @@
               "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             }
           },
@@ -23917,7 +23927,12 @@
               "type": "string",
               "optional": true,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             },
             "name": {
@@ -24227,7 +24242,12 @@
               "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             }
           },
@@ -31780,7 +31800,12 @@
               "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             }
           },
@@ -31945,7 +31970,12 @@
               "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             },
             "wabaId": {
@@ -32022,7 +32052,12 @@
               "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             },
             "name": {
@@ -32380,6 +32415,7 @@
           "expectedRevision",
           "intentId",
           "media",
+          "replyToMessageId",
           "template",
           "text",
           "upload"
@@ -32496,6 +32532,18 @@
                 }
               }
             },
+            "replyToMessageId": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
+              "enum": []
+            },
             "template": {
               "type": "object",
               "optional": true,
@@ -32608,6 +32656,7 @@
         "validationMessages": [
           "会话已变化，请刷新后再发送",
           "发送意图已用于其他内容",
+          "只能引用当前会话中已同步或已发送的消息",
           "已超出客户服务窗口。请选择此渠道的获准模板联系客户，等待客户回复后再发送自由文本或附件",
           "扫码账号不使用企业模板，请发送文本或附件",
           "模板尚未通过 Meta 审核或不属于此渠道",
@@ -32684,7 +32733,12 @@
               "type": "string",
               "optional": true,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             },
             "text": {
@@ -40915,7 +40969,12 @@
               "type": "string",
               "optional": true,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             },
             "name": {
