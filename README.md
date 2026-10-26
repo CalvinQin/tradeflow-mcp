@@ -4,6 +4,14 @@ TradeFlow 的 OAuth 连接包和配套 Agent Skill。适用于支持远程 HTTP 
 
 Skill 是给 Agent 使用的业务操作说明：指导它发现本人可用的操作、核对字段和版本、完成已授权任务并回读结果。OAuth 提供网站身份与访问范围，Skill 提供处理客户、产品、订单等任务的工作流；两者配合使用。
 
+## 1.0.33 — 2026-10-26
+
+同步 Web/API 5.1.3 的 WhatsApp 客户推荐契约。先用 `get_social_conversations_by_id_customer_suggestions` 读取本人可见的号码／姓名候选；GET 不调用模型。可选 `post_social_conversations_by_id_customer_suggestions_review` 仅接受当前 `expectedRevision`，须有 `business:write`、`business:approve` 和内容绑定确认票据，不能自行填入号码或候选名单。
+
+Jev 复核可产生模型费用，并把会话及实际命中联系人（最多3位）的公司／姓名、号码、国家交给已配置的 Jev；先展示取数与外发范围并取得明确授权。无唯一精确号码候选时不调用模型；同资料复用数据库回执，处理中或结果未知时不能换键绕过重试。每用户每进程的限流不是跨实例总费用预算。
+
+模型的建议、概率和 `approved` 都不代表已经关联客户。真正绑定仍须走原网站单独确认、版本和权限校验；此复核不会自动绑定或联系客户。包保持 MIT、零运行依赖，不收集 OAuth／模型密钥。以下旧条目是当时记录；发布和本机安装以实际 Release、SHA 校验及网站 liveHash 匹配为准，不据合成测试声称真实模型或客户外发通过。
+
 ## 1.0.32 源码候选 — 2026-10-26
 
 同步 Web/API 5.1.2 的消息引用回复契约。`post_social_conversations_by_id_reply` 新增可选 `replyToMessageId`：必须是从当前会话回读的内部消息 UUID，不能猜测、跨会话引用或用渠道外部消息编号替代。原网站继续核验会话权限、消息可引用状态和实际渠道载荷。

@@ -1,5 +1,5 @@
 {
-  "contractHash": "f686c43893a6b859c7cc6b5bdc4da992dfab24b6273de1f46feb621af393acc6",
+  "contractHash": "8190a578673a60613de9a57010288a10de967a2a0664fc043efcdd194e2f1c8e",
   "formatVersion": 1,
   "operations": [
     {
@@ -13119,6 +13119,57 @@
               "enum": []
             }
           },
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_social_conversations_by_id_customer_suggestions",
+      "category": "social",
+      "method": "GET",
+      "path": "/api/social/conversations/:id/customer-suggestions",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
           "params": {
             "id": {
               "type": "unknown",
@@ -32097,6 +32148,83 @@
         ],
         "schemaReferences": [
           "z\n    .object({\n      channelId: z.string().uuid(),\n      phone: z.string().min(1).max(32),\n      name: z.string().trim().max(255).optional(),\n    })\n    .strict()"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_social_conversations_by_id_customer_suggestions_review",
+      "category": "social",
+      "method": "POST",
+      "path": "/api/social/conversations/:id/customer-suggestions/review",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "expectedRevision"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "expectedRevision": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "会话已变化，请重新获取推荐",
+          "客户资料或可见范围已变化，请重新获取推荐"
+        ],
+        "schemaReferences": [
+          "reviewInput"
         ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
