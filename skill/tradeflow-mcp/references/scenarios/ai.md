@@ -45,6 +45,9 @@
 - `get_ai_knowledge`：GET /api/ai/knowledge
 - `get_ai_runs_by_runId`：GET /api/ai/runs/:runId
 - `get_ai_usage`：GET /api/ai/usage
+- `get_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations`：GET /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token`：GET /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_ai_capabilities`：GET /api/chatwoot/ai/capabilities
 - `patch_ai_knowledge_by_documentId_status`：PATCH /api/ai/knowledge/:documentId/status
 - `post_ai_chat`：POST /api/ai/chat；外部前提候选：真实付费模型、OCR或供应商
 - `post_ai_chat_stream`：POST /api/ai/chat/stream（stream，使用原协议）
@@ -56,6 +59,7 @@
 - `post_ai_decision_config`：POST /api/ai/decision/config
 - `post_ai_decision_test`：POST /api/ai/decision/test；外部前提候选：真实付费模型、OCR或供应商
 - `post_ai_knowledge_upload`：POST /api/ai/knowledge/upload
+- `post_ai_packing_advice`：POST /api/ai/packing-advice；外部前提候选：装柜分析需要真实模型配置
 - `post_ai_parse_address`：POST /api/ai/parse-address；外部前提候选：真实模型解析或翻译配置
 - `post_ai_parse_product`：POST /api/ai/parse-product；外部前提候选：真实模型解析或翻译配置
 - `post_ai_recognize_payment_proof`：POST /api/ai/recognize-payment-proof；外部前提候选：付款凭证真实DeepSeek视觉配置
@@ -65,6 +69,9 @@
 - `post_ai_translate`：POST /api/ai/translate；外部前提候选：真实模型解析或翻译配置
 - `post_ai_translate_batch`：POST /api/ai/translate-batch；外部前提候选：真实模型解析或翻译配置
 - `post_ai_upload`：POST /api/ai/upload
+- `post_chatwoot_accounts_by_accountId_compose_ai_draft_translation`：POST /api/chatwoot/accounts/:accountId/compose/ai/draft-translation；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token_cancel`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token/cancel（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token_confirm`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token/confirm（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `put_ai_chat_conversations_by_conversationId`：PUT /api/ai/chat/conversations/:conversationId
 
 验收情景编号：`capability:ai-center`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。
