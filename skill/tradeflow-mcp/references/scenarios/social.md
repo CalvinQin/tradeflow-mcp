@@ -35,6 +35,19 @@
 - `get_inquiries_by_id_reply_context`：GET /api/inquiries/:id/reply-context
 - `get_inquiries_by_id_threads`：GET /api/inquiries/:id/threads
 - `get_inquiries_unread`：GET /api/inquiries/unread
+- `post_chatwoot_mail_conversations_ai_reply`：POST /api/chatwoot/mail/conversations/ai-reply；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_conversations_context`：POST /api/chatwoot/mail/conversations/context；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_conversations_lookup`：POST /api/chatwoot/mail/conversations/lookup；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_continuation`：POST /api/chatwoot/mail/history/continuation（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_detail`：POST /api/chatwoot/mail/history/detail（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_mark_read`：POST /api/chatwoot/mail/history/mark-read（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_query`：POST /api/chatwoot/mail/history/query（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_read_state`：POST /api/chatwoot/mail/history/read-state（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_translate`：POST /api/chatwoot/mail/history/translate（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_reader_supervisor`：POST /api/chatwoot/mail/reader-supervisor（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_views_drafts`：POST /api/chatwoot/mail/views/drafts；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_worker_authority`：POST /api/chatwoot/mail/worker-authority（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_workspace`：POST /api/chatwoot/mail/workspace；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_inquiries_batch_delete`：POST /api/inquiries/batch-delete
 - `post_inquiries_batch_send`：POST /api/inquiries/batch-send；外部前提候选：真实邮箱/发信授权或模型
 - `post_inquiries_by_id_ai_reply`：POST /api/inquiries/:id/ai-reply；外部前提候选：真实邮箱/发信授权或模型
@@ -71,6 +84,19 @@
 - `get_inquiries_by_id_reply_context`：GET /api/inquiries/:id/reply-context
 - `get_inquiries_by_id_threads`：GET /api/inquiries/:id/threads
 - `get_inquiries_unread`：GET /api/inquiries/unread
+- `post_chatwoot_mail_conversations_ai_reply`：POST /api/chatwoot/mail/conversations/ai-reply；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_conversations_context`：POST /api/chatwoot/mail/conversations/context；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_conversations_lookup`：POST /api/chatwoot/mail/conversations/lookup；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_continuation`：POST /api/chatwoot/mail/history/continuation（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_detail`：POST /api/chatwoot/mail/history/detail（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_mark_read`：POST /api/chatwoot/mail/history/mark-read（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_query`：POST /api/chatwoot/mail/history/query（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_read_state`：POST /api/chatwoot/mail/history/read-state（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_history_translate`：POST /api/chatwoot/mail/history/translate（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_reader_supervisor`：POST /api/chatwoot/mail/reader-supervisor（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_views_drafts`：POST /api/chatwoot/mail/views/drafts；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_worker_authority`：POST /api/chatwoot/mail/worker-authority（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_mail_workspace`：POST /api/chatwoot/mail/workspace；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_inquiries_batch_delete`：POST /api/inquiries/batch-delete
 - `post_inquiries_batch_send`：POST /api/inquiries/batch-send；外部前提候选：真实邮箱/发信授权或模型
 - `post_inquiries_by_id_ai_reply`：POST /api/inquiries/:id/ai-reply；外部前提候选：真实邮箱/发信授权或模型
@@ -98,7 +124,7 @@
 5. 查看“发出，然后确认”的发送漏斗；待发、接受、失败和未知结果仍在发送意图分母，平台接受不显示为送达。
 6. 没有接入渠道时使用“管理接入渠道”；读取失败保留当前周期并按错误重试。演示数据只说明虚构工作流，不证明外部渠道已接通。
 
-角色候选：BOSS、SOCIAL_OPERATOR。前置对象：inquiry、email-thread、channel、conversation、message、reply-intent、local-attachment、empty-provider-config；具体必填值先查网站契约与已授权数据，缺失商业事实再询问，不编造值。
+角色候选：BOSS、SALES、SOCIAL_OPERATOR。前置对象：inquiry、email-thread、channel、conversation、message、reply-intent、local-attachment、empty-provider-config；具体必填值先查网站契约与已授权数据，缺失商业事实再询问，不编造值。
 
 发现操作类别后，读取下列候选的 get_business_operation_contract；列表是任务索引，具体权限和字段仍以实时网站为准。
 
@@ -125,13 +151,13 @@
 
 自然语言任务：请按当前权限完成“WhatsApp 会话与客户”所需操作，并回读实际结果。业务步骤：
 
-1. 进入“WhatsApp 会话”，选择发送账号/渠道，搜索姓名或号码，并用会话列表筛选定位当前消息。
-2. 需要新会话时点击“开始新对话”，选择发送账号、填写含国家代码的号码和可选姓名；创建后先核对会话对象，再写消息。
-3. 阅读消息正文、时间与附件，按需要选择收到消息的翻译语言；客户侧栏可关联已有客户，再补充需求、负责人和订单上下文。
-4. 在回复正文或附件说明中编辑内容，使用“添加附件”选择文件；检查翻译预览、收件会话与真实承诺后点击“发送”。
-5. 服务窗口过期按提示使用获准模板；没有配置、权限或发送条件时先处理错误，不用普通文本绕过条件。
-6. 发送后核对平台接受、送达或失败状态。显示“原发送结果待核对”时点击“核对原发送”，保持原提交，不再次发送相同内容。
-7. 用“刷新会话”回读客户关联和消息；客户更新发生版本冲突时读取新资料再核对。本轮合成示例不向真实号码外发。
+1. 进入“WhatsApp 会话”，在统一 Chatwoot 工作台选择当前有权限的收件箱和会话。
+2. 沿 Chatwoot 原有列表搜索和筛选，打开消息后核对会话对象、来源与当前可用操作。
+3. 阅读正文、时间和附件，确认接收文件与当前客户和业务上下文对应，不依据相似姓名猜配。
+4. 从客户工作区查看或关联已有客户，补充需求、负责人和订单上下文并留意版本冲突。
+5. 回复前确认收件箱已经开放发送；通道尚未完成接管时保留草稿，不把界面可见当作已经送达。
+6. 发送开放后核对原提交回执；结果未知时先核对原结果，避免再次提交相同内容造成重复。
+7. 历史截图保留原采集版本，新 Chatwoot 界面、外部授权和真实发送结果各自另行验收。
 
 角色候选：BOSS、SALES、SOCIAL_OPERATOR。前置对象：inquiry、email-thread、channel、conversation、message、reply-intent、local-attachment、empty-provider-config；具体必填值先查网站契约与已授权数据，缺失商业事实再询问，不编造值。
 
@@ -149,8 +175,13 @@
 - `get_social_metrics`：GET /api/social/metrics
 - `get_social_staff`：GET /api/social/staff
 - `get_social_webhook`：GET /api/social/webhook（excluded，使用原协议）
+- `patch_chatwoot_source_conversations_by_id_unread`：PATCH /api/chatwoot/source/conversations/:id/unread
 - `patch_social_accounts_by_id`：PATCH /api/social/accounts/:id（普通update/connect/disconnect沿原business:write、business:approve及确认要求；body.action=delete还须business:delete、用户明确授权和内容绑定确认票据，仅原账号拥有者或BOSS可按expectedRevision删除从未绑定且无聊天记录的待登录WEB账号，原双守卫仍执行；旧目录不替代执行时权限复核）；外部前提候选：连接动作需真实WhatsApp扫码运行时；名称和成员管理为本地业务
 - `patch_social_conversations_by_id`：PATCH /api/social/conversations/:id
+- `post_chatwoot_source_agents`：POST /api/chatwoot/source/agents
+- `post_chatwoot_source_channels`：POST /api/chatwoot/source/channels
+- `post_chatwoot_source_conversations`：POST /api/chatwoot/source/conversations
+- `post_chatwoot_source_messages`：POST /api/chatwoot/source/messages
 - `post_social_accounts`：POST /api/social/accounts
 - `post_social_accounts_signup`：POST /api/social/accounts/signup；外部前提候选：WhatsApp渠道或真实模型
 - `post_social_accounts_signup_complete`：POST /api/social/accounts/signup/complete；外部前提候选：WhatsApp渠道或真实模型
@@ -197,16 +228,16 @@
 验收情景编号：`capability:meta-ads`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。
 
 <a id="social-settings"></a>
-## WhatsApp 接入配置
+## 沟通渠道与收件箱设置
 
-自然语言任务：请按当前权限完成“WhatsApp 接入配置”所需操作，并回读实际结果。业务步骤：
+自然语言任务：请按当前权限完成“沟通渠道与收件箱设置”所需操作，并回读实际结果。业务步骤：
 
-1. 老板先在用户管理创建独立“社媒运营”账号，再进入“WhatsApp 接入配置”；运营账号负责已接入会话，不以账号创建代替渠道授权。
-2. 在Meta企业应用启用WhatsApp，取得测试号码的号码ID、WABA ID、访问令牌与App Secret；由管理员完成服务器的加密配置。
-3. 填写渠道名称、号码ID、WABA ID、Meta控制台当前支持的API版本、访问令牌、App Secret与Webhook验证口令，点击“保存渠道”。
-4. 在Meta回调设置使用本公司API的HTTPS地址加 /api/social/webhook，填写同一验证口令并订阅messages；回调属于对应公司环境。
-5. 从获准测试接收号码发一条消息，在WhatsApp工作台核对会话、客户和发送账号，人工确认回复后查看真实送达状态。
-6. 配置失败按字段或回调错误修正后重新保存；更换授权再次检查收发。保存成功不证明真实接通，共存或历史同步取决于账号资格，不自动导入个人聊天历史。
+1. 从“渠道设置”进入沟通工作台；原 /social/settings 书签会跳转到收件箱设置。
+2. 选择当前账号有权管理的收件箱，核对渠道类型、成员与连接状态；具体选项以该渠道原生设置为准。
+3. 需要新增渠道时，从收件箱设置进入对应渠道的接入流程；外部平台凭据只在其指定字段填写，不放入会话正文。
+4. 配置或修改渠道后按页面提示保存；多邮箱和多个会话需要明确选择目标。
+5. 返回工作台核对会话归属与可见范围，实际外发前再次核对接收方和发送账号。
+6. 保存配置不等于外部授权或收发已验证；连接失败时保留原配置并按错误提示处理。
 
 角色候选：BOSS、SOCIAL_OPERATOR。前置对象：inquiry、email-thread、channel、conversation、message、reply-intent、local-attachment、empty-provider-config；具体必填值先查网站契约与已授权数据，缺失商业事实再询问，不编造值。
 

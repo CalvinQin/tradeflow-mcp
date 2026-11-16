@@ -4,6 +4,14 @@ TradeFlow 的 OAuth 连接包和配套 Agent Skill。适用于支持远程 HTTP 
 
 Skill 是给 Agent 使用的业务操作说明：指导它发现本人可用的操作、核对字段和版本、完成已授权任务并回读结果。OAuth 提供网站身份与访问范围，Skill 提供处理客户、产品、订单等任务的工作流；两者配合使用。
 
+## 1.0.35 — 2026-11-08
+
+新增 Chatwoot 业务操作目录（41 个）：联系人/公司/标签、客户绑定、客户逾期、回收站可见性、邮件工作台/查找/上下文/草稿、社媒来源会话与消息读取及标记未读、Chatwoot AI 能力与草稿翻译。Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器/历史补读等 16 个专用通道保持排除，AI 人工确认通道仍禁止模型调用。contractHash 更新为 `40350177…`，支持操作 535 → 576。
+
+## 1.0.34 — 2026-11-08
+
+收敛 `put_system_mcp_clients_by_id_name`（MCP 凭证重命名）的 body 字段索引为真实 `["name"]`，name 约束为 1–100 字；原目录里已失效的 `expiresAt`、`accessMode` 与四个删除开关字段一并移除。该端点原本只应用 name，其余字段被静默丢弃，现已显式校验。contractHash 相应更新为 `0ca9f70a…`；其余路由、角色与字段索引未变化。
+
 ## 1.0.33 — 2026-10-26
 
 同步 Web/API 5.1.3 的 WhatsApp 客户推荐契约。先用 `get_social_conversations_by_id_customer_suggestions` 读取本人可见的号码／姓名候选；GET 不调用模型。可选 `post_social_conversations_by_id_customer_suggestions_review` 仅接受当前 `expectedRevision`，须有 `business:write`、`business:approve` 和内容绑定确认票据，不能自行填入号码或候选名单。

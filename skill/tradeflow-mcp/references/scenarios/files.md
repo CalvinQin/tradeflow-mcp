@@ -34,6 +34,7 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 - `delete_public_logistics_share_by_token_shipping_labels`：DELETE /api/public/logistics-share/:token/shipping-labels（excluded，使用原协议）
 - `get_business_files_by_kind_by_id`：GET /api/business-files/:kind/:id
 - `get_business_files_by_kind_by_id_content`：GET /api/business-files/:kind/:id/content
+- `get_business_files_by_kind_by_id_operations_by_requestId`：GET /api/business-files/:kind/:id/operations/:requestId
 - `get_files`：GET /api/files
 - `get_files_download`：GET /api/files/download
 - `get_files_info`：GET /api/files/info
@@ -46,6 +47,8 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 - `get_public_product_shares_by_token`：GET /api/public/product-shares/:token（excluded，使用原协议）
 - `get_public_product_shares_by_token_preview`：GET /api/public/product-shares/:token/preview（excluded，使用原协议）
 - `post_business_files_by_kind_by_id_attach`：POST /api/business-files/:kind/:id/attach
+- `post_business_files_by_kind_by_id_operations_by_requestId_cancel`：POST /api/business-files/:kind/:id/operations/:requestId/cancel
+- `post_business_files_by_kind_by_id_operations_by_requestId_retry`：POST /api/business-files/:kind/:id/operations/:requestId/retry
 - `post_business_files_by_kind_by_id_upload`：POST /api/business-files/:kind/:id/upload
 - `post_files_batch_download`：POST /api/files/batch-download
 - `post_files_folder`：POST /api/files/folder
@@ -58,6 +61,7 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 - `post_public_exhibition_channels_by_code_interest_photos`：POST /api/public/exhibition-channels/:code/interest-photos（excluded，使用原协议）
 - `post_public_exhibition_channels_by_code_leads`：POST /api/public/exhibition-channels/:code/leads（excluded，使用原协议）
 - `post_public_logistics_share_by_token_shipping_labels`：POST /api/public/logistics-share/:token/shipping-labels（excluded，使用原协议）
+- `post_public_product_shares_by_token_packing_advice`：POST /api/public/product-shares/:token/packing-advice（excluded，使用原协议）
 - `post_public_product_shares_by_token_submissions`：POST /api/public/product-shares/:token/submissions（excluded，使用原协议）
 - `post_public_product_shares_by_token_unlock`：POST /api/public/product-shares/:token/unlock（excluded，使用原协议）
 - `post_upload`：POST /api/upload

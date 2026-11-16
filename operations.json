@@ -1,5 +1,5 @@
 {
-  "contractHash": "8190a578673a60613de9a57010288a10de967a2a0664fc043efcdd194e2f1c8e",
+  "contractHash": "f033fdd8a7c954049490e9df70f226364e3532d52bc407ee7ae420104f2e9ac0",
   "formatVersion": 1,
   "operations": [
     {
@@ -400,11 +400,67 @@
             }
           }
         },
-        "validationMessages": [
-          "客户已在回收站或缺少有效负责人，请先核对客户资料",
-          "您没有权限删除该客户",
-          "有关联订单或 PI 草稿的客户不能删除"
-        ],
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "delete_customers_workspace_by_customerId_contacts_by_contactId",
+      "category": "customers",
+      "method": "DELETE",
+      "path": "/api/customers/workspace/:customerId/contacts/:contactId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "delete"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "contactId",
+          "customerId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "contactId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "customerId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -1088,14 +1144,15 @@
         "approve"
       ],
       "allowedRoles": [
-        "BOSS"
+        "BOSS",
+        "SALES"
       ],
       "permissionGates": [
         {
           "kind": "role",
           "roles": [
             "BOSS",
-            "BOSS"
+            "SALES"
           ]
         }
       ],
@@ -4214,6 +4271,71 @@
       "responseMode": "json"
     },
     {
+      "id": "get_business_files_by_kind_by_id_operations_by_requestId",
+      "category": "business-files",
+      "method": "GET",
+      "path": "/api/business-files/:kind/:id/operations/:requestId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id",
+          "kind",
+          "requestId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "kind": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "requestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_calendar_clocks",
       "category": "calendar",
       "method": "GET",
@@ -4475,6 +4597,652 @@
       "responseMode": "json"
     },
     {
+      "id": "get_chatwoot_accounts_by_accountId_contacts_by_contactId_tradeflow_profile",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/contacts/:contactId/tradeflow-profile",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "ccHistory"
+        ],
+        "params": [
+          "accountId",
+          "contactId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "ccHistory": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "z.object({ccHistory:z.literal('1').optional()}).strict()"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations",
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token",
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding_suggestions",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding/suggestions",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_context",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-context",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "conversationId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_workspace",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-workspace",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "conversationId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_conversations_by_conversationId_tradeflow_tags",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/tradeflow-tags",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "conversationId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_tradeflow_companies",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-companies",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_tradeflow_companies_by_customerId",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-companies/:customerId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "customerId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "customerId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_tradeflow_contact_directory",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-contact-directory",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_tradeflow_tags",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-tags",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_accounts_by_accountId_tradeflow_trash_by_kind_by_objectId_preview",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-trash/:kind/:objectId/preview",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "kind",
+          "objectId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "kind": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "objectId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_ai_capabilities",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/ai/capabilities",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_profile_avatar",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/profile/avatar",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_customers",
       "category": "customers",
       "method": "GET",
@@ -4637,6 +5405,7 @@
           "page",
           "queue",
           "search",
+          "searchPhase",
           "source",
           "stage",
           "storeId",
@@ -4758,6 +5527,12 @@
               "constraints": [],
               "enum": []
             },
+            "searchPhase": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "source": {
               "type": "unknown",
               "optional": true,
@@ -4798,12 +5573,71 @@
           "params": {}
         },
         "validationMessages": [
+          "客户搜索阶段无效",
           "客户来源最多20字",
           "客户等级无效",
           "最多筛选50个标签",
           "筛选范围起点不能大于终点",
           "订单数和购买金额范围无效"
         ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_customers_workspace_by_customerId_contacts_by_contactId",
+      "category": "customers",
+      "method": "GET",
+      "path": "/api/customers/workspace/:customerId/contacts/:contactId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "contactId",
+          "customerId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "contactId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "customerId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -5147,8 +5981,7 @@
           }
         },
         "validationMessages": [
-          "客户阶段无效",
-          "成单和复购客户的分级由真实订单决定"
+          "客户阶段无效"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
@@ -5952,6 +6785,53 @@
               "enum": []
             }
           }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_customers_workspace_trash_objects",
+      "category": "customers",
+      "method": "GET",
+      "path": "/api/customers/workspace/trash/objects",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        },
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
         },
         "validationMessages": [],
         "schemaReferences": [],
@@ -9545,6 +10425,7 @@
       "parameterFields": {
         "body": [],
         "query": [
+          "excludeChatwoot",
           "from",
           "page",
           "throughId",
@@ -9558,6 +10439,12 @@
         "fields": {
           "body": {},
           "query": {
+            "excludeChatwoot": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "from": {
               "type": "unknown",
               "optional": true,
@@ -9601,6 +10488,7 @@
           "开始日期不能晚于结束日期",
           "未读条件无效",
           "通知分类无效",
+          "通知来源参数无效",
           "通知筛选参数无效",
           "页码超出范围"
         ],
@@ -10282,6 +11170,7 @@
         "body": [],
         "query": [
           "accountType",
+          "allocateFreight",
           "currency",
           "format",
           "incoterm",
@@ -10291,9 +11180,11 @@
           "rate",
           "showAlipay",
           "showBank",
+          "showHsCode",
           "showLeadTime",
           "showPaymentInfo",
           "showStamp",
+          "tradePort",
           "view"
         ],
         "params": [
@@ -10305,6 +11196,12 @@
           "body": {},
           "query": {
             "accountType": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "allocateFreight": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -10364,6 +11261,12 @@
               "constraints": [],
               "enum": []
             },
+            "showHsCode": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "showLeadTime": {
               "type": "unknown",
               "optional": true,
@@ -10377,6 +11280,12 @@
               "enum": []
             },
             "showStamp": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "tradePort": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -13068,7 +13977,11 @@
           },
           "params": {}
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "会话回收状态已变化，请重新读取",
+          "会话权限已变化，请重新读取",
+          "会话权限范围过大"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -15136,13 +16049,22 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "includeDisplayProfile"
+        ],
         "params": []
       },
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "includeDisplayProfile": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {}
         },
         "validationMessages": [],
@@ -15287,6 +16209,307 @@
           "query": {},
           "params": {
             "documentId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "patch_chatwoot_accounts_by_accountId_contacts_by_contactId_tradeflow_profile",
+      "category": "chatwoot",
+      "method": "PATCH",
+      "path": "/api/chatwoot/accounts/:accountId/contacts/:contactId/tradeflow-profile",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "contactId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "patch_chatwoot_accounts_by_accountId_tradeflow_companies_by_customerId",
+      "category": "chatwoot",
+      "method": "PATCH",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-companies/:customerId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "customerId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "customerId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "patch_chatwoot_accounts_by_accountId_tradeflow_tags_by_tagId",
+      "category": "chatwoot",
+      "method": "PATCH",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-tags/:tagId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "tagId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "tagId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "patch_chatwoot_source_conversations_by_id_unread",
+      "category": "chatwoot",
+      "method": "PATCH",
+      "path": "/api/chatwoot/source/conversations/:id/unread",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [
+          "expectedRevision",
+          "markUnread",
+          "requestId"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "expectedRevision": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "2_147_483_646"
+                }
+              ],
+              "enum": []
+            },
+            "markUnread": {
+              "type": "unknown",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "requestId": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^cwunread:[a-f0-9]{64}$/"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "unreadInput"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "patch_customers_workspace_by_customerId_contacts_by_contactId",
+      "category": "customers",
+      "method": "PATCH",
+      "path": "/api/customers/workspace/:customerId/contacts/:contactId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "contactId",
+          "customerId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "contactId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "customerId": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -16280,6 +17503,7 @@
           "expectedRevision",
           "handlerId",
           "markRead",
+          "markUnread",
           "reason",
           "requestId",
           "state"
@@ -16342,6 +17566,13 @@
             },
             "markRead": {
               "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "markUnread": {
+              "type": "unknown",
               "optional": true,
               "nullable": false,
               "constraints": [],
@@ -17082,6 +18313,456 @@
       "responseMode": "json"
     },
     {
+      "id": "post_ai_packing_advice",
+      "category": "ai",
+      "method": "POST",
+      "path": "/api/ai/packing-advice",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "PACKER"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "cartons",
+          "constraints",
+          "container",
+          "goal",
+          "requirements"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "cartons": {
+              "type": "array",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": [],
+              "fields": {
+                "model": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "max",
+                      "argument": "120"
+                    }
+                  ],
+                  "enum": []
+                },
+                "length": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "width": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "height": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "weight": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "count": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "10000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "upright": {
+                  "type": "boolean",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                }
+              }
+            },
+            "constraints": {
+              "type": "object",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [],
+              "fields": {
+                "wallClearanceCm": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "50"
+                    }
+                  ],
+                  "enum": []
+                },
+                "doorClearanceCm": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "50"
+                    }
+                  ],
+                  "enum": []
+                },
+                "maxStackLayers": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100"
+                    }
+                  ],
+                  "enum": []
+                },
+                "maxTopLoadKg": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "keepUpright": {
+                  "type": "boolean",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                }
+              }
+            },
+            "container": {
+              "type": "object",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [],
+              "fields": {
+                "type": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": [
+                    "20GP",
+                    "40GP",
+                    "40HQ",
+                    "45HQ",
+                    "CUSTOM"
+                  ]
+                },
+                "name": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "max",
+                      "argument": "80"
+                    }
+                  ],
+                  "enum": []
+                },
+                "length": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "width": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "height": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "maxWeight": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "doorWidth": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "doorHeight": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "finite",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                }
+              }
+            },
+            "goal": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "simulate",
+                "maximize"
+              ]
+            },
+            "requirements": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "1200"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "装柜建议参数无效"
+        ],
+        "schemaReferences": [
+          "inputSchema"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_ai_parse_address",
       "category": "ai",
       "method": "POST",
@@ -17117,12 +18798,15 @@
           "query": {},
           "params": {}
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "请只添加一张地址图片",
+          "请粘贴地址文字或添加地址图片"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
-      "upload": false,
+      "upload": true,
       "responseMode": "json"
     },
     {
@@ -18388,27 +20072,59 @@
         "fields": {
           "body": {
             "editVersion": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "constraints": [],
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "64"
+                }
+              ],
               "enum": []
             },
             "field": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
-              "constraints": [],
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "64"
+                }
+              ],
               "enum": []
             },
             "requestId": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "8"
+                },
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
               "enum": []
             },
             "stageToken": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "8192"
+                }
+              ],
               "enum": []
             }
           },
@@ -18429,6 +20145,8 @@
           }
         },
         "validationMessages": [
+          "原附件操作已被拒绝，请核对后重新暂存文件",
+          "同一附件操作的内容已改变，请先核对原保存结果",
           "客户权限已变化",
           "打包照片只接受图片",
           "文件不可关联",
@@ -18438,6 +20156,138 @@
           "请选择唛头、打包图片或面单；付款凭证与定制资料须使用原订单校验入口",
           "面单只接受图片或PDF"
         ],
+        "schemaReferences": [
+          "z.object({ stageToken: z.string().min(1).max(8192), requestId: z.string().min(8).max(100),\n    field: z.string().max(64).optional(), editVersion: z.string().max(64).optional() })"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_business_files_by_kind_by_id_operations_by_requestId_cancel",
+      "category": "business-files",
+      "method": "POST",
+      "path": "/api/business-files/:kind/:id/operations/:requestId/cancel",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id",
+          "kind",
+          "requestId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "kind": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "requestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_business_files_by_kind_by_id_operations_by_requestId_retry",
+      "category": "business-files",
+      "method": "POST",
+      "path": "/api/business-files/:kind/:id/operations/:requestId/retry",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id",
+          "kind",
+          "requestId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "kind": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "requestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -18596,6 +20446,1255 @@
           "请确认后再执行企业微信同步",
           "请至少选择一项内容"
         ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_compose_ai_draft_translation",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/compose/ai/draft-translation",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_contacts_by_contactId_binding",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/contacts/:contactId/binding",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "contactId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token_cancel",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token/cancel",
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token_confirm",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token/confirm",
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding_receipt",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding/receipt",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding_suggestions_review",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding/suggestions/review",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_tradeflow_companies",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-companies",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_tradeflow_companies_for_members",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-companies/for-members",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_tradeflow_contact_tag_matches",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-contact-tag-matches",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_tradeflow_conversation_tags_batch",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-conversation-tags/batch",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_tradeflow_tags",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-tags",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_tradeflow_trash_by_kind_by_objectId",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-trash/:kind/:objectId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "kind",
+          "objectId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "kind": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "objectId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_tradeflow_trash_by_trashId_restore",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/tradeflow-trash/:trashId/restore",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "trashId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "trashId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_authority",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/authority",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_customers_overdue_conversations",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/customers/overdue-conversations",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_customers_trash_visibility",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/customers/trash-visibility",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_authority",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail-authority",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_conversations_ai_reply",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/conversations/ai-reply",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "send"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_conversations_context",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/conversations/context",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_conversations_lookup",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/conversations/lookup",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_history_continuation",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/history/continuation",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_history_detail",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/history/detail",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_history_mark_read",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/history/mark-read",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_history_query",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/history/query",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_history_read_state",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/history/read-state",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_history_translate",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/history/translate",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_reader_supervisor",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/reader-supervisor",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_views_drafts",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/views/drafts",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_worker_authority",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/worker-authority",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_mail_workspace",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/mail/workspace",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_source_agents",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/source/agents",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_source_channels",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/source/channels",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_source_conversations",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/source/conversations",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_source_messages",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/source/messages",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -18783,8 +21882,13 @@
       "parameterFields": {
         "body": [
           "alibabaStoreId",
+          "businessCardContactId",
+          "businessCardContactIndex",
           "businessCardStorageKey",
           "businessCardUploadToken",
+          "companyDetails",
+          "contactCreates",
+          "contactEdits",
           "contactName",
           "country",
           "email",
@@ -18813,6 +21917,18 @@
               "constraints": [],
               "enum": []
             },
+            "businessCardContactId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "businessCardContactIndex": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "businessCardStorageKey": {
               "type": "unknown",
               "optional": true,
@@ -18820,6 +21936,24 @@
               "enum": []
             },
             "businessCardUploadToken": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "companyDetails": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactCreates": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactEdits": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -18856,9 +21990,15 @@
               "enum": []
             },
             "expectedVersion": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^[a-f0-9]{64}$/"
+                }
+              ],
               "enum": []
             },
             "jobTitle": {
@@ -18880,9 +22020,15 @@
               "enum": []
             },
             "requestId": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             },
             "sourceCode": {
@@ -18925,9 +22071,13 @@
           "客户来源须为1至20字",
           "展会名称最多255字",
           "微信号最多50个字符",
+          "新增联系人须通过客户资料统一保存",
           "标签已停用或不存在，请重新选择",
           "网站须为完整 HTTP(S) 地址",
+          "联系人资料须按具体联系人提交，请重新打开编辑资料",
+          "请先建立客户，再编辑具体联系人",
           "请填写客户名称",
+          "请选择名片所属联系人后重试",
           "请选择客户来自哪个阿里巴巴店铺",
           "请选择最多50个有效客户标签",
           "选择展会时客户来源须为展会",
@@ -18935,7 +22085,9 @@
           "邮箱格式无效",
           "阿里巴巴店铺无效"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z.object({ requestId: z.string().uuid(), expectedVersion: z.string().regex(/^[a-f0-9]{64}$/) })"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -19128,6 +22280,8 @@
           "E级暂不安排跟进，请先修改客户分级",
           "关闭或暂缓客户时不能同时安排下次跟进",
           "最近联系时间无效或晚于当前时间",
+          "订单跟进上下文无效",
+          "订单跟进来源无法核实",
           "请先在客户状态中设置一个跟进中状态",
           "请刷新后重试",
           "请安排下次跟进，或选择已成交 / 暂缓 / 不再跟进",
@@ -19198,6 +22352,7 @@
               "nullable": false,
               "constraints": [],
               "enum": [
+                "auto",
                 "English",
                 "中文",
                 "Español",
@@ -19232,7 +22387,8 @@
           "无权生成客户回复建议",
           "未生成有效建议，请重试或手动撰写",
           "消息内容或语言无效，消息最多6000字",
-          "演示环境请使用 AI 对话入口"
+          "演示环境请使用 AI 对话入口",
+          "近期会话超过回复建议上下文限制"
         ],
         "schemaReferences": [
           "replySuggestionInput"
@@ -19813,6 +22969,7 @@
         "body": [
           "active",
           "color",
+          "expectedVersion",
           "name",
           "shape",
           "style"
@@ -19830,6 +22987,12 @@
               "enum": []
             },
             "color": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "expectedVersion": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -19858,8 +23021,9 @@
           "params": {}
         },
         "validationMessages": [
-          "只有老板可以自定义客户标签",
           "已有同名客户标签",
+          "标签已被更新，请重新核对",
+          "没有自定义客户标签的权限",
           "请填写有效的标签名称、颜色和样式",
           "首单和复购次数由系统自动计算，不能手动创建同名标签"
         ],
@@ -19950,6 +23114,64 @@
           "已超过 30 天保留期，无法恢复",
           "请重新打开恢复窗口"
         ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_customers_workspace_trash_objects_by_trashId_restore",
+      "category": "customers",
+      "method": "POST",
+      "path": "/api/customers/workspace/trash/objects/:trashId/restore",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        },
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "trashId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "trashId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -20221,14 +23443,16 @@
       "effects": [],
       "allowedRoles": [
         "BOSS",
-        "SALES"
+        "SALES",
+        "SOCIAL_OPERATOR"
       ],
       "permissionGates": [
         {
           "kind": "role",
           "roles": [
             "BOSS",
-            "SALES"
+            "SALES",
+            "SOCIAL_OPERATOR"
           ]
         }
       ],
@@ -20281,14 +23505,16 @@
       "effects": [],
       "allowedRoles": [
         "BOSS",
-        "SALES"
+        "SALES",
+        "SOCIAL_OPERATOR"
       ],
       "permissionGates": [
         {
           "kind": "role",
           "roles": [
             "BOSS",
-            "SALES"
+            "SALES",
+            "SOCIAL_OPERATOR"
           ]
         }
       ],
@@ -21581,8 +24807,8 @@
           "AI 未返回有效邮件草稿，请重试",
           "AI 返回空邮件草稿，请重试",
           "历史资料整理失败，请重试",
-          "演示环境请从 AI 对话入口体验，每个访问码可对话5次；邮件可手动撰写预览",
-          "邮件编号无效"
+          "演示环境请使用 AI 对话入口",
+          "邮件或客户参考资料已变化，请重新生成"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
@@ -23426,7 +26652,8 @@
         "body": [
           "allow",
           "connectionId",
-          "name"
+          "name",
+          "syncScopes"
         ],
         "query": [],
         "params": [
@@ -23474,6 +26701,13 @@
                 }
               ],
               "enum": []
+            },
+            "syncScopes": {
+              "type": "boolean",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
             }
           },
           "query": {},
@@ -23498,7 +26732,7 @@
           "账号已停用"
         ],
         "schemaReferences": [
-          "z.object({ allow: z.boolean(), connectionId: z.number().int().positive().optional(), name: z.string().trim().min(1).max(100).optional() }).strict()"
+          "z.object({ allow: z.boolean(), connectionId: z.number().int().positive().optional(), name: z.string().trim().min(1).max(100).optional(), syncScopes: z.boolean().optional() }).strict()"
         ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -24736,6 +27970,8 @@
           "taxIncluded",
           "taxRate",
           "totalPrice",
+          "tradePort",
+          "tradeTerm",
           "updatedBy"
         ],
         "query": [],
@@ -25879,6 +29115,28 @@
               "constraints": [],
               "enum": []
             },
+            "tradePort": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": []
+            },
+            "tradeTerm": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "EXW",
+                "FOB"
+              ]
+            },
             "updatedBy": {
               "type": "string",
               "optional": true,
@@ -26269,6 +29527,7 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [
+          "orderIds",
           "proofDetails",
           "proofs"
         ],
@@ -26280,6 +29539,12 @@
       "inputContract": {
         "fields": {
           "body": {
+            "orderIds": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "proofDetails": {
               "type": "unknown",
               "optional": true,
@@ -26840,6 +30105,82 @@
           "会计账号为只读权限",
           "只能催促自己的订单",
           "无权催促订单打包",
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_orders_credit_settlements",
+      "category": "orders",
+      "method": "POST",
+      "path": "/api/orders/credit-settlements",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "proofDetails",
+          "proofs",
+          "requestId",
+          "selections"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "proofDetails": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "proofs": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "requestId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "selections": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
           "需要登录"
         ],
         "schemaReferences": [],
@@ -30434,6 +33775,7 @@
       ],
       "parameterFields": {
         "body": [
+          "constraints",
           "containerType",
           "customCartons",
           "customContainer",
@@ -30442,6 +33784,7 @@
           "maxQuantity",
           "mode",
           "selections",
+          "strategy",
           "temporaryPacking",
           "usePublishedPackaging"
         ],
@@ -30451,6 +33794,90 @@
       "inputContract": {
         "fields": {
           "body": {
+            "constraints": {
+              "type": "object",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [],
+              "fields": {
+                "wallClearanceCm": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "50"
+                    }
+                  ],
+                  "enum": []
+                },
+                "doorClearanceCm": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "50"
+                    }
+                  ],
+                  "enum": []
+                },
+                "maxStackLayers": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100"
+                    }
+                  ],
+                  "enum": []
+                },
+                "maxTopLoadKg": {
+                  "type": "number",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "0"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "100000"
+                    }
+                  ],
+                  "enum": []
+                },
+                "keepUpright": {
+                  "type": "boolean",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                }
+              }
+            },
             "containerType": {
               "type": "string",
               "optional": true,
@@ -30460,6 +33887,7 @@
                 "20GP",
                 "40GP",
                 "40HQ",
+                "45HQ",
                 "CUSTOM"
               ]
             },
@@ -30849,6 +34277,13 @@
                   ]
                 }
               }
+            },
+            "strategy": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
             },
             "temporaryPacking": {
               "type": "array",
@@ -31656,6 +35091,167 @@
       "responseMode": "json"
     },
     {
+      "id": "post_public_product_shares_by_token_packing_advice",
+      "category": "public",
+      "method": "POST",
+      "path": "/api/public/product-shares/:token/packing-advice",
+      "status": "excluded",
+      "reason": "认证、连接管理、公开入口或外部回调；使用原专用协议",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [
+          "containerType",
+          "goal",
+          "selections",
+          "snapshotVersion"
+        ],
+        "query": [],
+        "params": [
+          "token"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "containerType": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "20GP",
+                "40GP",
+                "40HQ",
+                "45HQ"
+              ]
+            },
+            "goal": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "simulate",
+                "maximize"
+              ]
+            },
+            "selections": {
+              "type": "array",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "200"
+                }
+              ],
+              "enum": [],
+              "fields": {
+                "productId": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
+                  "enum": []
+                },
+                "variantSku": {
+                  "type": "string",
+                  "optional": true,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
+                  "enum": []
+                },
+                "quantity": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "positive",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1_000_000"
+                    }
+                  ],
+                  "enum": []
+                }
+              }
+            },
+            "snapshotVersion": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "token": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "分享内容已更新，请刷新页面后重新模拟",
+          "柜型不可用",
+          "此分享暂不可进行 AI 装柜测算",
+          "装柜参数无效"
+        ],
+        "schemaReferences": [
+          "z.object({\n      selections: z.array(z.object({ productId: z.string().min(1).max(255), variantSku: z.string().max(255).optional(), quantity: z.number().int().positive().max(1_000_000) }).strict()).min(1).max(200),\n      containerType: z.enum(['20GP', '40GP', '40HQ', '45HQ']),\n      goal: z.enum(['simulate', 'maximize']),\n      snapshotVersion: z.number().int().positive(),\n    }).strict()"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_public_product_shares_by_token_submissions",
       "category": "public",
       "method": "POST",
@@ -31673,10 +35269,13 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [
+          "constraints",
           "containerType",
           "customerName",
           "note",
-          "selections"
+          "selections",
+          "snapshotVersion",
+          "strategy"
         ],
         "query": [],
         "params": [
@@ -31686,6 +35285,12 @@
       "inputContract": {
         "fields": {
           "body": {
+            "constraints": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "containerType": {
               "type": "unknown",
               "optional": true,
@@ -31709,6 +35314,18 @@
               "optional": true,
               "constraints": [],
               "enum": []
+            },
+            "snapshotVersion": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "strategy": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
             }
           },
           "query": {},
@@ -31722,8 +35339,10 @@
           }
         },
         "validationMessages": [
+          "分享内容已更新，请刷新页面后重新模拟",
           "所选产品缺少有效装箱资料",
           "柜型不可用",
+          "装柜约束无效",
           "请至少选择一个产品数量"
         ],
         "schemaReferences": [],
@@ -31865,6 +35484,7 @@
         },
         "validationMessages": [
           "已达到当前服务20个扫码账号的连接容量，请联系管理员扩容",
+          "该用户不具备绑定资格",
           "账号绑定请求已用于其他对象"
         ],
         "schemaReferences": [
@@ -32498,9 +36118,7 @@
           }
         },
         "validationMessages": [
-          "AI 总结未完成，请重试，原记录仍保留",
           "会话暂无可总结的消息",
-          "正在总结，请稍后重试",
           "聊天或客户资料已变化，请重新总结"
         ],
         "schemaReferences": [
@@ -32897,10 +36515,9 @@
           }
         },
         "validationMessages": [
-          "正在翻译，请稍后重试",
+          "原消息已变化，请重新翻译",
           "此消息没有可翻译的文本",
-          "消息不属于当前会话",
-          "翻译结果未完成，请使用原文或重试"
+          "消息不属于当前会话"
         ],
         "schemaReferences": [
           "z\n    .object({\n      language: z.enum([\"zh\", \"en\", \"es\", \"fr\", \"de\", \"pt\", \"ru\", \"ar\", \"ja\"]),\n      messageId: z.string().uuid().optional(),\n      text: z.string().trim().min(1).max(10000).optional(),\n    })\n    .strict()\n    .refine(\n      (value) => Boolean(value.messageId) !== Boolean(value.text),\n      \"请选择一条消息或填写待翻译文本\",\n    )"
@@ -36608,10 +40225,7 @@
           "query": {},
           "params": {}
         },
-        "validationMessages": [
-          "头像数据不能为空",
-          "无效的头像格式，必须是URL、相对路径或Base64"
-        ],
+        "validationMessages": [],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -36649,6 +40263,134 @@
         "validationMessages": [],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "put_chatwoot_accounts_by_accountId_contacts_by_contactId_tradeflow_tags",
+      "category": "chatwoot",
+      "method": "PUT",
+      "path": "/api/chatwoot/accounts/:accountId/contacts/:contactId/tradeflow-tags",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "contactId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "put_chatwoot_accounts_by_accountId_conversations_by_conversationId_tradeflow_tags",
+      "category": "chatwoot",
+      "method": "PUT",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/tradeflow-tags",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "conversationId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "put_chatwoot_profile_avatar",
+      "category": "chatwoot",
+      "method": "PUT",
+      "path": "/api/chatwoot/profile/avatar",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
       },
       "schemas": [],
       "upload": false,
@@ -36801,8 +40543,13 @@
       "parameterFields": {
         "body": [
           "alibabaStoreId",
+          "businessCardContactId",
+          "businessCardContactIndex",
           "businessCardStorageKey",
           "businessCardUploadToken",
+          "companyDetails",
+          "contactCreates",
+          "contactEdits",
           "contactName",
           "country",
           "email",
@@ -36833,6 +40580,18 @@
               "constraints": [],
               "enum": []
             },
+            "businessCardContactId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "businessCardContactIndex": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "businessCardStorageKey": {
               "type": "unknown",
               "optional": true,
@@ -36840,6 +40599,24 @@
               "enum": []
             },
             "businessCardUploadToken": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "companyDetails": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactCreates": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "contactEdits": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -36876,9 +40653,15 @@
               "enum": []
             },
             "expectedVersion": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^[a-f0-9]{64}$/"
+                }
+              ],
               "enum": []
             },
             "jobTitle": {
@@ -36900,9 +40683,15 @@
               "enum": []
             },
             "requestId": {
-              "type": "unknown",
-              "optional": true,
-              "constraints": [],
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "uuid",
+                  "argument": ""
+                }
+              ],
               "enum": []
             },
             "sourceCode": {
@@ -36952,9 +40741,13 @@
           "客户来源须为1至20字",
           "展会名称最多255字",
           "微信号最多50个字符",
+          "新增联系人须通过客户资料统一保存",
           "标签已停用或不存在，请重新选择",
           "网站须为完整 HTTP(S) 地址",
+          "联系人资料须按具体联系人提交，请重新打开编辑资料",
+          "请先建立客户，再编辑具体联系人",
           "请填写客户名称",
+          "请选择名片所属联系人后重试",
           "请选择客户来自哪个阿里巴巴店铺",
           "请选择最多50个有效客户标签",
           "选择展会时客户来源须为展会",
@@ -36962,7 +40755,9 @@
           "邮箱格式无效",
           "阿里巴巴店铺无效"
         ],
-        "schemaReferences": [],
+        "schemaReferences": [
+          "z.object({ requestId: z.string().uuid(), expectedVersion: z.string().regex(/^[a-f0-9]{64}$/) })"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -37382,7 +41177,6 @@
           "客户阶段无效",
           "展会名称最多255字",
           "录入日期不能为空",
-          "成单和复购客户的分级由真实订单决定",
           "批注仅可同时修改分级、阶段和联系安排；背景请单独保存",
           "批注内容无效",
           "批注最多10000字",
@@ -37498,6 +41292,7 @@
       ],
       "parameterFields": {
         "body": [
+          "expectedVersion",
           "selected",
           "tagId"
         ],
@@ -37509,6 +41304,12 @@
       "inputContract": {
         "fields": {
           "body": {
+            "expectedVersion": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "selected": {
               "type": "unknown",
               "optional": true,
@@ -37533,7 +41334,6 @@
           }
         },
         "validationMessages": [
-          "标签已停用或不存在",
           "标签选择状态无效"
         ],
         "schemaReferences": [],
@@ -37622,6 +41422,7 @@
         "body": [
           "active",
           "color",
+          "expectedVersion",
           "name",
           "shape",
           "style"
@@ -37641,6 +41442,12 @@
               "enum": []
             },
             "color": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "expectedVersion": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -37676,8 +41483,9 @@
           }
         },
         "validationMessages": [
-          "只有老板可以自定义客户标签",
           "已有同名客户标签",
+          "标签已被更新，请重新核对",
+          "没有自定义客户标签的权限",
           "请填写有效的标签名称、颜色和样式",
           "首单和复购次数由系统自动计算，不能手动创建同名标签"
         ],
@@ -38617,7 +42425,9 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "excludeChatwoot"
+        ],
         "params": [
           "id"
         ]
@@ -38625,7 +42435,14 @@
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "excludeChatwoot": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {
             "id": {
               "type": "unknown",
@@ -38635,7 +42452,9 @@
             }
           }
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "通知来源参数无效"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -38663,7 +42482,9 @@
         "body": [
           "throughId"
         ],
-        "query": [],
+        "query": [
+          "excludeChatwoot"
+        ],
         "params": []
       },
       "inputContract": {
@@ -38676,10 +42497,19 @@
               "enum": []
             }
           },
-          "query": {},
+          "query": {
+            "excludeChatwoot": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {}
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "通知来源参数无效"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -38785,6 +42615,8 @@
           "taxIncluded",
           "taxRate",
           "totalPrice",
+          "tradePort",
+          "tradeTerm",
           "updatedBy",
           "usdToRmbRate"
         ],
@@ -40009,6 +43841,28 @@
               "constraints": [],
               "enum": []
             },
+            "tradePort": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
+              "enum": []
+            },
+            "tradeTerm": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "EXW",
+                "FOB"
+              ]
+            },
             "updatedBy": {
               "type": "string",
               "optional": true,
@@ -40060,9 +43914,12 @@
           "订单不存在",
           "订单已被其他操作更新，请刷新核对后重试；本次修改未保存",
           "订单状态无效",
+          "该订单已统一结清，不能修改收款金额、客户、负责人、付款账户或凭证；共用凭证保留在收款单中",
+          "请填写有效的 FOB 装运港口（最多100字）",
           "请至少添加一个商品",
           "请通过关联或取消关联入口修改订单关联组",
           "请通过订单编辑页的“切换币种并重算”确认后再保存",
+          "贸易条款仅支持 EXW 或 FOB",
           "运费超出有效范围",
           "需要登录"
         ],
@@ -41306,12 +45163,6 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [
-          "accessMode",
-          "allowBusinessDelete",
-          "allowCustomerDelete",
-          "allowOrderDelete",
-          "allowReviewDelete",
-          "expiresAt",
           "name"
         ],
         "query": [],
@@ -41322,56 +45173,20 @@
       "inputContract": {
         "fields": {
           "body": {
-            "accessMode": {
-              "type": "string",
-              "optional": true,
-              "nullable": false,
-              "constraints": [],
-              "enum": [
-                "READ_ONLY",
-                "READ_WRITE"
-              ]
-            },
-            "allowBusinessDelete": {
-              "type": "boolean",
-              "optional": true,
-              "nullable": false,
-              "constraints": [],
-              "enum": []
-            },
-            "allowCustomerDelete": {
-              "type": "boolean",
-              "optional": true,
-              "nullable": false,
-              "constraints": [],
-              "enum": []
-            },
-            "allowOrderDelete": {
-              "type": "boolean",
-              "optional": true,
-              "nullable": false,
-              "constraints": [],
-              "enum": []
-            },
-            "allowReviewDelete": {
-              "type": "boolean",
-              "optional": true,
-              "nullable": false,
-              "constraints": [],
-              "enum": []
-            },
-            "expiresAt": {
-              "type": "string",
-              "optional": true,
-              "nullable": false,
-              "constraints": [],
-              "enum": []
-            },
             "name": {
-              "type": "unknown",
+              "type": "string",
               "optional": false,
               "nullable": false,
-              "constraints": [],
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "100"
+                }
+              ],
               "enum": []
             }
           },
@@ -41386,10 +45201,10 @@
           }
         },
         "validationMessages": [
-          "请填写凭证名称和有效日期，不可指定其他权限或授权用户"
+          "请填写1至100字的凭证名称"
         ],
         "schemaReferences": [
-          "z.object({ name: nameRequired ? z.string().trim().min(1).max(100) : z.string().trim().min(1).max(100).optional(), expiresAt: z.string().optional(), accessMode: z.enum(['READ_ONLY', 'READ_WRITE']).optional(), allowCustomerDelete: z.boolean().optional(), allowReviewDelete: z.boolean().optional(), allowOrderDelete: z.boolean().optional(), allowBusinessDelete: z.boolean().optional() }).strict()"
+          "z.object({ name: z.string().trim().min(1).max(100) }).strict()"
         ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },

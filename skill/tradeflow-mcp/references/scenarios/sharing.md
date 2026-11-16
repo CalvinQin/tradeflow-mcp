@@ -46,6 +46,7 @@
 - `post_product_shares_by_id_reset_code`：POST /api/product-shares/:id/reset-code
 - `post_product_shares_by_id_revoke`：POST /api/product-shares/:id/revoke
 - `post_product_shares_by_id_submissions_by_submissionId_converted`：POST /api/product-shares/:id/submissions/:submissionId/converted
+- `post_public_product_shares_by_token_packing_advice`：POST /api/public/product-shares/:token/packing-advice（excluded，使用原协议）
 - `post_public_product_shares_by_token_submissions`：POST /api/public/product-shares/:token/submissions（excluded，使用原协议）
 - `post_public_product_shares_by_token_unlock`：POST /api/public/product-shares/:token/unlock（excluded，使用原协议）
 - `put_product_shares_by_id`：PUT /api/product-shares/:id
@@ -83,6 +84,7 @@
 - `post_product_shares_by_id_reset_code`：POST /api/product-shares/:id/reset-code
 - `post_product_shares_by_id_revoke`：POST /api/product-shares/:id/revoke
 - `post_product_shares_by_id_submissions_by_submissionId_converted`：POST /api/product-shares/:id/submissions/:submissionId/converted
+- `post_public_product_shares_by_token_packing_advice`：POST /api/public/product-shares/:token/packing-advice（excluded，使用原协议）
 - `post_public_product_shares_by_token_submissions`：POST /api/public/product-shares/:token/submissions（excluded，使用原协议）
 - `post_public_product_shares_by_token_unlock`：POST /api/public/product-shares/:token/unlock（excluded，使用原协议）
 - `put_product_shares_by_id`：PUT /api/product-shares/:id

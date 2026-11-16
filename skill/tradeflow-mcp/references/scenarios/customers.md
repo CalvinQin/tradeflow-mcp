@@ -31,12 +31,25 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 发现操作类别后，读取下列候选的 get_business_operation_contract；列表是任务索引，具体权限和字段仍以实时网站为准。
 
 - `delete_customers_by_id`：DELETE /api/customers/:id
+- `delete_customers_workspace_by_customerId_contacts_by_contactId`：DELETE /api/customers/workspace/:customerId/contacts/:contactId
 - `delete_customers_workspace_by_id`：DELETE /api/customers/workspace/:id
 - `delete_customers_workspace_by_id_activities_by_activityId`：DELETE /api/customers/workspace/:id/activities/:activityId
 - `delete_customers_workspace_overdue_records_by_taskId`：DELETE /api/customers/workspace/overdue-records/:taskId
+- `get_chatwoot_accounts_by_accountId_contacts_by_contactId_tradeflow_profile`：GET /api/chatwoot/accounts/:accountId/contacts/:contactId/tradeflow-profile；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding`：GET /api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding_suggestions`：GET /api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding/suggestions；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_context`：GET /api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-context；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_workspace`：GET /api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-workspace；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_conversations_by_conversationId_tradeflow_tags`：GET /api/chatwoot/accounts/:accountId/conversations/:conversationId/tradeflow-tags；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_tradeflow_companies`：GET /api/chatwoot/accounts/:accountId/tradeflow-companies；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_tradeflow_companies_by_customerId`：GET /api/chatwoot/accounts/:accountId/tradeflow-companies/:customerId；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_tradeflow_contact_directory`：GET /api/chatwoot/accounts/:accountId/tradeflow-contact-directory；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_tradeflow_tags`：GET /api/chatwoot/accounts/:accountId/tradeflow-tags；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `get_chatwoot_accounts_by_accountId_tradeflow_trash_by_kind_by_objectId_preview`：GET /api/chatwoot/accounts/:accountId/tradeflow-trash/:kind/:objectId/preview；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `get_customers`：GET /api/customers
 - `get_customers_check_follow_ups`：GET /api/customers/check-follow-ups
 - `get_customers_workspace`：GET /api/customers/workspace
+- `get_customers_workspace_by_customerId_contacts_by_contactId`：GET /api/customers/workspace/:customerId/contacts/:contactId
 - `get_customers_workspace_by_id`：GET /api/customers/workspace/:id
 - `get_customers_workspace_by_id_activities_by_activityId`：GET /api/customers/workspace/:id/activities/:activityId
 - `get_customers_workspace_by_id_context`：GET /api/customers/workspace/:id/context
@@ -55,6 +68,24 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `get_customers_workspace_transfer_owners`：GET /api/customers/workspace/transfer-owners
 - `get_customers_workspace_trash`：GET /api/customers/workspace/trash
 - `get_customers_workspace_trash_by_id`：GET /api/customers/workspace/trash/:id
+- `get_customers_workspace_trash_objects`：GET /api/customers/workspace/trash/objects
+- `patch_chatwoot_accounts_by_accountId_contacts_by_contactId_tradeflow_profile`：PATCH /api/chatwoot/accounts/:accountId/contacts/:contactId/tradeflow-profile；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `patch_chatwoot_accounts_by_accountId_tradeflow_companies_by_customerId`：PATCH /api/chatwoot/accounts/:accountId/tradeflow-companies/:customerId；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `patch_chatwoot_accounts_by_accountId_tradeflow_tags_by_tagId`：PATCH /api/chatwoot/accounts/:accountId/tradeflow-tags/:tagId；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `patch_customers_workspace_by_customerId_contacts_by_contactId`：PATCH /api/customers/workspace/:customerId/contacts/:contactId
+- `post_chatwoot_accounts_by_accountId_contacts_by_contactId_binding`：POST /api/chatwoot/accounts/:accountId/contacts/:contactId/binding；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding_receipt`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding/receipt；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_customer_binding_suggestions_review`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/customer-binding/suggestions/review；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_tradeflow_companies`：POST /api/chatwoot/accounts/:accountId/tradeflow-companies；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_tradeflow_companies_for_members`：POST /api/chatwoot/accounts/:accountId/tradeflow-companies/for-members；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_tradeflow_contact_tag_matches`：POST /api/chatwoot/accounts/:accountId/tradeflow-contact-tag-matches；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_tradeflow_conversation_tags_batch`：POST /api/chatwoot/accounts/:accountId/tradeflow-conversation-tags/batch；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_tradeflow_tags`：POST /api/chatwoot/accounts/:accountId/tradeflow-tags；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_tradeflow_trash_by_kind_by_objectId`：POST /api/chatwoot/accounts/:accountId/tradeflow-trash/:kind/:objectId；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_tradeflow_trash_by_trashId_restore`：POST /api/chatwoot/accounts/:accountId/tradeflow-trash/:trashId/restore；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_customers_overdue_conversations`：POST /api/chatwoot/customers/overdue-conversations；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_customers_trash_visibility`：POST /api/chatwoot/customers/trash-visibility；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_customers`：POST /api/customers
 - `post_customers_test_push`：POST /api/customers/test-push
 - `post_customers_workspace`：POST /api/customers/workspace
@@ -70,6 +101,9 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `post_customers_workspace_merge_review`：POST /api/customers/workspace/merge/review；外部前提候选：客户工作台真实模型配置
 - `post_customers_workspace_tags`：POST /api/customers/workspace/tags
 - `post_customers_workspace_trash_by_id_restore`：POST /api/customers/workspace/trash/:id/restore
+- `post_customers_workspace_trash_objects_by_trashId_restore`：POST /api/customers/workspace/trash/objects/:trashId/restore
+- `put_chatwoot_accounts_by_accountId_contacts_by_contactId_tradeflow_tags`：PUT /api/chatwoot/accounts/:accountId/contacts/:contactId/tradeflow-tags；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `put_chatwoot_accounts_by_accountId_conversations_by_conversationId_tradeflow_tags`：PUT /api/chatwoot/accounts/:accountId/conversations/:conversationId/tradeflow-tags；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `put_customers_by_id`：PUT /api/customers/:id
 - `put_customers_workspace_by_id`：PUT /api/customers/workspace/:id
 - `put_customers_workspace_by_id_activities_by_activityId`：PUT /api/customers/workspace/:id/activities/:activityId
@@ -202,7 +236,9 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `get_customers_workspace_by_id`：GET /api/customers/workspace/:id
 - `get_customers_workspace_trash`：GET /api/customers/workspace/trash
 - `get_customers_workspace_trash_by_id`：GET /api/customers/workspace/trash/:id
+- `get_customers_workspace_trash_objects`：GET /api/customers/workspace/trash/objects
 - `post_customers_workspace_trash_by_id_restore`：POST /api/customers/workspace/trash/:id/restore
+- `post_customers_workspace_trash_objects_by_trashId_restore`：POST /api/customers/workspace/trash/objects/:trashId/restore
 - `put_customers_workspace_by_id`：PUT /api/customers/workspace/:id
 
 验收情景编号：`capability:customer-recycle`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。

@@ -69,6 +69,7 @@
 - `post_orders_by_id_packing_print_export`：POST /api/orders/:id/packing-print/export
 - `post_orders_by_id_shipping_labels`：POST /api/orders/:id/shipping-labels
 - `post_orders_by_id_urge`：POST /api/orders/:id/urge；外部前提候选：外发或企业微信真实连接
+- `post_orders_credit_settlements`：POST /api/orders/credit-settlements
 - `post_orders_imports_confirm`：POST /api/orders/imports/confirm
 - `post_orders_imports_parse`：POST /api/orders/imports/parse
 - `post_orders_imports_review`：POST /api/orders/imports/review
@@ -123,6 +124,7 @@
 - `post_orders_by_id_detail_share`：POST /api/orders/:id/detail-share
 - `post_orders_by_id_shipping_labels`：POST /api/orders/:id/shipping-labels
 - `post_orders_by_id_urge`：POST /api/orders/:id/urge；外部前提候选：外发或企业微信真实连接
+- `post_orders_credit_settlements`：POST /api/orders/credit-settlements
 - `post_orders_imports_confirm`：POST /api/orders/imports/confirm
 - `post_orders_imports_parse`：POST /api/orders/imports/parse
 - `post_orders_imports_review`：POST /api/orders/imports/review
@@ -222,6 +224,7 @@
 - `post_orders_by_id_detail_share`：POST /api/orders/:id/detail-share
 - `post_orders_by_id_shipping_labels`：POST /api/orders/:id/shipping-labels
 - `post_orders_by_id_urge`：POST /api/orders/:id/urge；外部前提候选：外发或企业微信真实连接
+- `post_orders_credit_settlements`：POST /api/orders/credit-settlements
 - `post_orders_imports_confirm`：POST /api/orders/imports/confirm
 - `post_orders_imports_parse`：POST /api/orders/imports/parse
 - `post_orders_imports_review`：POST /api/orders/imports/review
@@ -258,6 +261,7 @@
 - `post_orders`：POST /api/orders
 - `post_orders_by_id_confirm_balance`：POST /api/orders/:id/confirm-balance
 - `post_orders_by_id_credit_statement_settle`：POST /api/orders/:id/credit-statement/settle
+- `post_orders_credit_settlements`：POST /api/orders/credit-settlements
 - `post_system_payment_profiles_by_id_qr`：POST /api/system/payment-profiles/:id/qr
 - `put_orders_by_id`：PUT /api/orders/:id
 - `put_system_payment_profiles`：PUT /api/system/payment-profiles
