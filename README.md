@@ -4,6 +4,12 @@ TradeFlow 的 OAuth 连接包和配套 Agent Skill。适用于支持远程 HTTP 
 
 Skill 是给 Agent 使用的业务操作说明：指导它发现本人可用的操作、核对字段和版本、完成已授权任务并回读结果。OAuth 提供网站身份与访问范围，Skill 提供处理客户、产品、订单等任务的工作流；两者配合使用。
 
+## 当前版本与 Skill 同步
+
+当前包版本和接口指纹以本包 `contract.json` 为准；功能变更统一见项目根 `CHANGELOG.md`。下方旧版本条目只作历史说明，不代表正在运行的服务器版本。
+
+`npm run mcp:sync` 从网站源码生成目录、契约及 15 个业务域的 Skill 章节，`npm run mcp:sync:check` 阻止生成物漂移。Agent 每次使用 Skill 时比较线上 `get_tradeflow_context.contractHash` 和本机 `contract.json`，存在差异时按 Skill 中的流程获取、校验并安装匹配的正式发布包。更新由接收端执行；MCP 服务不会主动修改所有 Agent 的文件，`update-skill` 命令只安装已下载的包。候选包须待对应网站部署及正式包发布后才用于更新线上连接的 Skill。
+
 ## 1.0.35 — 2026-11-08
 
 新增 Chatwoot 业务操作目录（41 个）：联系人/公司/标签、客户绑定、客户逾期、回收站可见性、邮件工作台/查找/上下文/草稿、社媒来源会话与消息读取及标记未读、Chatwoot AI 能力与草稿翻译。Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器/历史补读等 16 个专用通道保持排除，AI 人工确认通道仍禁止模型调用。contractHash 更新为 `40350177…`，支持操作 535 → 576。

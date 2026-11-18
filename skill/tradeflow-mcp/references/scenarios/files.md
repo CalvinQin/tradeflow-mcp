@@ -43,6 +43,7 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 - `get_public_file_preview`：GET /api/public/file-preview
 - `get_public_file_proxy`：GET /api/public/file-proxy
 - `get_public_logistics_share_by_token`：GET /api/public/logistics-share/:token（excluded，使用原协议）
+- `get_public_logistics_share_by_token_label_ocr`：GET /api/public/logistics-share/:token/label-ocr（excluded，使用原协议）
 - `get_public_mini_product_shares_by_token`：GET /api/public/mini-product-shares/:token（excluded，使用原协议）
 - `get_public_product_shares_by_token`：GET /api/public/product-shares/:token（excluded，使用原协议）
 - `get_public_product_shares_by_token_preview`：GET /api/public/product-shares/:token/preview（excluded，使用原协议）

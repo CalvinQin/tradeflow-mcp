@@ -87,6 +87,7 @@
 - `delete_orders_by_id_logistics_share_by_shareId`：DELETE /api/orders/:id/logistics-share/:shareId
 - `delete_public_logistics_share_by_token_shipping_labels`：DELETE /api/public/logistics-share/:token/shipping-labels（excluded，使用原协议）
 - `get_public_logistics_share_by_token`：GET /api/public/logistics-share/:token（excluded，使用原协议）
+- `get_public_logistics_share_by_token_label_ocr`：GET /api/public/logistics-share/:token/label-ocr（excluded，使用原协议）
 - `post_orders_by_id_logistics_share`：POST /api/orders/:id/logistics-share
 - `post_public_logistics_share_by_token_shipping_labels`：POST /api/public/logistics-share/:token/shipping-labels（excluded，使用原协议）
 

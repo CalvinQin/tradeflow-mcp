@@ -6,11 +6,11 @@
 
 读取当前本人正式/演示工作区、岗位、平台管理权、公司设置和账号在职/绑定状态；密钥只看配置状态。
 
-普通个人资料/密码操作按原身份验证；角色/在职/公司访问/系统默认值变更需准确授权与回退值。MCP由客户端完成注册/PKCE/本人登录/同意，五岗位只获得本人网站权限；移动端使用原认证协议。
+普通个人资料/密码操作按原身份验证；平台管理员使用真实 SALES 岗位并拥有老板业务能力。配置员工额外权限先 GET users/:id/business-permissions，展示目标及 READ/MANAGE 完整权限差异，PUT 带 expectedVersion 与完整 permissions，空对象撤销额外权限；冲突先回读，不覆盖他人修改。AI 使用同源确认卡，不自我确认。角色/在职/公司访问/系统默认值变更需准确授权与回退值。MCP由客户端完成注册/PKCE/本人登录/同意，五岗位只获得本人网站权限；移动端使用原认证协议。
 
 查询本人、用户/审计、设置、绑定及凭证状态；离职/撤销后旧授权立即失效。演示数据和正式公司分离，密码修改后重新登录。
 
-网站JWT不是MCP凭证；不能制造Client ID或向用户索要后台密码。DEMO禁止正式OAuth及真实外发/付费。后端共享契约通过不等于真机相册/扫码/打印验收；外部OAuth回调使用原协议。
+十个业务模块授权不改变岗位、工资规则或 OAuth scope 上限；原生客服身份绑定、系统密钥、安全连接和后台协议仍沿原岗位与管理员权限，不能用模块授权伪造原生身份。网站JWT不是MCP凭证；不能制造Client ID或向用户索要后台密码。DEMO禁止正式OAuth及真实外发/付费。后端共享契约通过不等于真机相册/扫码/打印验收；外部OAuth回调使用原协议。
 
 具体执行顺序、输入和失败恢复见[本领域操作配方](../recipes/system.md)；仅其中明确列出的流程有执行规格，其余候选仍须补齐实际验收。
 
@@ -142,6 +142,7 @@
 - `get_system_agent_api_clients`：GET /api/system/agent-api-clients
 - `get_system_mcp_clients`：GET /api/system/mcp-clients
 - `get_system_mcp_clients_reviews`：GET /api/system/mcp-clients/reviews
+- `post_chatwoot_security_mcp_grants`：POST /api/chatwoot/security/mcp-grants（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_mcp`：POST /api/mcp（excluded，使用原协议）
 - `post_mcp_consent_by_id`：POST /api/mcp-consent/:id（excluded，使用原协议）
 - `post_mcp_consent_clients`：POST /api/mcp-consent/clients（excluded，使用原协议）
@@ -287,11 +288,13 @@
 - `delete_users_by_id`：DELETE /api/users/:id
 - `delete_users_by_id_wechat_binding`：DELETE /api/users/:id/wechat-binding
 - `get_users`：GET /api/users
+- `get_users_by_id_business_permissions`：GET /api/users/:id/business-permissions
 - `get_users_email_config`：GET /api/users/email-config
 - `get_users_me_exhibition_profile`：GET /api/users/me/exhibition-profile
 - `post_users`：POST /api/users
 - `post_users_test_email`：POST /api/users/test-email；外部前提候选：外发或企业微信真实连接
 - `put_users_by_id`：PUT /api/users/:id
+- `put_users_by_id_business_permissions`：PUT /api/users/:id/business-permissions
 - `put_users_email_config`：PUT /api/users/email-config
 - `put_users_me_exhibition_profile`：PUT /api/users/me/exhibition-profile
 
