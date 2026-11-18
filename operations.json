@@ -1,5 +1,5 @@
 {
-  "contractHash": "a216dabce60d59652f29bf54957739b5f41b95be070c709249e01cb08d71576f",
+  "contractHash": "ea6d3faa152092e55deb571ce8db17d93a7c823e281b45c66835d839167d31d2",
   "formatVersion": 1,
   "operations": [
     {
@@ -346,6 +346,66 @@
           "body": {},
           "query": {},
           "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "delete_business_files_customer_by_id_attachments_by_fileId",
+      "category": "business-files",
+      "method": "DELETE",
+      "path": "/api/business-files/customer/:id/attachments/:fileId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "delete"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "fileId",
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "fileId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
         },
         "validationMessages": [],
         "schemaReferences": [],
@@ -2439,6 +2499,68 @@
       "inputContract": {
         "fields": {
           "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "delete_products_by_id_gallery_image",
+      "category": "products",
+      "method": "DELETE",
+      "path": "/api/products/:id/gallery-image",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "delete"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "PACKER"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "url"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "url": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "query": {},
           "params": {
             "id": {
@@ -47672,6 +47794,7 @@
           "自定义素材名称须填写1至40个字",
           "订单ID与请求地址不一致",
           "订单不存在",
+          "订单已有收款、对账或定金记录，请先核对款项后再转 PI 草稿",
           "订单已被其他操作更新，请刷新核对后重试；本次修改未保存",
           "订单状态无效",
           "该订单已统一结清，不能修改收款金额、客户、负责人、付款账户或凭证；共用凭证保留在收款单中",
