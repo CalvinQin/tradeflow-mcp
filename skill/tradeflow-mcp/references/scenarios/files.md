@@ -30,6 +30,7 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 
 发现操作类别后，读取下列候选的 get_business_operation_contract；列表是任务索引，具体权限和字段仍以实时网站为准。
 
+- `delete_business_files_customer_by_id_attachments_by_fileId`：DELETE /api/business-files/customer/:id/attachments/:fileId
 - `delete_files_delete`：DELETE /api/files/delete
 - `delete_public_logistics_share_by_token_shipping_labels`：DELETE /api/public/logistics-share/:token/shipping-labels（excluded，使用原协议）
 - `get_business_files_by_kind_by_id`：GET /api/business-files/:kind/:id

@@ -34,6 +34,7 @@
 发现操作类别后，读取下列候选的 get_business_operation_contract；列表是任务索引，具体权限和字段仍以实时网站为准。
 
 - `delete_products_by_id`：DELETE /api/products/:id
+- `delete_products_by_id_gallery_image`：DELETE /api/products/:id/gallery-image
 - `delete_system_product_update_notices`：DELETE /api/system/product-update-notices
 - `delete_system_product_update_notices_by_noticeId`：DELETE /api/system/product-update-notices/:noticeId
 - `get_products`：GET /api/products
@@ -84,6 +85,7 @@
 发现操作类别后，读取下列候选的 get_business_operation_contract；列表是任务索引，具体权限和字段仍以实时网站为准。
 
 - `delete_products_by_id`：DELETE /api/products/:id
+- `delete_products_by_id_gallery_image`：DELETE /api/products/:id/gallery-image
 - `get_products`：GET /api/products
 - `get_products_by_id_deletion_preview`：GET /api/products/:id/deletion-preview
 - `get_products_picker`：GET /api/products/picker
@@ -112,6 +114,7 @@
 发现操作类别后，读取下列候选的 get_business_operation_contract；列表是任务索引，具体权限和字段仍以实时网站为准。
 
 - `delete_products_by_id`：DELETE /api/products/:id
+- `delete_products_by_id_gallery_image`：DELETE /api/products/:id/gallery-image
 - `get_products`：GET /api/products
 - `get_products_by_id_deletion_preview`：GET /api/products/:id/deletion-preview
 - `get_products_picker`：GET /api/products/picker
@@ -161,6 +164,7 @@
 发现操作类别后，读取下列候选的 get_business_operation_contract；列表是任务索引，具体权限和字段仍以实时网站为准。
 
 - `delete_products_by_id`：DELETE /api/products/:id
+- `delete_products_by_id_gallery_image`：DELETE /api/products/:id/gallery-image
 - `get_products`：GET /api/products
 - `get_products_by_id_deletion_preview`：GET /api/products/:id/deletion-preview
 - `get_products_picker`：GET /api/products/picker
