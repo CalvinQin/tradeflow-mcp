@@ -42,6 +42,7 @@
 - `delete_integrations_alibaba_self_bindings_by_bindingId`：DELETE /api/integrations/alibaba/self-bindings/:bindingId
 - `get_integrations_alibaba_accounts`：GET /api/integrations/alibaba/accounts
 - `get_integrations_alibaba_authorization_gate`：GET /api/integrations/alibaba/authorization-gate
+- `get_integrations_alibaba_category_mappings`：GET /api/integrations/alibaba/category-mappings
 - `get_integrations_alibaba_configuration`：GET /api/integrations/alibaba/configuration
 - `get_integrations_alibaba_logistics_orders`：GET /api/integrations/alibaba/logistics/orders
 - `get_integrations_alibaba_logistics_orders_by_logisticsOrderId`：GET /api/integrations/alibaba/logistics/orders/:logisticsOrderId
@@ -53,6 +54,8 @@
 - `get_integrations_alibaba_orders`：GET /api/integrations/alibaba/orders
 - `get_integrations_alibaba_orders_by_orderId`：GET /api/integrations/alibaba/orders/:orderId
 - `get_integrations_alibaba_orders_by_orderId_conversion_draft`：GET /api/integrations/alibaba/orders/:orderId/conversion-draft
+- `get_integrations_alibaba_product_accounts`：GET /api/integrations/alibaba/product-accounts
+- `get_integrations_alibaba_product_mappings`：GET /api/integrations/alibaba/product-mappings
 - `get_integrations_alibaba_self_bindings`：GET /api/integrations/alibaba/self-bindings
 - `patch_integrations_alibaba_orders_by_orderId`：PATCH /api/integrations/alibaba/orders/:orderId
 - `post_integrations_alibaba_accounts`：POST /api/integrations/alibaba/accounts
@@ -61,6 +64,8 @@
 - `post_integrations_alibaba_accounts_by_accountId_health`：POST /api/integrations/alibaba/accounts/:accountId/health；外部前提候选：Alibaba真实店铺授权或物流供应商
 - `post_integrations_alibaba_accounts_by_accountId_orders_sync`：POST /api/integrations/alibaba/accounts/:accountId/orders/sync；外部前提候选：Alibaba真实店铺授权或物流供应商
 - `post_integrations_alibaba_accounts_by_accountId_self_binding_authorization_url`：POST /api/integrations/alibaba/accounts/:accountId/self-binding/authorization-url；外部前提候选：Alibaba真实店铺授权或物流供应商
+- `post_integrations_alibaba_category_mappings`：POST /api/integrations/alibaba/category-mappings
+- `post_integrations_alibaba_category_mappings_suggestions`：POST /api/integrations/alibaba/category-mappings/suggestions
 - `post_integrations_alibaba_logistics_orders_sync`：POST /api/integrations/alibaba/logistics/orders/sync；外部前提候选：Alibaba真实店铺授权或物流供应商
 - `post_integrations_alibaba_logistics_quote_calculate`：POST /api/integrations/alibaba/logistics/quote/calculate；外部前提候选：Alibaba真实店铺授权或物流供应商
 - `post_integrations_alibaba_logistics_quote_compare`：POST /api/integrations/alibaba/logistics/quote/compare；外部前提候选：Alibaba真实店铺授权或物流供应商
@@ -68,6 +73,12 @@
 - `post_integrations_alibaba_orders_by_orderId_bind`：POST /api/integrations/alibaba/orders/:orderId/bind
 - `post_integrations_alibaba_orders_by_orderId_convert`：POST /api/integrations/alibaba/orders/:orderId/convert
 - `post_integrations_alibaba_orders_by_orderId_finalize_conversion`：POST /api/integrations/alibaba/orders/:orderId/finalize-conversion
+- `post_integrations_alibaba_product_mappings`：POST /api/integrations/alibaba/product-mappings
+- `post_integrations_alibaba_product_mappings_auto_confirm`：POST /api/integrations/alibaba/product-mappings/auto-confirm
+- `post_integrations_alibaba_product_mappings_backfill`：POST /api/integrations/alibaba/product-mappings/backfill
+- `post_integrations_alibaba_product_mappings_bulk`：POST /api/integrations/alibaba/product-mappings/bulk
+- `post_integrations_alibaba_product_mappings_by_mappingId_revoke`：POST /api/integrations/alibaba/product-mappings/:mappingId/revoke
+- `post_integrations_alibaba_product_mappings_suggestions`：POST /api/integrations/alibaba/product-mappings/suggestions
 - `put_integrations_alibaba_accounts_by_accountId`：PUT /api/integrations/alibaba/accounts/:accountId
 
 验收情景编号：`capability:alibaba-orders`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。
@@ -90,7 +101,9 @@
 
 - `get_integrations_alibaba_capabilities`：GET /api/integrations/alibaba/capabilities
 - `get_integrations_alibaba_data_center`：GET /api/integrations/alibaba/data-center
+- `get_integrations_alibaba_product_workspace_capabilities`：GET /api/integrations/alibaba/product-workspace/capabilities
 - `post_integrations_alibaba_accounts_by_accountId_health`：POST /api/integrations/alibaba/accounts/:accountId/health；外部前提候选：Alibaba真实店铺授权或物流供应商
+- `post_integrations_alibaba_workspace_capabilities_check`：POST /api/integrations/alibaba/workspace/capabilities/check
 
 验收情景编号：`capability:alibaba-data`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。
 
@@ -111,6 +124,23 @@
 发现操作类别后，读取下列候选的 get_business_operation_contract；列表是任务索引，具体权限和字段仍以实时网站为准。
 
 - `get_integrations_alibaba_capabilities`：GET /api/integrations/alibaba/capabilities
+- `get_integrations_alibaba_external_products`：GET /api/integrations/alibaba/external-products
+- `get_integrations_alibaba_external_products_by_externalProductRecordId`：GET /api/integrations/alibaba/external-products/:externalProductRecordId
+- `get_integrations_alibaba_media_bank_product_groups`：GET /api/integrations/alibaba/media-bank/product-groups
+- `get_integrations_alibaba_product_accounts`：GET /api/integrations/alibaba/product-accounts
+- `get_integrations_alibaba_product_mappings`：GET /api/integrations/alibaba/product-mappings
+- `get_integrations_alibaba_product_workspace_capabilities`：GET /api/integrations/alibaba/product-workspace/capabilities
 - `post_integrations_alibaba_accounts_by_accountId_health`：POST /api/integrations/alibaba/accounts/:accountId/health；外部前提候选：Alibaba真实店铺授权或物流供应商
+- `post_integrations_alibaba_external_products_by_externalProductRecordId_refresh`：POST /api/integrations/alibaba/external-products/:externalProductRecordId/refresh
+- `post_integrations_alibaba_external_products_quality_backfill`：POST /api/integrations/alibaba/external-products/quality/backfill
+- `post_integrations_alibaba_external_products_sync`：POST /api/integrations/alibaba/external-products/sync；外部前提候选：Alibaba真实店铺授权或物流供应商
+- `post_integrations_alibaba_media_bank_product_groups`：POST /api/integrations/alibaba/media-bank/product-groups
+- `post_integrations_alibaba_product_mappings`：POST /api/integrations/alibaba/product-mappings
+- `post_integrations_alibaba_product_mappings_auto_confirm`：POST /api/integrations/alibaba/product-mappings/auto-confirm
+- `post_integrations_alibaba_product_mappings_backfill`：POST /api/integrations/alibaba/product-mappings/backfill
+- `post_integrations_alibaba_product_mappings_bulk`：POST /api/integrations/alibaba/product-mappings/bulk
+- `post_integrations_alibaba_product_mappings_by_mappingId_revoke`：POST /api/integrations/alibaba/product-mappings/:mappingId/revoke
+- `post_integrations_alibaba_product_mappings_suggestions`：POST /api/integrations/alibaba/product-mappings/suggestions
+- `post_integrations_alibaba_workspace_capabilities_check`：POST /api/integrations/alibaba/workspace/capabilities/check
 
 验收情景编号：`capability:alibaba-products`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。

@@ -6,7 +6,7 @@
 
 以公司主体、渠道身份和负责人定位客户；查最近沟通、版本、正式订单、开放跟进、删除/分享引用；相似名称不能单独作为同一主体证据。
 
-普通建档、地址/标签、已发生沟通和复盘按当前字段保存；跟进结果保留沟通证据。导入/合并/转移先取原网站候选与影响预览，明确用户授权后执行。
+普通建档、地址/标签、已发生沟通和复盘按当前字段保存；跟进结果保留沟通证据。客户阿里订单从 workspace/:id/alibaba-orders 读取本地状态与同步时间；自动 ORDER_STATUS 记录不是人工沟通，不能改成已联系。待卖家发货且 canConvert 的未绑定订单，读取原阿里订单详情和转换契约后，按用户授权转入正式订单并回读客户关联。导入/合并/转移先取原网站候选与影响预览，明确用户授权后执行。
 
 回读档案、联系人/地址、时间线和当天待办；核对负责人、等级、最新沟通和下次时间。删除后查回收站，恢复后查正式列表。
 
@@ -52,10 +52,12 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `get_customers_workspace_by_customerId_contacts_by_contactId`：GET /api/customers/workspace/:customerId/contacts/:contactId
 - `get_customers_workspace_by_id`：GET /api/customers/workspace/:id
 - `get_customers_workspace_by_id_activities_by_activityId`：GET /api/customers/workspace/:id/activities/:activityId
+- `get_customers_workspace_by_id_alibaba_orders`：GET /api/customers/workspace/:id/alibaba-orders
 - `get_customers_workspace_by_id_context`：GET /api/customers/workspace/:id/context
 - `get_customers_workspace_by_id_context_media_by_kind_by_mediaId`：GET /api/customers/workspace/:id/context/media/:kind/:mediaId
 - `get_customers_workspace_by_id_followup_preview`：GET /api/customers/workspace/:id/followup-preview
 - `get_customers_workspace_by_id_followup_thread`：GET /api/customers/workspace/:id/followup-thread
+- `get_customers_workspace_by_id_manager_reviews_by_reviewId`：GET /api/customers/workspace/:id/manager-reviews/:reviewId
 - `get_customers_workspace_by_id_order_candidates`：GET /api/customers/workspace/:id/order-candidates
 - `get_customers_workspace_by_id_overdue_records`：GET /api/customers/workspace/:id/overdue-records
 - `get_customers_workspace_duplicates`：GET /api/customers/workspace/duplicates
@@ -91,6 +93,7 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `post_customers_workspace`：POST /api/customers/workspace
 - `post_customers_workspace_by_id_bind_order`：POST /api/customers/workspace/:id/bind-order
 - `post_customers_workspace_by_id_followups`：POST /api/customers/workspace/:id/followups
+- `post_customers_workspace_by_id_manager_reviews_by_reviewId`：POST /api/customers/workspace/:id/manager-reviews/:reviewId
 - `post_customers_workspace_by_id_reply_suggestion`：POST /api/customers/workspace/:id/reply-suggestion；外部前提候选：客户工作台真实模型配置
 - `post_customers_workspace_by_id_transfer`：POST /api/customers/workspace/:id/transfer
 - `post_customers_workspace_duplicates_review`：POST /api/customers/workspace/duplicates/review；外部前提候选：客户工作台真实模型配置
@@ -178,9 +181,11 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `get_customers_workspace_by_id_context`：GET /api/customers/workspace/:id/context
 - `get_customers_workspace_by_id_context_media_by_kind_by_mediaId`：GET /api/customers/workspace/:id/context/media/:kind/:mediaId
 - `get_customers_workspace_by_id_followup_preview`：GET /api/customers/workspace/:id/followup-preview
+- `get_customers_workspace_by_id_manager_reviews_by_reviewId`：GET /api/customers/workspace/:id/manager-reviews/:reviewId
 - `get_customers_workspace_followups_preview`：GET /api/customers/workspace/followups/preview
 - `get_customers_workspace_tags`：GET /api/customers/workspace/tags
 - `get_system_mcp_clients_reviews`：GET /api/system/mcp-clients/reviews
+- `post_customers_workspace_by_id_manager_reviews_by_reviewId`：POST /api/customers/workspace/:id/manager-reviews/:reviewId
 - `post_customers_workspace_duplicates_review`：POST /api/customers/workspace/duplicates/review；外部前提候选：客户工作台真实模型配置
 - `post_customers_workspace_manager_review_broadcast`：POST /api/customers/workspace/manager-review/broadcast；外部前提候选：外发或企业微信真实连接
 - `post_customers_workspace_merge_review`：POST /api/customers/workspace/merge/review；外部前提候选：客户工作台真实模型配置

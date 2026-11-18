@@ -1,5 +1,5 @@
 {
-  "contractHash": "94930dca731d8eff5a576dab254031502abc37649f0943187ee4c1f5cef4767f",
+  "contractHash": "01bd784d7f7f051283101e8bd878f91e7352956c33a040e4e613c308867953c9",
   "formatVersion": 1,
   "operations": [
     {
@@ -349,6 +349,159 @@
         },
         "validationMessages": [],
         "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "delete_chatwoot_accounts_by_accountId_conversations_by_conversationId_provider_messages",
+      "category": "chatwoot",
+      "method": "DELETE",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/provider-messages",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "delete_chatwoot_native_conversations_by_conversationId",
+      "category": "chatwoot",
+      "method": "DELETE",
+      "path": "/api/chatwoot/native/conversations/:conversationId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "delete"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "messageId",
+          "previewHash",
+          "revision",
+          "scope"
+        ],
+        "query": [],
+        "params": [
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "messageId": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                }
+              ],
+              "enum": []
+            },
+            "previewHash": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^[a-f0-9]{64}$/"
+                }
+              ],
+              "enum": []
+            },
+            "revision": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^[a-f0-9]{32}$/"
+                }
+              ],
+              "enum": []
+            },
+            "scope": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "tradeflow",
+                "me",
+                "everyone"
+              ]
+            }
+          },
+          "query": {},
+          "params": {
+            "conversationId": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "Number.MAX_SAFE_INTEGER"
+                }
+              ],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "chatwootConversationParamsInput",
+          "nativeMcpDeletionInput"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -2978,7 +3131,8 @@
           }
         },
         "validationMessages": [
-          "老板账号不能通过离职停用"
+          "老板账号不能通过离职停用",
+          "该账号不能通过离职停用"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
@@ -3550,6 +3704,94 @@
       "responseMode": "json"
     },
     {
+      "id": "get_ai_assistant_confirmations",
+      "category": "ai",
+      "method": "GET",
+      "path": "/api/ai/assistant/confirmations",
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "conversationId"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "conversationId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_ai_assistant_confirmations_by_token",
+      "category": "ai",
+      "method": "GET",
+      "path": "/api/ai/assistant/confirmations/:token",
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "token"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "token": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_ai_chat_conversations",
       "category": "ai",
       "method": "GET",
@@ -3888,6 +4130,123 @@
           "body": {},
           "query": {},
           "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_ai_waybill_jobs",
+      "category": "ai",
+      "method": "GET",
+      "path": "/api/ai/waybill-jobs",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "orderId",
+          "url"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "orderId": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "64"
+                }
+              ],
+              "enum": []
+            },
+            "url": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "4096"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "selection"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_ai_waybill_jobs_by_jobId",
+      "category": "ai",
+      "method": "GET",
+      "path": "/api/ai/waybill-jobs/:jobId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "jobId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "jobId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
         },
         "validationMessages": [],
         "schemaReferences": [],
@@ -4890,6 +5249,32 @@
       "responseMode": "json"
     },
     {
+      "id": "get_chatwoot_accounts_by_accountId_conversations_by_conversationId_provider_deletion_preview",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/provider-deletion-preview",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_chatwoot_accounts_by_accountId_conversations_by_conversationId_tradeflow_tags",
       "category": "chatwoot",
       "method": "GET",
@@ -5210,6 +5595,483 @@
         },
         "validationMessages": [],
         "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_native_conversations",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/native/conversations",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "cursor",
+          "limit",
+          "platform",
+          "search"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "cursor": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "64"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1024"
+                }
+              ],
+              "enum": []
+            },
+            "limit": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "50"
+                }
+              ],
+              "enum": []
+            },
+            "platform": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "EMAIL",
+                "WHATSAPP"
+              ]
+            },
+            "search": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "160"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "chatwootConversationSearchInput"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_native_conversations_by_conversationId_deletion_preview",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/native/conversations/:conversationId/deletion-preview",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "messageId",
+          "scope"
+        ],
+        "params": [
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "messageId": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^[1-9][0-9]{0,15}$/"
+                }
+              ],
+              "enum": []
+            },
+            "scope": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "tradeflow",
+                "me",
+                "everyone"
+              ]
+            }
+          },
+          "params": {
+            "conversationId": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "Number.MAX_SAFE_INTEGER"
+                }
+              ],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "chatwootConversationParamsInput",
+          "nativeMcpDeletionQuery"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_native_conversations_by_conversationId_deletion_receipt",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/native/conversations/:conversationId/deletion-receipt",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "operationId"
+        ],
+        "params": [
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "operationId": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^[A-Za-z0-9_:-]{8,100}$/"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "params": {
+            "conversationId": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "Number.MAX_SAFE_INTEGER"
+                }
+              ],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "chatwootConversationParamsInput",
+          "nativeMcpReceiptInput"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_native_conversations_by_conversationId_messages",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/native/conversations/:conversationId/messages",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "cursor",
+          "limit"
+        ],
+        "params": [
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "cursor": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "64"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1024"
+                }
+              ],
+              "enum": []
+            },
+            "limit": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "50"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "params": {
+            "conversationId": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "Number.MAX_SAFE_INTEGER"
+                }
+              ],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "chatwootConversationParamsInput",
+          "chatwootMessagesInput"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_chatwoot_native_conversations_by_conversationId_send_receipt",
+      "category": "chatwoot",
+      "method": "GET",
+      "path": "/api/chatwoot/native/conversations/:conversationId/send-receipt",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "operationId"
+        ],
+        "params": [
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "operationId": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^[A-Za-z0-9_:-]{8,100}$/"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "params": {
+            "conversationId": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "Number.MAX_SAFE_INTEGER"
+                }
+              ],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "chatwootConversationParamsInput",
+          "nativeMcpReceiptInput"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -5764,6 +6626,72 @@
       "responseMode": "json"
     },
     {
+      "id": "get_customers_workspace_by_id_alibaba_orders",
+      "category": "customers",
+      "method": "GET",
+      "path": "/api/customers/workspace/:id/alibaba-orders",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        },
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "page"
+        ],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "page": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_customers_workspace_by_id_context",
       "category": "customers",
       "method": "GET",
@@ -6042,6 +6970,73 @@
           },
           "params": {
             "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_customers_workspace_by_id_manager_reviews_by_reviewId",
+      "category": "customers",
+      "method": "GET",
+      "path": "/api/customers/workspace/:id/manager-reviews/:reviewId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "before"
+        ],
+        "params": [
+          "id",
+          "reviewId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "before": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "reviewId": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -6435,6 +7430,7 @@
           "day",
           "ownerId",
           "page",
+          "source",
           "state",
           "view"
         ],
@@ -6493,6 +7489,16 @@
                 }
               ],
               "enum": []
+            },
+            "source": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "all",
+                "manager"
+              ]
             },
             "state": {
               "type": "string",
@@ -8263,6 +9269,117 @@
       "responseMode": "json"
     },
     {
+      "id": "get_integrations_alibaba_categories_by_categoryId",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/categories/:categoryId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "accountId"
+        ],
+        "params": [
+          "categoryId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {
+            "categoryId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_integrations_alibaba_category_mappings",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/category-mappings",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "accountId"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_integrations_alibaba_configuration",
       "category": "integrations",
       "method": "GET",
@@ -8352,6 +9469,199 @@
           "params": {}
         },
         "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_integrations_alibaba_external_products",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/external-products",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "accountId",
+          "categoryId",
+          "display",
+          "hasQuality",
+          "limit",
+          "mappingStatus",
+          "ownerTradeflowUserId",
+          "page",
+          "platformStatus",
+          "productType",
+          "search",
+          "sortBy",
+          "sortDirection",
+          "stale"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "categoryId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "display": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "hasQuality": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "limit": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "mappingStatus": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "ownerTradeflowUserId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "page": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "platformStatus": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "productType": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "search": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "sortBy": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "sortDirection": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "stale": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_integrations_alibaba_external_products_by_externalProductRecordId",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/external-products/:externalProductRecordId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "externalProductRecordId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "externalProductRecordId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -8755,6 +10065,213 @@
       "schemas": [],
       "upload": false,
       "responseMode": "json"
+    },
+    {
+      "id": "get_integrations_alibaba_media_bank",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/media-bank",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "accountId",
+          "groupIds",
+          "kind",
+          "limit",
+          "page",
+          "search"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "groupIds": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "kind": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "limit": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "page": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "search": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
+    },
+    {
+      "id": "get_integrations_alibaba_media_bank_groups",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/media-bank/groups",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "accountId"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
+    },
+    {
+      "id": "get_integrations_alibaba_media_bank_product_groups",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/media-bank/product-groups",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "accountId",
+          "groupId",
+          "productId",
+          "summary"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "groupId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "productId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "summary": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
     },
     {
       "id": "get_integrations_alibaba_oauth_callback",
@@ -9172,6 +10689,164 @@
           }
         },
         "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_integrations_alibaba_product_accounts",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/product-accounts",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_integrations_alibaba_product_mappings",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/product-mappings",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "accountId",
+          "search",
+          "status"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "search": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "status": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_integrations_alibaba_product_workspace_capabilities",
+      "category": "integrations",
+      "method": "GET",
+      "path": "/api/integrations/alibaba/product-workspace/capabilities",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "accountId"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -13596,6 +15271,50 @@
       "responseMode": "json"
     },
     {
+      "id": "get_public_logistics_share_by_token_label_ocr",
+      "category": "public",
+      "method": "GET",
+      "path": "/api/public/logistics-share/:token/label-ocr",
+      "status": "excluded",
+      "reason": "认证、连接管理、公开入口或外部回调；使用原专用协议",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "token"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "token": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_public_mini_product_shares_by_token",
       "category": "public",
       "method": "GET",
@@ -16032,6 +17751,53 @@
       "responseMode": "json"
     },
     {
+      "id": "get_users_by_id_business_permissions",
+      "category": "users",
+      "method": "GET",
+      "path": "/api/users/:id/business-permissions",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "platformAdmin",
+          "roles": [
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_users_email_config",
       "category": "users",
       "method": "GET",
@@ -17642,6 +19408,187 @@
       "responseMode": "json"
     },
     {
+      "id": "post_ai_assistant_chat_stream",
+      "category": "ai",
+      "method": "POST",
+      "path": "/api/ai/assistant/chat/stream",
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [
+          "assistantMessageId",
+          "conversationId",
+          "messages",
+          "model",
+          "plugins",
+          "provider",
+          "userMessageId",
+          "workspaceContext"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "assistantMessageId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "conversationId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "messages": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "model": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "plugins": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "provider": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "userMessageId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "workspaceContext": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_ai_assistant_confirm",
+      "category": "ai",
+      "method": "POST",
+      "path": "/api/ai/assistant/confirm",
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [
+          "token"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "token": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_ai_assistant_confirmations_by_token_cancel",
+      "category": "ai",
+      "method": "POST",
+      "path": "/api/ai/assistant/confirmations/:token/cancel",
+      "status": "excluded",
+      "reason": "AI 人工确认与恢复通道仅供本人在网站操作；禁止模型经业务 MCP 自我确认、读取确认凭证或取消确认",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "token"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "token": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_ai_chat",
       "category": "ai",
       "method": "POST",
@@ -19212,6 +21159,86 @@
       },
       "schemas": [],
       "upload": true,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_ai_waybill_jobs",
+      "category": "ai",
+      "method": "POST",
+      "path": "/api/ai/waybill-jobs",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [
+          "orderId",
+          "retryVersion",
+          "url"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "orderId": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "64"
+                }
+              ],
+              "enum": []
+            },
+            "retryVersion": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "url": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "4096"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "submission"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
       "responseMode": "json"
     },
     {
@@ -21563,6 +23590,216 @@
       "responseMode": "json"
     },
     {
+      "id": "post_chatwoot_native_conversations_by_conversationId_messages",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/native/conversations/:conversationId/messages",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "send"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "content",
+          "replyTo"
+        ],
+        "query": [],
+        "params": [
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "content": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "32768"
+                }
+              ],
+              "enum": []
+            },
+            "replyTo": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "conversationId": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "positive",
+                  "argument": ""
+                },
+                {
+                  "rule": "max",
+                  "argument": "Number.MAX_SAFE_INTEGER"
+                }
+              ],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "chatwootConversationParamsInput",
+          "nativeMcpSendInput"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_security_context",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/security/context",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_security_mcp_grants",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/security/mcp-grants",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_security_reauthenticate",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/security/reauthenticate",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_security_verify_reauth",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/security/verify-reauth",
+      "status": "excluded",
+      "reason": "Chatwoot 内部 authority/worker/security/QR/头像/移动/邮件工作器等专用通道；不作为模型可调用的业务工具",
+      "effects": [],
+      "allowedRoles": [],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_chatwoot_source_agents",
       "category": "chatwoot",
       "method": "POST",
@@ -22296,6 +24533,156 @@
       "responseMode": "json"
     },
     {
+      "id": "post_customers_workspace_by_id_manager_reviews_by_reviewId",
+      "category": "customers",
+      "method": "POST",
+      "path": "/api/customers/workspace/:id/manager-reviews/:reviewId",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "send"
+      ],
+      "conditionalEffects": {
+        "action": {
+          "EDIT": [
+            "approve"
+          ],
+          "WITHDRAW": [
+            "approve",
+            "delete"
+          ],
+          "RESOLVE": [
+            "approve"
+          ]
+        }
+      },
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "action",
+          "content",
+          "expectedVersion",
+          "requestId"
+        ],
+        "query": [],
+        "params": [
+          "id",
+          "reviewId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "action": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "EDIT",
+                "WITHDRAW",
+                "REPLY",
+                "APPEAL",
+                "RESOLVE"
+              ]
+            },
+            "content": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "2"
+                },
+                {
+                  "rule": "max",
+                  "argument": "2000"
+                }
+              ],
+              "enum": []
+            },
+            "expectedVersion": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "128"
+                }
+              ],
+              "enum": []
+            },
+            "requestId": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "128"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "reviewId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "仅客户当前负责人可回复或申诉",
+          "仅老板可修改、撤回或处理核实记录",
+          "核实记录或回复已更新，请重新读取后提交；输入保留",
+          "该核实已撤回，请重新读取",
+          "该逾期已有更新的核实记录，请从最新记录撤回",
+          "请填写2至2000字的说明，并重新读取核实记录后提交"
+        ],
+        "schemaReferences": [
+          "customerReviewCaseInput"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_customers_workspace_by_id_reply_suggestion",
       "category": "customers",
       "method": "POST",
@@ -22388,6 +24775,7 @@
           "未生成有效建议，请重试或手动撰写",
           "消息内容或语言无效，消息最多6000字",
           "演示环境请使用 AI 对话入口",
+          "订单资料已变化，请重新生成回复建议",
           "近期会话超过回复建议上下文限制"
         ],
         "schemaReferences": [
@@ -25607,6 +27995,347 @@
       "responseMode": "json"
     },
     {
+      "id": "post_integrations_alibaba_category_mappings",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/category-mappings",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "alibabaCategoryPath",
+          "alibabaLeafCategoryId",
+          "confidence",
+          "confirmReplacement",
+          "evidence",
+          "expectedAlibabaLeafCategoryId",
+          "replaceMappingId",
+          "tradeflowCategoryKey",
+          "tradeflowCategoryName"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "alibabaCategoryPath": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "alibabaLeafCategoryId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "confidence": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "confirmReplacement": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "evidence": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "expectedAlibabaLeafCategoryId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "replaceMappingId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "tradeflowCategoryKey": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "tradeflowCategoryName": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_category_mappings_suggestions",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/category-mappings/suggestions",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "candidates",
+          "tradeflowProductId"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "candidates": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "tradeflowProductId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_external_products_by_externalProductRecordId_refresh",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/external-products/:externalProductRecordId/refresh",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "externalProductRecordId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "externalProductRecordId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_external_products_quality_backfill",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/external-products/quality/backfill",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "batchSize"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "batchSize": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_external_products_sync",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/external-products/sync",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_integrations_alibaba_logistics_orders_sync",
       "category": "integrations",
       "method": "POST",
@@ -25852,6 +28581,304 @@
       "schemas": [],
       "upload": false,
       "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_media_bank_attachment",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/media-bank/attachment",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "assetId"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "assetId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
+    },
+    {
+      "id": "post_integrations_alibaba_media_bank_by_bankAssetId_link",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/media-bank/:bankAssetId/link",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "mediaAssetId"
+        ],
+        "query": [],
+        "params": [
+          "bankAssetId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "mediaAssetId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "bankAssetId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
+    },
+    {
+      "id": "post_integrations_alibaba_media_bank_download",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/media-bank/download",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "ids"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "ids": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
+    },
+    {
+      "id": "post_integrations_alibaba_media_bank_product_groups",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/media-bank/product-groups",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "groupId",
+          "productId",
+          "remove"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "groupId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "productId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "remove": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "产品不存在或已归档",
+          "图片分组已不存在，请刷新",
+          "解除绑定参数无效",
+          "请选择图片分组和产品"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
+    },
+    {
+      "id": "post_integrations_alibaba_media_bank_sync",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/media-bank/sync",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
     },
     {
       "id": "post_integrations_alibaba_orders_binding_analysis",
@@ -26111,6 +29138,529 @@
           }
         },
         "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_product_mappings",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/product-mappings",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "candidateEvidence",
+          "confidence",
+          "confirmConflict",
+          "externalProductId",
+          "externalSkuCode",
+          "externalSkuId",
+          "listingProfileId",
+          "matchBasis",
+          "replaceMappingId",
+          "sourceKind",
+          "tradeflowProductId",
+          "tradeflowVariantId"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "candidateEvidence": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "confidence": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "confirmConflict": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "externalProductId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "externalSkuCode": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "externalSkuId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "listingProfileId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "matchBasis": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "replaceMappingId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "sourceKind": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "tradeflowProductId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "tradeflowVariantId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_product_mappings_auto_confirm",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/product-mappings/auto-confirm",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        },
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "apply",
+          "previewHash",
+          "selectedKeys"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "apply": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "previewHash": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "selectedKeys": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_product_mappings_backfill",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/product-mappings/backfill",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_product_mappings_bulk",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/product-mappings/bulk",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "items"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "items": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_product_mappings_by_mappingId_revoke",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/product-mappings/:mappingId/revoke",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "mappingId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "mappingId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_product_mappings_suggestions",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/product-mappings/suggestions",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "externalProductId",
+          "externalSkuCode",
+          "externalSkuId",
+          "modelNumber",
+          "orderItemId",
+          "title"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "externalProductId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "externalSkuCode": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "externalSkuId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "modelNumber": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "orderItemId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "title": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_integrations_alibaba_workspace_capabilities_check",
+      "category": "integrations",
+      "method": "POST",
+      "path": "/api/integrations/alibaba/workspace/capabilities/check",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "accountId",
+          "operation"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "accountId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "operation": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "需要登录"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
@@ -30360,11 +33910,30 @@
               "enum": []
             },
             "metadata": {
-              "type": "unknown",
+              "type": "object",
               "optional": false,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [],
+              "keySchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [],
+                "enum": []
+              },
+              "valueSchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [
+                  {
+                    "rule": "max",
+                    "argument": "8000"
+                  }
+                ],
+                "enum": []
+              }
             },
             "operationId": {
               "type": "string",
@@ -31108,25 +34677,115 @@
               "enum": []
             },
             "segmentPointOverrides": {
-              "type": "unknown",
+              "type": "object",
               "optional": true,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [],
+              "keySchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [
+                  {
+                    "rule": "min",
+                    "argument": "1"
+                  },
+                  {
+                    "rule": "max",
+                    "argument": "128"
+                  }
+                ],
+                "enum": []
+              },
+              "valueSchema": {
+                "type": "array",
+                "optional": false,
+                "nullable": false,
+                "constraints": [
+                  {
+                    "rule": "min",
+                    "argument": "2"
+                  },
+                  {
+                    "rule": "max",
+                    "argument": "PACKAGING_MAX_POINTS_PER_SEGMENT"
+                  }
+                ],
+                "enum": []
+              }
             },
             "segmentRoleOverrides": {
-              "type": "unknown",
+              "type": "object",
               "optional": true,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [],
+              "keySchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [
+                  {
+                    "rule": "min",
+                    "argument": "1"
+                  },
+                  {
+                    "rule": "max",
+                    "argument": "128"
+                  }
+                ],
+                "enum": []
+              },
+              "valueSchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [],
+                "enum": [
+                  "CUT",
+                  "CREASE",
+                  "PERF",
+                  "IGNORE",
+                  "UNKNOWN"
+                ]
+              }
             },
             "styleRoleOverrides": {
-              "type": "unknown",
+              "type": "object",
               "optional": true,
               "nullable": false,
               "constraints": [],
-              "enum": []
+              "enum": [],
+              "keySchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [
+                  {
+                    "rule": "min",
+                    "argument": "1"
+                  },
+                  {
+                    "rule": "max",
+                    "argument": "128"
+                  }
+                ],
+                "enum": []
+              },
+              "valueSchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [],
+                "enum": [
+                  "CUT",
+                  "CREASE",
+                  "PERF",
+                  "IGNORE",
+                  "UNKNOWN"
+                ]
+              }
             },
             "topology": {
               "type": "object",
@@ -31198,11 +34857,34 @@
                   "enum": []
                 },
                 "foldOverrides": {
-                  "type": "unknown",
+                  "type": "object",
                   "optional": true,
                   "nullable": false,
                   "constraints": [],
-                  "enum": []
+                  "enum": [],
+                  "keySchema": {
+                    "type": "string",
+                    "optional": false,
+                    "nullable": false,
+                    "constraints": [
+                      {
+                        "rule": "min",
+                        "argument": "1"
+                      },
+                      {
+                        "rule": "max",
+                        "argument": "128"
+                      }
+                    ],
+                    "enum": []
+                  },
+                  "valueSchema": {
+                    "type": "object",
+                    "optional": false,
+                    "nullable": false,
+                    "constraints": [],
+                    "enum": []
+                  }
                 }
               }
             }
@@ -33903,6 +37585,22 @@
               ],
               "enum": [],
               "fields": {
+                "id": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "255"
+                    }
+                  ],
+                  "enum": []
+                },
                 "model": {
                   "type": "string",
                   "optional": false,
@@ -34160,6 +37858,26 @@
                   ],
                   "enum": []
                 },
+                "quantity": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1_000_000_000"
+                    }
+                  ],
+                  "enum": []
+                },
                 "rotationPolicy": {
                   "type": "string",
                   "optional": true,
@@ -34262,6 +37980,26 @@
                     {
                       "rule": "max",
                       "argument": "255"
+                    }
+                  ],
+                  "enum": []
+                },
+                "quantity": {
+                  "type": "number",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "int",
+                      "argument": ""
+                    },
+                    {
+                      "rule": "min",
+                      "argument": "1"
+                    },
+                    {
+                      "rule": "max",
+                      "argument": "1_000_000_000"
                     }
                   ],
                   "enum": []
@@ -34446,6 +38184,7 @@
         "body": [
           "currency",
           "productId",
+          "quantity",
           "variantId",
           "withTax"
         ],
@@ -34477,6 +38216,26 @@
                 {
                   "rule": "max",
                   "argument": "255"
+                }
+              ],
+              "enum": []
+            },
+            "quantity": {
+              "type": "number",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "1_000_000_000"
                 }
               ],
               "enum": []
@@ -36119,6 +39878,7 @@
         },
         "validationMessages": [
           "会话暂无可总结的消息",
+          "聊天、订单或客户资料已变化，请重新总结",
           "聊天或客户资料已变化，请重新总结"
         ],
         "schemaReferences": [
@@ -46353,6 +50113,102 @@
         ],
         "schemaReferences": [
           "updateUserSchema"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "put_users_by_id_business_permissions",
+      "category": "users",
+      "method": "PUT",
+      "path": "/api/users/:id/business-permissions",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "platformAdmin",
+          "roles": [
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "expectedVersion",
+          "permissions"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "expectedVersion": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^[a-f0-9]{64}$/"
+                }
+              ],
+              "enum": []
+            },
+            "permissions": {
+              "type": "object",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [],
+              "keySchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [],
+                "enum": []
+              },
+              "valueSchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [],
+                "enum": [
+                  "READ",
+                  "MANAGE"
+                ]
+              }
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "权限已变化，请刷新后重新核对",
+          "离职账号不能获得业务权限",
+          "管理权限已变化，请刷新后重试",
+          "老板和平台管理员已拥有全部权限，无需额外授权"
+        ],
+        "schemaReferences": [
+          "businessPermissionUpdateSchema"
         ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },

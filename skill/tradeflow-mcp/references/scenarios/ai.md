@@ -36,6 +36,8 @@
 - `delete_ai_decision_key`：DELETE /api/ai/decision/key
 - `delete_ai_knowledge_by_documentId`：DELETE /api/ai/knowledge/:documentId
 - `delete_ai_usage`：DELETE /api/ai/usage
+- `get_ai_assistant_confirmations`：GET /api/ai/assistant/confirmations（仅限本人网站助手通道；业务Agent不得调用、自我确认、读取确认凭据或取消确认）
+- `get_ai_assistant_confirmations_by_token`：GET /api/ai/assistant/confirmations/:token（仅限本人网站助手通道；业务Agent不得调用、自我确认、读取确认凭据或取消确认）
 - `get_ai_chat_conversations`：GET /api/ai/chat/conversations
 - `get_ai_chat_conversations_by_conversationId`：GET /api/ai/chat/conversations/:conversationId
 - `get_ai_chat_models`：GET /api/ai/chat/models
@@ -45,10 +47,15 @@
 - `get_ai_knowledge`：GET /api/ai/knowledge
 - `get_ai_runs_by_runId`：GET /api/ai/runs/:runId
 - `get_ai_usage`：GET /api/ai/usage
+- `get_ai_waybill_jobs`：GET /api/ai/waybill-jobs
+- `get_ai_waybill_jobs_by_jobId`：GET /api/ai/waybill-jobs/:jobId
 - `get_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations`：GET /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `get_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token`：GET /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `get_chatwoot_ai_capabilities`：GET /api/chatwoot/ai/capabilities
 - `patch_ai_knowledge_by_documentId_status`：PATCH /api/ai/knowledge/:documentId/status
+- `post_ai_assistant_chat_stream`：POST /api/ai/assistant/chat/stream（仅限本人网站助手通道；业务Agent不得调用、自我确认、读取确认凭据或取消确认）
+- `post_ai_assistant_confirm`：POST /api/ai/assistant/confirm（仅限本人网站助手通道；业务Agent不得调用、自我确认、读取确认凭据或取消确认）
+- `post_ai_assistant_confirmations_by_token_cancel`：POST /api/ai/assistant/confirmations/:token/cancel（仅限本人网站助手通道；业务Agent不得调用、自我确认、读取确认凭据或取消确认）
 - `post_ai_chat`：POST /api/ai/chat；外部前提候选：真实付费模型、OCR或供应商
 - `post_ai_chat_stream`：POST /api/ai/chat/stream（stream，使用原协议）
 - `post_ai_config`：POST /api/ai/config
@@ -69,6 +76,7 @@
 - `post_ai_translate`：POST /api/ai/translate；外部前提候选：真实模型解析或翻译配置
 - `post_ai_translate_batch`：POST /api/ai/translate-batch；外部前提候选：真实模型解析或翻译配置
 - `post_ai_upload`：POST /api/ai/upload
+- `post_ai_waybill_jobs`：POST /api/ai/waybill-jobs
 - `post_chatwoot_accounts_by_accountId_compose_ai_draft_translation`：POST /api/chatwoot/accounts/:accountId/compose/ai/draft-translation；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token_cancel`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token/cancel（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token_confirm`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token/confirm（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
@@ -96,6 +104,7 @@
 - `get_ai_chat_conversations`：GET /api/ai/chat/conversations
 - `get_ai_chat_conversations_by_conversationId`：GET /api/ai/chat/conversations/:conversationId
 - `get_ai_chat_models`：GET /api/ai/chat/models
+- `post_ai_assistant_chat_stream`：POST /api/ai/assistant/chat/stream（仅限本人网站助手通道；业务Agent不得调用、自我确认、读取确认凭据或取消确认）
 - `post_ai_chat`：POST /api/ai/chat；外部前提候选：真实付费模型、OCR或供应商
 - `post_ai_chat_stream`：POST /api/ai/chat/stream（stream，使用原协议）
 - `post_ai_config_models_discover`：POST /api/ai/config/models/discover
