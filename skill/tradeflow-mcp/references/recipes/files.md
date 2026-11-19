@@ -31,3 +31,10 @@
 7. `post_media_admin_assets_by_assetId_restore` 恢复允许资产的原字节，回读completed和ACTIVE状态；恢复不会自动重新绑定旧业务记录。成本凭证另受老板权限，当前媒体清理开关关闭不代表不可逆清理已获授权。
 
 上述规格只覆盖真实上传/引用和可逆隔离恢复，不表示已执行永久清理，也不授权清理验收之外的文件。
+
+## 公司订单图库与 Illustrator 画布
+
+- 告诉 Agent 产品用途、颜色或规格即可。先用 `get_products_order_gallery` 检索本公司的订单图片，按 product、packing、material、shipping、customs 或 all 筛选。同事的面单、报关图片与定制图片在对应分类中。按返回的 key 重新查询，再用 `get_products_order_gallery_by_id_original` 获取已核实的原件。付款凭证、PDF、客户资料与完整订单都沿用原业务权限。
+- 如任务允许调用配置的模型，可用 `post_products_order_gallery_recommend` 对已找到的产品图排序，使用稳定 operationId 和 2–12 个候选键，传入产品描述。返回 null 时沿用本地结果。图片推荐、下载与选入草稿均不表示已经发送。执行外发时核对渠道实时合同、所支持的附件类型和用户授权。
+- 上传 Illustrator 原稿使用 `post_upload`，body.path 为 design-artwork，真实文件名以 .ai 结尾。files[0] 提供 field=file、原件 base64 和正确 MIME。网站支持 PDF 兼容或 PostScript 格式，单件上限 50 MiB；MCP multipart 总容量 16 MiB，大文件从网站上传。使用返回的 artworkId 在 `get_design_board` 中传 focus 定位卡片，next 作为下一页 after。
+- 画布支持 `get_design_board_by_id_thumbnail` 核对预览、`get_design_board_by_id_original` 读取设计原稿。下载产生的 responseId 绑定当前凭证；按 nextOffset 续读 `read_business_response_file`，直至 hasMore=false 并核对 SHA256。移动卡片时，将 id、最新 revision 和整数 x、y 提交给 `patch_design_board_by_id_position`。版本冲突时请重新读取卡片。

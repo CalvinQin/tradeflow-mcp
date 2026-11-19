@@ -294,7 +294,7 @@
 - `post_users`：POST /api/users
 - `post_users_test_email`：POST /api/users/test-email；外部前提候选：外发或企业微信真实连接
 - `put_users_by_id`：PUT /api/users/:id
-- `put_users_by_id_business_permissions`：PUT /api/users/:id/business-permissions
+- `put_users_by_id_business_permissions`：PUT /api/users/:id/business-permissions（老板或当前完整管理员按原权限操作。先查目标用户的 version 与 permissions；以 expectedVersion 提交。仅已有授权的在职 SALES 管理员可切换 FULL、CUSTOM、STAFF。CUSTOM 按明确模块授权，切换 FULL 或撤为 STAFF 须清空权限映射；沿用网站校验与内容绑定确认。）
 - `put_users_email_config`：PUT /api/users/email-config
 - `put_users_me_exhibition_profile`：PUT /api/users/me/exhibition-profile
 

@@ -1,5 +1,5 @@
 {
-  "contractHash": "ea6d3faa152092e55deb571ce8db17d93a7c823e281b45c66835d839167d31d2",
+  "contractHash": "dc38fdb38c46b3b46f681b5f77a01c12f149a5e2e29d3a26aeb22d03b19a081e",
   "formatVersion": 1,
   "operations": [
     {
@@ -7970,6 +7970,200 @@
       "responseMode": "json"
     },
     {
+      "id": "get_design_board",
+      "category": "design-board",
+      "method": "GET",
+      "path": "/api/design-board",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "after",
+          "focus",
+          "q"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "after": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "focus": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "q": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [
+          "画布查询参数无效"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_design_board_by_id_original",
+      "category": "design-board",
+      "method": "GET",
+      "path": "/api/design-board/:id/original",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
+    },
+    {
+      "id": "get_design_board_by_id_thumbnail",
+      "category": "design-board",
+      "method": "GET",
+      "path": "/api/design-board/:id/thumbnail",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
+    },
+    {
+      "id": "get_design_board_workspace",
+      "category": "design-board",
+      "method": "GET",
+      "path": "/api/design-board/workspace",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "metadata"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "metadata": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [
+          "metadata 仅支持 1"
+        ],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "get_exchange_multiple",
       "category": "exchange",
       "method": "GET",
@@ -15020,6 +15214,144 @@
       "responseMode": "json"
     },
     {
+      "id": "get_products_order_gallery",
+      "category": "products",
+      "method": "GET",
+      "path": "/api/products/order-gallery",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [
+          "keys",
+          "kind",
+          "page",
+          "search"
+        ],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {
+            "keys": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^[a-f0-9]{64}(,[a-f0-9]{64}){0,14}$/"
+                }
+              ],
+              "enum": []
+            },
+            "kind": {
+              "type": "unknown",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "page": {
+              "type": "number",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "int",
+                  "argument": ""
+                },
+                {
+                  "rule": "min",
+                  "argument": "1"
+                },
+                {
+                  "rule": "max",
+                  "argument": "10000"
+                }
+              ],
+              "enum": []
+            },
+            "search": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "160"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "galleryListQuery"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "get_products_order_gallery_by_id_original",
+      "category": "products",
+      "method": "GET",
+      "path": "/api/products/order-gallery/:id/original",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json-or-bytes"
+    },
+    {
       "id": "get_products_picker",
       "category": "products",
       "method": "GET",
@@ -18398,6 +18730,73 @@
               "enum": []
             },
             "customerId": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "patch_design_board_by_id_position",
+      "category": "design-board",
+      "method": "PATCH",
+      "path": "/api/design-board/:id/position",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [
+          "revision",
+          "x",
+          "y"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "revision": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "x": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "y": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -31612,6 +32011,7 @@
           "factoryPickup",
           "freight",
           "hasDeposit",
+          "headMark",
           "headMarkAttachments",
           "id",
           "invoiceNumber",
@@ -32101,6 +32501,13 @@
               "type": "boolean",
               "optional": true,
               "nullable": false,
+              "constraints": [],
+              "enum": []
+            },
+            "headMark": {
+              "type": "string",
+              "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -37308,6 +37715,79 @@
           "需要登录后才能使用 AI 优化"
         ],
         "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_products_order_gallery_recommend",
+      "category": "products",
+      "method": "POST",
+      "path": "/api/products/order-gallery/recommend",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [
+          "keys",
+          "search"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "keys": {
+              "type": "array",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "2"
+                },
+                {
+                  "rule": "max",
+                  "argument": "12"
+                }
+              ],
+              "enum": []
+            },
+            "search": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "160"
+                },
+                {
+                  "rule": "min",
+                  "argument": "2"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [
+          "galleryRecommendInput"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -45379,6 +45859,130 @@
       "responseMode": "json"
     },
     {
+      "id": "put_design_board_workspace",
+      "category": "design-board",
+      "method": "PUT",
+      "path": "/api/design-board/workspace",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [
+          "document",
+          "expectedRevision",
+          "imports"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "document": {
+              "type": "object",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [],
+              "fields": {
+                "format": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "encoding": {
+                  "type": "unknown",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [],
+                  "enum": []
+                },
+                "data": {
+                  "type": "string",
+                  "optional": false,
+                  "nullable": false,
+                  "constraints": [
+                    {
+                      "rule": "min",
+                      "argument": "4"
+                    }
+                  ],
+                  "enum": []
+                }
+              }
+            },
+            "expectedRevision": {
+              "type": "unknown",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "0"
+                },
+                {
+                  "rule": "max",
+                  "argument": "2147483646"
+                }
+              ],
+              "enum": []
+            },
+            "imports": {
+              "type": "object",
+              "optional": false,
+              "nullable": false,
+              "constraints": [],
+              "enum": [],
+              "keySchema": {
+                "type": "string",
+                "optional": false,
+                "nullable": false,
+                "constraints": [
+                  {
+                    "rule": "regex",
+                    "argument": "/^[a-f0-9]{64}$/"
+                  }
+                ],
+                "enum": []
+              },
+              "valueSchema": {
+                "type": "object",
+                "optional": false,
+                "nullable": false,
+                "constraints": [],
+                "enum": []
+              }
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "导入记录包含未归集的原稿",
+          "工作文档、原稿定位或版本参数无效",
+          "新增原稿的定位节点不存在于保存的画布中",
+          "画布保存必须保留已归集原稿的导入记录"
+        ],
+        "schemaReferences": [
+          "workspaceWriteSchema"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "put_exhibition_leads_by_id",
       "category": "exhibition-leads",
       "method": "PUT",
@@ -47011,8 +47615,9 @@
               "enum": []
             },
             "headMark": {
-              "type": "unknown",
+              "type": "string",
               "optional": true,
+              "nullable": true,
               "constraints": [],
               "enum": []
             },
@@ -50231,7 +50836,9 @@
         },
         "validationMessages": [
           "只有在职业务员可以被授权为平台管理员",
+          "此管理员已按模块授权，请在业务权限中核对后恢复全部权限",
           "用户名已存在",
+          "管理权限已变化，请刷新后重试",
           "老板账号不能通过离职停用"
         ],
         "schemaReferences": [
@@ -50266,6 +50873,7 @@
       ],
       "parameterFields": {
         "body": [
+          "adminMode",
           "expectedVersion",
           "permissions"
         ],
@@ -50277,6 +50885,17 @@
       "inputContract": {
         "fields": {
           "body": {
+            "adminMode": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [],
+              "enum": [
+                "FULL",
+                "CUSTOM",
+                "STAFF"
+              ]
+            },
             "expectedVersion": {
               "type": "string",
               "optional": false,
@@ -50325,10 +50944,13 @@
           }
         },
         "validationMessages": [
+          "只有已获授权的在职平台管理员可以切换权限范围",
+          "撤销管理员授权时请清空模块权限",
           "权限已变化，请刷新后重新核对",
           "离职账号不能获得业务权限",
           "管理权限已变化，请刷新后重试",
-          "老板和平台管理员已拥有全部权限，无需额外授权"
+          "老板账号保留全部权限",
+          "请先选择按模块授权，再调整业务权限"
         ],
         "schemaReferences": [
           "businessPermissionUpdateSchema"
