@@ -36,5 +36,5 @@
 
 - 告诉 Agent 产品用途、颜色或规格即可。先用 `get_products_order_gallery` 检索本公司的订单图片，按 product、packing、material、shipping、customs 或 all 筛选。同事的面单、报关图片与定制图片在对应分类中。按返回的 key 重新查询，再用 `get_products_order_gallery_by_id_original` 获取已核实的原件。付款凭证、PDF、客户资料与完整订单都沿用原业务权限。
 - 如任务允许调用配置的模型，可用 `post_products_order_gallery_recommend` 对已找到的产品图排序，使用稳定 operationId 和 2–12 个候选键，传入产品描述。返回 null 时沿用本地结果。图片推荐、下载与选入草稿均不表示已经发送。执行外发时核对渠道实时合同、所支持的附件类型和用户授权。
-- 上传 Illustrator 原稿使用 `post_upload`，body.path 为 design-artwork，真实文件名以 .ai 结尾。files[0] 提供 field=file、原件 base64 和正确 MIME。网站支持 PDF 兼容或 PostScript 格式，单件上限 50 MiB；MCP multipart 总容量 16 MiB，大文件从网站上传。使用返回的 artworkId 在 `get_design_board` 中传 focus 定位卡片，next 作为下一页 after。
+- 使用 `post_upload` 手动导入 AI、PDF、静态 SVG、PNG 或 JPEG。body.path 传 design-artwork，files[0] 提供 field=file、原文件名、正确 MIME 和原件 base64。首次上传生成 body.artworkImportId，重试沿用该标识、文件名和字节，成功回读同一 artworkId。网站单件最大 50 MiB，静态 SVG 最大 8 MiB，PNG/JPEG 最大 20 MiB。MCP multipart 总容量 16 MiB，更大的原稿从网站上传。用 `get_design_board` 的 focus 定位，读取卡片的 source、format，next 用作下一页 after。手动导入的位图整张置入；订单保存时仅自动归集商标字段里的 AI、PDF 和 SVG。
 - 画布支持 `get_design_board_by_id_thumbnail` 核对预览、`get_design_board_by_id_original` 读取设计原稿。下载产生的 responseId 绑定当前凭证；按 nextOffset 续读 `read_business_response_file`，直至 hasMore=false 并核对 SHA256。移动卡片时，将 id、最新 revision 和整数 x、y 提交给 `patch_design_board_by_id_position`。版本冲突时请重新读取卡片。
