@@ -39,7 +39,7 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 - `get_business_files_by_kind_by_id_operations_by_requestId`：GET /api/business-files/:kind/:id/operations/:requestId
 - `get_design_board`：GET /api/design-board（公司共享 .ai 原稿目录：按 q 搜文件名，按 next/after 翻页，按 focus 定位。用 post_upload 的 path=design-artwork 上传真实 .ai 字节，再读返回的 artworkId。）
 - `get_design_board_by_id_original`：GET /api/design-board/:id/original（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
-- `get_design_board_by_id_thumbnail`：GET /api/design-board/:id/thumbnail（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
+- `get_design_board_by_id_thumbnail`：GET /api/design-board/:id/thumbnail（从原稿目录取得 id。默认返回最长边 480 的 WebP；快速查看添加 query.size=preview，可达 1280 像素。画面来自原始文件，独立于已编辑的工作区。422 表示原稿没有可读取的画面，可打开编辑器或下载原件；503 根据 Retry-After 重试。二进制按 nextOffset 续读。）
 - `get_design_board_workspace`：GET /api/design-board/workspace（公司共用的矢量工作文档。先用 query.metadata=1 查看修订和原稿定位。读取完整小文件时保留 document.data 的原始字节。大型文档使用网页画布，避免将 base64 文件体展开到对话中。）
 - `get_files`：GET /api/files
 - `get_files_download`：GET /api/files/download

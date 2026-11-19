@@ -1,5 +1,5 @@
 {
-  "contractHash": "dc38fdb38c46b3b46f681b5f77a01c12f149a5e2e29d3a26aeb22d03b19a081e",
+  "contractHash": "29ae50dd0f63b527858332e89beffcc16165c32f304d7df7e32e610a23fca9b7",
   "formatVersion": 1,
   "operations": [
     {
@@ -8091,7 +8091,9 @@
       "permissionGates": [],
       "parameterFields": {
         "body": [],
-        "query": [],
+        "query": [
+          "size"
+        ],
         "params": [
           "id"
         ]
@@ -8099,7 +8101,14 @@
       "inputContract": {
         "fields": {
           "body": {},
-          "query": {},
+          "query": {
+            "size": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          },
           "params": {
             "id": {
               "type": "unknown",
@@ -8109,7 +8118,9 @@
             }
           }
         },
-        "validationMessages": [],
+        "validationMessages": [
+          "size 仅支持 thumbnail 或 preview"
+        ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
