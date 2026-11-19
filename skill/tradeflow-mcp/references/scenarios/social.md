@@ -35,6 +35,8 @@
 - `get_inquiries_by_id_reply_context`：GET /api/inquiries/:id/reply-context
 - `get_inquiries_by_id_threads`：GET /api/inquiries/:id/threads
 - `get_inquiries_unread`：GET /api/inquiries/unread
+- `get_products_order_gallery`：GET /api/products/order-gallery（公司共享订单图库。query.kind 可选 all、product、packing、material、shipping、customs。先按品名、用途、规格或订单号检索，添加前用 keys 回读；付款凭证与 PDF 走原业务权限。）
+- `get_products_order_gallery_by_id_original`：GET /api/products/order-gallery/:id/original（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
 - `post_chatwoot_mail_conversations_ai_reply`：POST /api/chatwoot/mail/conversations/ai-reply；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_chatwoot_mail_conversations_context`：POST /api/chatwoot/mail/conversations/context；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_chatwoot_mail_conversations_lookup`：POST /api/chatwoot/mail/conversations/lookup；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
@@ -58,6 +60,7 @@
 - `post_inquiries_customer_by_accountId`：POST /api/inquiries/customer/:accountId
 - `post_inquiries_sync_emails`：POST /api/inquiries/sync-emails；外部前提候选：真实邮箱/发信授权或模型
 - `post_inquiries_upload_excel`：POST /api/inquiries/upload-excel
+- `post_products_order_gallery_recommend`：POST /api/products/order-gallery/recommend（可选 Jev 产品候选复核。先本地搜索，按已授权的模型调用范围用 business:write 和稳定 operationId，提供 2–12 个返回的产品图片键。配置启用时可能计费，返回 null 时沿用本地结果。）；外部前提候选：已启用图库检索的 Jev 决策模型可能产生调用费用；本地图库搜索可独立使用
 - `put_inquiries_by_id`：PUT /api/inquiries/:id
 - `put_inquiries_by_id_tags`：PUT /api/inquiries/:id/tags
 
@@ -84,6 +87,8 @@
 - `get_inquiries_by_id_reply_context`：GET /api/inquiries/:id/reply-context
 - `get_inquiries_by_id_threads`：GET /api/inquiries/:id/threads
 - `get_inquiries_unread`：GET /api/inquiries/unread
+- `get_products_order_gallery`：GET /api/products/order-gallery（公司共享订单图库。query.kind 可选 all、product、packing、material、shipping、customs。先按品名、用途、规格或订单号检索，添加前用 keys 回读；付款凭证与 PDF 走原业务权限。）
+- `get_products_order_gallery_by_id_original`：GET /api/products/order-gallery/:id/original（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
 - `post_chatwoot_mail_conversations_ai_reply`：POST /api/chatwoot/mail/conversations/ai-reply；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_chatwoot_mail_conversations_context`：POST /api/chatwoot/mail/conversations/context；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_chatwoot_mail_conversations_lookup`：POST /api/chatwoot/mail/conversations/lookup；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
@@ -107,6 +112,7 @@
 - `post_inquiries_customer_by_accountId`：POST /api/inquiries/customer/:accountId
 - `post_inquiries_sync_emails`：POST /api/inquiries/sync-emails；外部前提候选：真实邮箱/发信授权或模型
 - `post_inquiries_upload_excel`：POST /api/inquiries/upload-excel
+- `post_products_order_gallery_recommend`：POST /api/products/order-gallery/recommend（可选 Jev 产品候选复核。先本地搜索，按已授权的模型调用范围用 business:write 和稳定 operationId，提供 2–12 个返回的产品图片键。配置启用时可能计费，返回 null 时沿用本地结果。）；外部前提候选：已启用图库检索的 Jev 决策模型可能产生调用费用；本地图库搜索可独立使用
 - `put_inquiries_by_id`：PUT /api/inquiries/:id
 - `put_inquiries_by_id_tags`：PUT /api/inquiries/:id/tags
 

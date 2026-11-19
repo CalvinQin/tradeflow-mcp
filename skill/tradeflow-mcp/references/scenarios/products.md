@@ -41,6 +41,8 @@
 - `get_products_by_id_deletion_preview`：GET /api/products/:id/deletion-preview
 - `get_products_catalog_by_categories`：GET /api/products/catalog-by-categories
 - `get_products_hs_code_search`：GET /api/products/hs-code/search
+- `get_products_order_gallery`：GET /api/products/order-gallery（公司共享订单图库。query.kind 可选 all、product、packing、material、shipping、customs。先按品名、用途、规格或订单号检索，添加前用 keys 回读；付款凭证与 PDF 走原业务权限。）
+- `get_products_order_gallery_by_id_original`：GET /api/products/order-gallery/:id/original（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `get_system_categories`：GET /api/system/categories
@@ -51,6 +53,7 @@
 - `post_products_catalog`：POST /api/products/catalog
 - `post_products_catalog_by_categories`：POST /api/products/catalog-by-categories
 - `post_products_description_optimize`：POST /api/products/description/optimize；外部前提候选：真实付费模型、OCR或供应商
+- `post_products_order_gallery_recommend`：POST /api/products/order-gallery/recommend（可选 Jev 产品候选复核。先本地搜索，按已授权的模型调用范围用 business:write 和稳定 operationId，提供 2–12 个返回的产品图片键。配置启用时可能计费，返回 null 时沿用本地结果。）；外部前提候选：已启用图库检索的 Jev 决策模型可能产生调用费用；本地图库搜索可独立使用
 - `post_products_quotation`：POST /api/products/quotation
 - `post_products_simulate_container`：POST /api/products/simulate-container
 - `post_products_simulate_order`：POST /api/products/simulate-order
@@ -88,9 +91,12 @@
 - `delete_products_by_id_gallery_image`：DELETE /api/products/:id/gallery-image
 - `get_products`：GET /api/products
 - `get_products_by_id_deletion_preview`：GET /api/products/:id/deletion-preview
+- `get_products_order_gallery`：GET /api/products/order-gallery（公司共享订单图库。query.kind 可选 all、product、packing、material、shipping、customs。先按品名、用途、规格或订单号检索，添加前用 keys 回读；付款凭证与 PDF 走原业务权限。）
+- `get_products_order_gallery_by_id_original`：GET /api/products/order-gallery/:id/original（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `post_products`：POST /api/products
+- `post_products_order_gallery_recommend`：POST /api/products/order-gallery/recommend（可选 Jev 产品候选复核。先本地搜索，按已授权的模型调用范围用 business:write 和稳定 operationId，提供 2–12 个返回的产品图片键。配置启用时可能计费，返回 null 时沿用本地结果。）；外部前提候选：已启用图库检索的 Jev 决策模型可能产生调用费用；本地图库搜索可独立使用
 - `post_products_quotation`：POST /api/products/quotation
 - `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `put_products_by_id`：PUT /api/products/:id
@@ -117,9 +123,12 @@
 - `delete_products_by_id_gallery_image`：DELETE /api/products/:id/gallery-image
 - `get_products`：GET /api/products
 - `get_products_by_id_deletion_preview`：GET /api/products/:id/deletion-preview
+- `get_products_order_gallery`：GET /api/products/order-gallery（公司共享订单图库。query.kind 可选 all、product、packing、material、shipping、customs。先按品名、用途、规格或订单号检索，添加前用 keys 回读；付款凭证与 PDF 走原业务权限。）
+- `get_products_order_gallery_by_id_original`：GET /api/products/order-gallery/:id/original（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `post_products`：POST /api/products
+- `post_products_order_gallery_recommend`：POST /api/products/order-gallery/recommend（可选 Jev 产品候选复核。先本地搜索，按已授权的模型调用范围用 business:write 和稳定 operationId，提供 2–12 个返回的产品图片键。配置启用时可能计费，返回 null 时沿用本地结果。）；外部前提候选：已启用图库检索的 Jev 决策模型可能产生调用费用；本地图库搜索可独立使用
 - `post_products_quotation`：POST /api/products/quotation
 - `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `put_products_by_id`：PUT /api/products/:id
@@ -167,9 +176,12 @@
 - `delete_products_by_id_gallery_image`：DELETE /api/products/:id/gallery-image
 - `get_products`：GET /api/products
 - `get_products_by_id_deletion_preview`：GET /api/products/:id/deletion-preview
+- `get_products_order_gallery`：GET /api/products/order-gallery（公司共享订单图库。query.kind 可选 all、product、packing、material、shipping、customs。先按品名、用途、规格或订单号检索，添加前用 keys 回读；付款凭证与 PDF 走原业务权限。）
+- `get_products_order_gallery_by_id_original`：GET /api/products/order-gallery/:id/original（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
 - `get_products_picker`：GET /api/products/picker
 - `get_products_summary`：GET /api/products/summary
 - `post_products`：POST /api/products
+- `post_products_order_gallery_recommend`：POST /api/products/order-gallery/recommend（可选 Jev 产品候选复核。先本地搜索，按已授权的模型调用范围用 business:write 和稳定 operationId，提供 2–12 个返回的产品图片键。配置启用时可能计费，返回 null 时沿用本地结果。）；外部前提候选：已启用图库检索的 Jev 决策模型可能产生调用费用；本地图库搜索可独立使用
 - `post_products_quotation`：POST /api/products/quotation
 - `post_products_variant_options_recognize`：POST /api/products/variant-options/recognize
 - `put_products_by_id`：PUT /api/products/:id

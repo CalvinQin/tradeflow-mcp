@@ -19,12 +19,13 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 
 自然语言任务：请按当前权限完成“文件管理”所需操作，并回读实际结果。业务步骤：
 
-1. 先确认当前文件夹再上传或新建目录。
-2. 预览不等于下载到本地。
-3. 上传完成后确认文件可打开。
-4. 移动前检查是否有业务页面引用。
-5. 先看引用与影响提示。
-6. 永久删除前完成必要归档。
+1. 按文件名搜索贴纸或说明书，可定位到画布或下载原始文件。
+2. 先确认当前文件夹再上传或新建目录。
+3. 预览不等于下载到本地。
+4. 上传完成后确认文件可打开。
+5. 移动前检查是否有业务页面引用。
+6. 先看引用与影响提示。
+7. 永久删除前完成必要归档。
 
 角色候选：BOSS、SALES。前置对象：local-png、local-pdf、local-xlsx、team-folder、media-asset、referenced-file、orphan-file；具体必填值先查网站契约与已授权数据，缺失商业事实再询问，不编造值。
 
@@ -36,6 +37,10 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 - `get_business_files_by_kind_by_id`：GET /api/business-files/:kind/:id
 - `get_business_files_by_kind_by_id_content`：GET /api/business-files/:kind/:id/content
 - `get_business_files_by_kind_by_id_operations_by_requestId`：GET /api/business-files/:kind/:id/operations/:requestId
+- `get_design_board`：GET /api/design-board（公司共享 .ai 原稿目录：按 q 搜文件名，按 next/after 翻页，按 focus 定位。用 post_upload 的 path=design-artwork 上传真实 .ai 字节，再读返回的 artworkId。）
+- `get_design_board_by_id_original`：GET /api/design-board/:id/original（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
+- `get_design_board_by_id_thumbnail`：GET /api/design-board/:id/thumbnail（从当前目录取得 id，返回二进制文件段。保存 responseId、SHA256；按 nextOffset 用 read_business_response_file 继续，每块最多 256 KiB，逐次复查当前权限。）
+- `get_design_board_workspace`：GET /api/design-board/workspace（公司共用的矢量工作文档。先用 query.metadata=1 查看修订和原稿定位。读取完整小文件时保留 document.data 的原始字节。大型文档使用网页画布，避免将 base64 文件体展开到对话中。）
 - `get_files`：GET /api/files
 - `get_files_download`：GET /api/files/download
 - `get_files_info`：GET /api/files/info
@@ -48,6 +53,7 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 - `get_public_mini_product_shares_by_token`：GET /api/public/mini-product-shares/:token（excluded，使用原协议）
 - `get_public_product_shares_by_token`：GET /api/public/product-shares/:token（excluded，使用原协议）
 - `get_public_product_shares_by_token_preview`：GET /api/public/product-shares/:token/preview（excluded，使用原协议）
+- `patch_design_board_by_id_position`：PATCH /api/design-board/:id/position（此操作更新原稿目录的位置元数据。共享矢量文档中的对象位置保存在工作文档内。提交原稿 id、整数 x、y 与当前 revision，遇到冲突先回读。）
 - `post_business_files_by_kind_by_id_attach`：POST /api/business-files/:kind/:id/attach
 - `post_business_files_by_kind_by_id_operations_by_requestId_cancel`：POST /api/business-files/:kind/:id/operations/:requestId/cancel
 - `post_business_files_by_kind_by_id_operations_by_requestId_retry`：POST /api/business-files/:kind/:id/operations/:requestId/retry
@@ -69,6 +75,7 @@ URL和本机路径不是上传字节。删除响应可能先返回202与QUARANTI
 - `post_upload`：POST /api/upload
 - `post_upload_abandon`：POST /api/upload/abandon
 - `post_upload_base64`：POST /api/upload/base64
+- `put_design_board_workspace`：PUT /api/design-board/workspace（保存经过矢量编辑器生成的小型完整工作文档。先读取当前修订并保留所有 imports，传 expectedRevision 与原生 vectorcraft 文件的 base64 字节。409 时保留草稿并重新核对版本。大文件在网页画布中保存。绘图、框选和原生 AI/SVG/PDF 导出在矢量编辑器中完成。）
 
 验收情景编号：`capability:files`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。
 
