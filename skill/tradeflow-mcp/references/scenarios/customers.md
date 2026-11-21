@@ -10,7 +10,7 @@
 
 回读档案、联系人/地址、时间线和当天待办；核对负责人、等级、最新沟通和下次时间。删除后查回收站，恢复后查正式列表。
 
-E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿勾计有效跟进，AI复盘不得自行核实。due队列为48小时计划及逾期待办，12小时宽限，回收站30天；人工非E暂停/关闭保留。新事实可按规则恢复E造成的暂缓。正式订单决定成交/复购；PI草稿不计成交。外部AI回复建议和推送需各自配置与授权。
+机会分级 A 至 E，A 最高。共同负责人各自跟进。客户回访、订单待办、询盘首响分别排期；老板明确红勾强制逾期、绿勾计有效跟进，AI复盘不得自行核实。due队列为48小时计划及逾期待办，12小时宽限，回收站30天；人工暂缓和人工约定优先。读取 purchaseCadence：1 笔正式采购为成单，默认 2 个自然月回访；2 笔以上（含 2 笔）为复购，默认 3 个自然月回访。已购客户等货期间保留既有日期，按需处理发货收款。阿里订单转入 TradeFlow 只计一次，PI 草稿不计成交。外部AI回复建议和推送需各自配置与授权。
 
 具体执行顺序、输入和失败恢复见[本领域操作配方](../recipes/customers.md)；仅其中明确列出的流程有执行规格，其余候选仍须补齐实际验收。
 
@@ -111,6 +111,7 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `put_customers_workspace_by_id`：PUT /api/customers/workspace/:id
 - `put_customers_workspace_by_id_activities_by_activityId`：PUT /api/customers/workspace/:id/activities/:activityId
 - `put_customers_workspace_by_id_addresses`：PUT /api/customers/workspace/:id/addresses
+- `put_customers_workspace_by_id_owners`：PUT /api/customers/workspace/:id/owners
 - `put_customers_workspace_by_id_review`：PUT /api/customers/workspace/:id/review
 - `put_customers_workspace_by_id_tags`：PUT /api/customers/workspace/:id/tags
 - `put_customers_workspace_stages`：PUT /api/customers/workspace/stages
@@ -125,7 +126,7 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 
 1. 在客户档案或待跟进任务中打开快速跟进，先读最近沟通和待办，批量记录前检查已选客户。
 2. 填写“本次跟进内容”；可留空，系统将记录“已跟进”，需要业务证据时应写清实际沟通和下一步。
-3. 在“客户分级”选择保留原级别或E、D、C1/C2、B1/B2；E级为暂缓，暂不安排跟进，成单/复购由真实订单决定。
+3. 在“机会分级”选择 A 至 E，或保留原级别。系统按有效采购笔数安排回访，成单为 2 个自然月，复购为 3 个自然月。需要暂停时在客户阶段选择“暂缓”。
 4. 核对“下次联系”的服务器自动建议和法定假期提示；可选真实约定日期，或点击“恢复自动安排”。自动安排读取失败点击“重试读取”。
 5. 点击“记录本次跟进”或“统一记录…项跟进”，保存后在客户时间线和任务列表回读内容、分级及日期。
 6. 提交结果未知时保留输入，点击“重试核对结果”核对同一次提交，不重新录入；离开前处理未保存提示。
@@ -277,6 +278,7 @@ E级不生成普通首次或重复跟进；老板明确红勾强制逾期、绿�
 - `post_customers_workspace_merge_review`：POST /api/customers/workspace/merge/review；外部前提候选：客户工作台真实模型配置
 - `post_customers_workspace_tags`：POST /api/customers/workspace/tags
 - `put_customers_workspace_by_id_addresses`：PUT /api/customers/workspace/:id/addresses
+- `put_customers_workspace_by_id_owners`：PUT /api/customers/workspace/:id/owners
 - `put_customers_workspace_by_id_tags`：PUT /api/customers/workspace/:id/tags
 - `put_customers_workspace_stages`：PUT /api/customers/workspace/stages
 - `put_customers_workspace_tags_by_tagId`：PUT /api/customers/workspace/tags/:tagId

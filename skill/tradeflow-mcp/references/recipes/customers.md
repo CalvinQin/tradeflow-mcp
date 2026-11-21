@@ -33,16 +33,16 @@
     "expectedVersion": "刚读取的reviewVersion原值",
     "requestId": "本次业务保存的稳定唯一编号",
     "backgroundInfo": "已核实：主营工具零售；关注小批量采购。待核实：实际月采购量。",
-    "level": "C1",
+    "level": "D",
     "reminderEnabled": true,
     "followup": {"content":"确认了采购用途；客户仍在比较含运费总价。下一步核对数量与收货地址。"}
   }
 }
 ```
 
-示例文字不能当作任何实际客户事实。followup 可带当前真实 taskId；content 空白时网站记录“已跟进”。自动安排日期以回执 followupState.nextDate 和回读 OPEN 任务为准，不凭固定天数猜测。手动指定 `nextDate` 使用完整带时区的时间；未来计划由后台顺延所有周末和中国法定假日（含调休周末），保留真实已逾期事实。`confirmHolidayDate` 仅是旧参数兼容，不能用 true 绕过日历；回读后台最终日期，不能替用户承诺被顺延前的时间。首次已发生跟进会从新客户进入跟进中；复盘、背景修改和模型建议本身不能冒充已发生的人类联系。
+示例文字不能当作任何实际客户事实。followup 可带当前真实 taskId；content 空白时网站记录“已跟进”。自动安排日期以回执 followupState.nextDate 和回读 OPEN 任务为准，不凭固定天数猜测。手动指定 `nextDate` 使用完整带时区的时间；自动排期遇周末（含调休周末）或法定假期由后台顺延；与客户明确约定的日期按实际约定保留。`confirmHolidayDate` 仅是旧参数兼容，不能用 true 绕过日历；回读后台最终日期，不能替用户承诺被顺延前的时间。首次已发生跟进会从新客户进入跟进中；复盘、背景修改和模型建议本身不能冒充已发生的人类联系。
 
-E 级统一 DORMANT/暂缓，暂不安排跟进，普通 OPEN 任务会取消，老板核实未跟进产生的强制逾期待办保留。不能一边保持 E 一边填写下次时间。当前未成单分级为 E、D、C1、C2、B1、B2；成单/复购由真实正式关联订单决定。PI 草稿不算成交。已经明确暂停或关闭的客户不能因为一条 AI 建议被自行重新安排。
+机会等级为 A 采购已确认、B 商务推进、C 需求明确、D 初步接洽、E 待判断。可维护多位已核实负责人。读取 purchaseCadence，1 笔有效采购为成单，默认 2 个自然月；累计 2 笔及以上为复购，默认 3 个自然月。query.purchase 可按 first、repeat、prospect 筛选，purchased 涵盖全部已购。按 personalRelationshipPlan 里的实际日期核对人工安排和客户约定。暂缓、强制逾期、订单待办及询盘首响分别处理，等货期间按需回应客户。
 
 仅记录沟通可用 `post_customers_workspace_by_id_followups`，body `{content,requestId,taskId?,nextDate?,stage?,confirmHolidayDate?}`。人工普通客户若仍需继续跟进，必须给有效下次日期或在统一保存入口采用系统自动安排。做真实沟通记录前确认沟通确实发生；“请复盘客户”通常写复盘分析，不自动写 FOLLOW_UP。
 
@@ -63,8 +63,8 @@ E 级统一 DORMANT/暂缓，暂不安排跟进，普通 OPEN 任务会取消，
 ## 仅重新复盘客户管理里的现存客户
 
 1. 用户指定“现存客户”时，先分页读 `get_customers_workspace`，再读各原客户详情、阿里来源、复盘和时间线，保留本次原CRM客户ID清单；仅处理这些档案，不改为全店新会话导入。`get_alibaba_crm_context` 的通用近7天模板不能扩大或替换这次范围。仅补背景/标签且没有新沟通时，不新增复盘或已跟进记录。
-2. 公司级阿里工具仅在BOSS/SOCIAL_OPERATOR的实际tools/list中可用；读取其工具描述与输入schema。SALES沿本人客户工作台处理，缺公司级来源工具时说明缺项，不能改用老板连接。独立读取真实来源店铺身份，核对主子账号、接待账号和有效负责人绑定；用原来源store/buyerId、买家主页或会话标识到阿里找同一客户。只有姓名命中不算匹配，未绑定、跨负责人、身份歧义或关键原文缺失的记录跳过，继续其他已核实客户。
-3. 提交前用直接工具 `search_alibaba_customers` 按该storeId/buyerId及核实身份查重，确认返回的原CRM客户ID就是本次清单中的客户。无法确认时不提交，不用新建档案或通用写接口绕过。核对真实正式订单、买卖双方消息时间、已有人工等级/暂停及背景后写中文分析总结；新背景保留原文去重补充，新联系方式保留当前必填值及同一主要联系人，标签只补有证据的真实非系统标签。E不排首次/重复跟进，正式订单才决定成单/复购。
+2. 公司级阿里工具仅在BOSS/SOCIAL_OPERATOR的实际tools/list中可用；读取其工具描述与输入schema。SALES沿本人客户工作台处理，缺公司级来源工具时说明缺项，不能改用老板连接。独立读取真实来源店铺身份，核对主子账号、接待账号和有效负责人绑定；用原来源store/buyerId、买家主页或会话标识到阿里找同一客户。只有姓名命中不算匹配，接待账号未绑定、身份歧义或关键原文缺失的记录跳过，继续其他已核实客户。
+3. 提交前用直接工具 `search_alibaba_customers` 按该storeId/buyerId及核实身份查重，确认返回的原CRM客户ID就是本次清单中的客户。无法确认时不提交，不用新建档案或通用写接口绕过。核对真实正式订单、买卖双方消息时间、已有人工等级/暂停及背景后写中文分析总结；新背景保留原文去重补充，新联系方式保留当前必填值及同一主要联系人，标签只补有证据的真实非系统标签。E 为待判断，默认回访 30 天。已购客户按 purchaseCadence 回访，保留人工安排和已有约定；同店同会话的首响单独处理。
 4. `submit_alibaba_customer_reviews` 与 `get_customer_import_result` 是直接MCP工具，按其自身schema调用，不能把名称塞入execute_business_operation。原批次须有独立来源的storeIdentity、真实periodStart/periodEnd和coverage，每批最多50项、稳定recordKey与独立idempotencyKey。先用get_customer_import_result按店铺/时间窗查已提交范围，沿nextBeforeBatchId分页去重；提交未知用原idempotencyKey或batchId查结果，保留原键/原内容，不新建批次重做。回读逐条实际accountId及原档案，分别核对复盘、背景、资料和标签的保存结果；原服务保留人工内容，不能把CREATED/UPDATED或批次结束当全部字段已更新。
 
 ## 地址、绑定订单、合并与转交
@@ -72,7 +72,8 @@ E 级统一 DORMANT/暂缓，暂不安排跟进，普通 OPEN 任务会取消，
 - 地址：从 detail 获取 addressVersion。`put_customers_workspace_by_id_addresses` body `{version:addressVersion,addresses:[{id,kind,label,name,phone,country,postalCode,address,primary}]}`。地址不能为空；CUSTOMER 为本国/客户地址，RECIPIENT 为收货地址。同街不同收件人、电话或类型应保留；只折叠完全等同的身份。保存后回读地址与版本。
 - 绑定订单：`get_customers_workspace_by_id_order_candidates` 按 search/page 查真实候选，核对国家、联系资料和正式订单身份。`post_customers_workspace_by_id_bind_order` body `{orderId,nameSource:"customer"|"order"}` 取得原网站预览 token 和影响范围；用户已经具体授权绑定时，准备 MCP 票据并以 `{...原载荷,confirm:true,token:预览原值}` 执行。预览不是执行，token 不是 OAuth 密钥。400 资料变化则重读重预览。回读旧/新客户、订单归属、价格/数量/单位完全保持、正式订单数及成单/复购状态。不能仅凭聊天“已付款”创建虚构订单证明成交。
 - 查重合并：`get_customers_workspace_duplicates` 只返回候选，同名不是已确认重复。核对全部证据后 `post_customers_workspace_merge` body `{targetId,sourceId}` 取 token、target、source、地址与原关联记录；授权确认后同操作 body 加 `{confirm:true,token,aiSummary?}`。合并移动联系人、业务记录和关联订单，保留来源墓碑及 MERGE 审计，不是普通可逆删除。不同负责人先核实归属，不能强行合并。回读主档、来源状态、审计、关联订单及金额，人工背景和批注都要保留。
-- 转交：`get_customers_workspace_transfer_owners` 查当前可负责客户的在职用户。`post_customers_workspace_by_id_transfer` body `{ownerId,expectedOwnerId,requestId}`，沿当前 prepare 票据和具体转交授权执行。回读新负责人、OPEN 任务负责人、原时间线与历史订单；站内通知保存不等于微信发送成功。旧归属冲突409、已离职目标或无权访问都停止，不换负责人绕过。
+- 共同负责人：先读客户详情的 `owners`、`ownerIds` 和 `canManageOwners`，再读 `get_customers_workspace_transfer_owners`。用户已授权调整这份名单时，用 `put_customers_workspace_by_id_owners` 提交 `{ownerIds,expectedOwnerIds}`，保留至少一位，按操作契约准备票据。遇到多人同时编辑的 409 先重新读取，保存后回读名单。添加负责人不转移订单收入。
+- 转交：`get_customers_workspace_transfer_owners` 查当前可负责客户的在职用户。`post_customers_workspace_by_id_transfer` body `{ownerId,expectedOwnerId,requestId}`，沿当前 prepare 票据和具体转交授权执行。回读新负责人、后续回访负责人、原来的询盘和订单待办、历史时间线与订单；站内通知保存不等于微信发送成功。旧归属冲突409、已离职目标或无权访问都停止，不换负责人绕过。
 - 导入：先 `post_customers_workspace_import` 取原合同定义的 preview/候选和字段映射，再按网站确认要求提交已核实的行。保留逐行 saved/skipped/rejected 结果；不能将整个批次的部分成功说成全部完成。
 
 ## 删除、恢复与老板面板
@@ -106,4 +107,4 @@ E 级统一 DORMANT/暂缓，暂不安排跟进，普通 OPEN 任务会取消，
 
 先回读客户详情的 `reviewVersion`、`targetActivityId` 和 `followupThread`，再查 `put_customers_workspace_by_id_review` 的 `inputContract.workflow`。选择一条跟进时同时使用该条的ID与version；历史跟进只能用REVIEWED批注，核实已跟进/未跟进必须指向负责人最新目标。老板的文字、核实、客户等级、阶段、下次联系及提醒可在一个请求中提交；该请求不包含backgroundInfo或followup。背景单独请求，不调用记录沟通接口。
 
-新增沟通通过followup.content提交，补录日期用followup.occurredAt；不得填未来日期。服务端依据真实订单校对等级和阶段，自动排期仍使用工作日日历，回读followupState和客户详情确认最终值。红色核实保留审批、删除、外发三项授权及prepare门禁。未知结果保持原operationId/requestId/目标/完整负载，查询回执后回读，不能换ID重做；旧批注回放不会清除员工后来产生的待批注。
+新增沟通通过followup.content提交，补录日期用followup.occurredAt；不得填未来日期。机会等级按本次商机判断，正式采购单更新 purchaseCadence。实际回访日期以 followupState 和客户详情为准，客户约定优先，订单履约另行处理。红色核实保留审批、删除、外发三项授权及prepare门禁。未知结果保持原operationId/requestId/目标/完整负载，查询回执后回读，不能换ID重做；旧批注回放不会清除员工后来产生的待批注。

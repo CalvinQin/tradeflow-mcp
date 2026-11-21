@@ -32,6 +32,8 @@
 
 候选 AI 总结、自动简介及回复建议会读取当前有权查看的客户关联订单与阿里订单快照，各取近期至多20单。草稿、采购意向、待支付不当作成交，已发货不当作签收，关闭不当作已退款；转单关联用于避免重复理解，更多订单及同步时间不隐瞒。自动简介仅写有客户原话依据的长期资料，临时请求留在进展；原话证据保存于 NOTE，人工编辑的简介不自动覆盖。仅生成总结不表示已跟进、发信或完成订单。
 
+核对会话约定时，调用当前会话的 `ai_summary_preference` 操作，只传 `customerId`。有 `appointment` 时展示原话和日期。用户明确同意采用这次约定后，才用同一会话返回的 `noteId`、`messageId` 与客户编号准备并执行 `ai_confirm_appointment`。客户仅说「此日期前请勿联系」时保留提醒，等待真正的联系约定。客户明确要求停止联系时按其指定的范围处理。
+
 原生 Chatwoot 邮箱和 WhatsApp 先调用 `get_chatwoot_native_conversations`，query 可传 `search`、`platform:"EMAIL"|"WHATSAPP"`、`limit:1..50`、`cursor`。返回的 `conversationId` 是原生会话编号，不是来源会话 UUID；使用 `nextCursor` 继续，权限过滤可能产生空页，只有游标为 null 才表示本次查询结束。
 
 用 `get_chatwoot_native_conversations_by_conversationId_messages` 的 params `{conversationId}` 读取原生消息，query `{limit?,cursor?}`。每页以消息原时间和数字 ID 从早到晚返回；`olderCursor` 用于读取更早一页，合并时放在已有消息之前。游标绑定本人、当前公司、筛选和会话关联，1 小时后失效；不要改写游标或在不同会话间复用。新入站或历史补同步后重新从最新页读取。
