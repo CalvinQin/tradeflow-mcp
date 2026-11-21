@@ -143,7 +143,7 @@
 - 待人工复核的记录由老板 `get_system_mcp_clients_reviews` 分页读取，query `{before?:正整数游标}`，沿用原页长100及 `nextCursor`，有下一游标时继续读取。返回当前老板导入批次中需要复核的 PENDING/FAILED 和已入库但仍有差异的记录、实际候选、sellerOwner 与原提交内容；不是整个团队全部客户列表。
 - 确认一个真实候选后用 `post_system_mcp_clients_reviews_by_id_resolve`，params `{id}`、body `{customerId}`；明确新客户才传 `{createNew:true}`。两者不能同时传，客户必须仍在当前候选中，服务端还会检查原批次、接待账号绑定和对象归属。
 - 无绑定时即使传 createNew，原服务仍可能返回 `PENDING`，没有新增客户。不要把HTTP200当入库，也不要反复重试或修改负责人硬凑匹配。
-- `disposition:"暂缓观察"` 的资料不会自动入库；只有用户明确接受这条资料后才用 `{acceptObservation:true}`。这与E等级“暂不安排跟进/暂缓”是不同的流程。
+- `disposition:"暂缓观察"` 的资料不会自动入库；只有用户明确接受这条资料后才用 `{acceptObservation:true}`。客户是否暂停回访取决于客户阶段，E 级表示当前采购意向待判断。
 - `post_system_mcp_clients_reviews_by_id_dismiss` 未入库时是跳过复核记录，回执 `SKIPPED`；已入库但有差异时只是确认保留客户现有资料、清除复核原因并留审计。两者都不是删除客户，核对实际回执和列表即可。
 - resolve/dismiss 均保留稳定 operationId 和相同参数，完成后回读实际 accountId、负责人、背景、标签、活动 summary。不要只回报 UPDATED/CREATED 就说资料全部已补齐；原服务保留已有人工内容，未被修改的字段应如实说明。
 

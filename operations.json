@@ -1,5 +1,5 @@
 {
-  "contractHash": "42f0881ede46f8bbb5f772c219e4567e3250fbfdb81ec1645b22a819e652b2a2",
+  "contractHash": "142df171d3e425f809e3deced3dbf53f1fca4ad431c8a0ae4fe5057247b22009",
   "formatVersion": 1,
   "operations": [
     {
@@ -103,6 +103,47 @@
       "category": "ai",
       "method": "DELETE",
       "path": "/api/ai/config/embedding/key",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "delete",
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "platformAdmin",
+          "roles": [
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "delete_ai_config_translation_key",
+      "category": "ai",
+      "method": "DELETE",
+      "path": "/api/ai/config/translation/key",
       "status": "supported",
       "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
       "effects": [
@@ -6387,6 +6428,7 @@
           "nextContactTo",
           "ownerId",
           "page",
+          "purchase",
           "queue",
           "search",
           "searchPhase",
@@ -6499,6 +6541,12 @@
               "constraints": [],
               "enum": []
             },
+            "purchase": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "queue": {
               "type": "unknown",
               "optional": true,
@@ -6559,7 +6607,6 @@
         "validationMessages": [
           "客户搜索阶段无效",
           "客户来源最多20字",
-          "客户等级无效",
           "最多筛选50个标签",
           "筛选范围起点不能大于终点",
           "订单数和购买金额范围无效"
@@ -7577,17 +7624,13 @@
               "enum": []
             },
             "ownerId": {
-              "type": "number",
-              "optional": true,
+              "type": "array",
+              "optional": false,
               "nullable": false,
               "constraints": [
                 {
-                  "rule": "int",
-                  "argument": ""
-                },
-                {
-                  "rule": "positive",
-                  "argument": ""
+                  "rule": "max",
+                  "argument": "500"
                 }
               ],
               "enum": []
@@ -7623,15 +7666,11 @@
               ]
             },
             "state": {
-              "type": "string",
-              "optional": true,
+              "type": "array",
+              "optional": false,
               "nullable": false,
               "constraints": [],
-              "enum": [
-                "all",
-                "pending",
-                "resolved"
-              ]
+              "enum": []
             },
             "view": {
               "type": "string",
@@ -18974,8 +19013,10 @@
         "validationMessages": [
           "只有客户归属人或老板可以修改客户资料、阶段、归属和跟进时间",
           "只有老板可以转移客户归属",
+          "客户负责人已变化，请刷新后重试",
           "新负责人必须是该展会的有效成员",
           "线索阶段无效",
+          "负责人不存在或已离职",
           "需要登录"
         ],
         "schemaReferences": [],
@@ -20566,6 +20607,90 @@
       "responseMode": "json"
     },
     {
+      "id": "post_ai_config_translation",
+      "category": "ai",
+      "method": "POST",
+      "path": "/api/ai/config/translation",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "platformAdmin",
+          "roles": [
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "apiKey",
+          "enabled",
+          "region"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "apiKey": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "256"
+                },
+                {
+                  "rule": "regex",
+                  "argument": "/^[\\x21-\\x7e]*$/"
+                }
+              ],
+              "enum": []
+            },
+            "enabled": {
+              "type": "unknown",
+              "optional": false,
+              "constraints": [],
+              "enum": []
+            },
+            "region": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^(?:[a-z][a-z0-9-]{0,39})?$/"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "启用前请填写微软翻译密钥",
+          "设置刚刚发生变化，请刷新后重试"
+        ],
+        "schemaReferences": [
+          "translationSettingsSchema"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_ai_confirm",
       "category": "ai",
       "method": "POST",
@@ -21550,6 +21675,80 @@
         },
         "validationMessages": [],
         "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_ai_test_translation",
+      "category": "ai",
+      "method": "POST",
+      "path": "/api/ai/test/translation",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "platformAdmin",
+          "roles": [
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "apiKey",
+          "region"
+        ],
+        "query": [],
+        "params": []
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "apiKey": {
+              "type": "string",
+              "optional": true,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "max",
+                  "argument": "256"
+                },
+                {
+                  "rule": "regex",
+                  "argument": "/^[\\x21-\\x7e]*$/"
+                }
+              ],
+              "enum": []
+            },
+            "region": {
+              "type": "string",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "regex",
+                  "argument": "/^(?:[a-z][a-z0-9-]{0,39})?$/"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [
+          "请先填写微软翻译密钥"
+        ],
+        "schemaReferences": [
+          "translationConnectionSchema"
+        ],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
@@ -23110,6 +23309,46 @@
       "responseMode": "json"
     },
     {
+      "id": "post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirm_appointment",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirm-appointment",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token_cancel",
       "category": "chatwoot",
       "method": "POST",
@@ -23156,6 +23395,44 @@
           "query": {},
           "params": {}
         }
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
+      "id": "post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_summary_preference",
+      "category": "chatwoot",
+      "method": "POST",
+      "path": "/api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/summary-preference",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [],
+      "allowedRoles": [
+        "BOSS",
+        "SALES",
+        "PACKER",
+        "ACCOUNTANT",
+        "SOCIAL_OPERATOR"
+      ],
+      "permissionGates": [],
+      "parameterFields": {
+        "body": [],
+        "query": [],
+        "params": [
+          "accountId",
+          "conversationId"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {},
+          "query": {},
+          "params": {}
+        },
+        "validationMessages": [],
+        "schemaReferences": [],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
       },
       "schemas": [],
       "upload": false,
@@ -24978,8 +25255,10 @@
         "body": [
           "confirmHolidayDate",
           "content",
+          "level",
           "nextDate",
           "occurredAt",
+          "planSource",
           "requestId",
           "stage",
           "taskId"
@@ -25004,6 +25283,12 @@
               "constraints": [],
               "enum": []
             },
+            "level": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "nextDate": {
               "type": "unknown",
               "optional": true,
@@ -25011,6 +25296,12 @@
               "enum": []
             },
             "occurredAt": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "planSource": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -25046,16 +25337,15 @@
           }
         },
         "validationMessages": [
-          "E级暂不安排跟进，请先修改客户分级",
-          "关闭或暂缓客户时不能同时安排下次跟进",
+          "暂缓客户时不能同时安排回访",
           "最近联系时间无效或晚于当前时间",
-          "订单跟进上下文无效",
-          "订单跟进来源无法核实",
-          "请先在客户状态中设置一个跟进中状态",
+          "订单变更须通过订单待办处理",
           "请刷新后重试",
-          "请安排下次跟进，或选择已成交 / 暂缓 / 不再跟进",
+          "请填写询盘的实际回复",
+          "请记录这次询盘的实际回复",
           "跟进任务已处理或无权处理，请刷新",
-          "跟进状态已变化，请刷新后重试"
+          "跟进状态已变化，请刷新后重试",
+          "部分跟进已变化，请刷新后重新选择"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
@@ -25198,7 +25488,7 @@
           }
         },
         "validationMessages": [
-          "仅客户当前负责人可回复或申诉",
+          "仅本条核实记录的被核实人可回复或申诉",
           "仅老板可修改、撤回或处理核实记录",
           "核实记录或回复已更新，请重新读取后提交；输入保留",
           "该核实已撤回，请重新读取",
@@ -25534,7 +25824,6 @@
         },
         "validationMessages": [
           "客户等级读取不完整，请重试",
-          "成单和复购等级由真实订单决定，请保留当前分级",
           "请先读取客户等级和安排后再修改",
           "请刷新后重试",
           "部分跟进已处理或取消，请刷新后重新选择"
@@ -25621,7 +25910,6 @@
           "只能为自己导入客户",
           "名称或国家过长",
           "客户来源无效",
-          "客户等级无效",
           "导入来源无效",
           "每次导入1至500位客户",
           "请选择1至50位接收人",
@@ -25781,11 +26069,11 @@
           "params": {}
         },
         "validationMessages": [
-          "不同负责人的客户不能合并，请先核对归属",
           "客户已合并、删除或不属于当前负责人",
           "客户资料或关联记录已变化，请重新预览后合并",
           "整理内容最多 10000 字",
-          "请选择两个不同的客户"
+          "请选择两个不同的客户",
+          "跨负责人或共同跟进的档案需要客户管理员确认合并"
         ],
         "schemaReferences": [],
         "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
@@ -26342,7 +26630,6 @@
         "validationMessages": [
           "下一次行动时间与终态不能同时设置",
           "只能完成分配给自己的跟进任务",
-          "完成跟进时必须设置下一次行动时间或选择终态",
           "终态无效",
           "需要登录"
         ],
@@ -27690,7 +27977,8 @@
       "parameterFields": {
         "body": [
           "draft",
-          "instruction"
+          "instruction",
+          "requestOnly"
         ],
         "query": [],
         "params": [
@@ -27707,6 +27995,12 @@
               "enum": []
             },
             "instruction": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "requestOnly": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -42007,12 +42301,11 @@
         },
         "validationMessages": [
           "买家已绑定其他客户，请刷新",
-          "候选客户已变化或属于其他负责人，请刷新后重试",
+          "候选客户身份已变化，请刷新后重试",
           "只有老板可以处理 MCP 导入问题",
           "处理方式无效",
           "客户标签已变化或属于系统标签，请刷新上下文",
           "消息时间超出当前时间或统计结束时间",
-          "现负责人已失效，请在客户管理重新分配",
           "阿里账号尚未唯一绑定有效业务员，请先修复绑定"
         ],
         "schemaReferences": [
@@ -43270,14 +43563,16 @@
       "effects": [],
       "allowedRoles": [
         "BOSS",
-        "SALES"
+        "SALES",
+        "SOCIAL_OPERATOR"
       ],
       "permissionGates": [
         {
           "kind": "role",
           "roles": [
             "BOSS",
-            "SALES"
+            "SALES",
+            "SOCIAL_OPERATOR"
           ]
         }
       ],
@@ -43302,7 +43597,7 @@
           }
         },
         "validationMessages": [
-          "请打开客户详情填写真实沟通结果，系统会按等级安排下次跟进",
+          "请打开客户详情填写实际沟通结果",
           "跟进任务无效"
         ],
         "schemaReferences": [],
@@ -45328,6 +45623,99 @@
       "responseMode": "json"
     },
     {
+      "id": "put_customers_workspace_by_id_owners",
+      "category": "customers",
+      "method": "PUT",
+      "path": "/api/customers/workspace/:id/owners",
+      "status": "supported",
+      "reason": "复用真实网站路由、校验、字段投影、对象权限和业务服务",
+      "effects": [
+        "approve"
+      ],
+      "allowedRoles": [
+        "BOSS"
+      ],
+      "permissionGates": [
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "SALES",
+            "SOCIAL_OPERATOR"
+          ]
+        },
+        {
+          "kind": "role",
+          "roles": [
+            "BOSS",
+            "BOSS"
+          ]
+        }
+      ],
+      "parameterFields": {
+        "body": [
+          "expectedOwnerIds",
+          "ownerIds"
+        ],
+        "query": [],
+        "params": [
+          "id"
+        ]
+      },
+      "inputContract": {
+        "fields": {
+          "body": {
+            "expectedOwnerIds": {
+              "type": "array",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                }
+              ],
+              "enum": []
+            },
+            "ownerIds": {
+              "type": "array",
+              "optional": false,
+              "nullable": false,
+              "constraints": [
+                {
+                  "rule": "min",
+                  "argument": "1"
+                }
+              ],
+              "enum": []
+            }
+          },
+          "query": {},
+          "params": {
+            "id": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            }
+          }
+        },
+        "validationMessages": [
+          "其他人已调整负责人，请刷新后重试",
+          "请至少保留一位负责人，并提交原负责人名单",
+          "负责人不存在、已离职或不具备客户跟进角色",
+          "需要客户管理权限才能调整负责人"
+        ],
+        "schemaReferences": [
+          "ownersInput"
+        ],
+        "authority": "源码输入数据流和Zod结构索引；自定义金额/版本/权限校验仍由原网站执行，unknown不得猜测为任意字段"
+      },
+      "schemas": [],
+      "upload": false,
+      "responseMode": "json"
+    },
+    {
       "id": "put_customers_workspace_by_id_review",
       "category": "customers",
       "method": "PUT",
@@ -45382,7 +45770,9 @@
           "name",
           "nextDate",
           "ownerId",
+          "pauseReason",
           "pinned",
+          "planSource",
           "reminderEnabled",
           "requestId",
           "sourceCode",
@@ -45494,7 +45884,19 @@
               "constraints": [],
               "enum": []
             },
+            "pauseReason": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
             "pinned": {
+              "type": "unknown",
+              "optional": true,
+              "constraints": [],
+              "enum": []
+            },
+            "planSource": {
               "type": "unknown",
               "optional": true,
               "constraints": [],
@@ -45548,19 +45950,19 @@
           }
         },
         "validationMessages": [
+          "共同跟进的客户需要客户管理员调整负责人",
           "只有老板或社媒运营可以编辑批注",
           "只有老板或社媒运营可以置顶客户",
           "国家名称过长",
           "客户名称须为1至255字",
           "客户来源须为1至20字",
-          "客户等级无效",
-          "客户阶段无效",
           "展会名称最多255字",
           "录入日期不能为空",
           "批注仅可同时修改分级、阶段和联系安排；背景请单独保存",
           "批注内容无效",
           "批注最多10000字",
           "提醒状态无效",
+          "暂缓原因最多1000字",
           "沟通记录或跟进任务无效",
           "没有转交客户权限",
           "置顶状态无效",
@@ -45575,6 +45977,7 @@
           "负责人不存在或已离职",
           "负责人最新跟进已变化，请刷新后重新核实；批注仍保留",
           "跟进状态已变化，请刷新后重试",
+          "跟进计划来源无效",
           "跟进记录无效",
           "跟进记录版本无效",
           "这条旧跟进关联多个完成任务，无法安全撤销，请先核对记录",
@@ -45600,9 +46003,11 @@
                 "lastDate",
                 "createdDate",
                 "reminderEnabled",
-                "pinned"
+                "pinned",
+                "planSource",
+                "pauseReason"
               ],
-              "note": "followup.content记录沟通；补录沟通时间使用followup.occurredAt，日期不得在未来。分级、阶段和日期与跟进一次提交。"
+              "note": "followup.content记录沟通；补录沟通时间使用followup.occurredAt，日期不得在未来。分级、阶段和日期与跟进一次提交。只有得到客户明确日期时才填 CONFIRMED，保留证据；其他人工安排用 MANUAL。仅登记沟通时省略 nextDate，让后台按已存安排或 purchaseCadence 接续；成单 2 个自然月，复购 3 个自然月。"
             },
             {
               "id": "manager_review",
@@ -45621,7 +46026,9 @@
                 "createdDate",
                 "reminderEnabled",
                 "pinned",
-                "confirmHolidayDate"
+                "confirmHolidayDate",
+                "planSource",
+                "pauseReason"
               ],
               "note": "REVIEWED可批注历史跟进；FOLLOWED_UP和NOT_FOLLOWED_UP只能核实负责人最新目标。背景、followup及转交字段不能混入。"
             },
@@ -46151,8 +46558,10 @@
         "validationMessages": [
           "只有客户归属人或老板可以修改客户资料、阶段、归属和跟进时间",
           "只有老板可以转移客户归属",
+          "客户负责人已变化，请刷新后重试",
           "新负责人必须是该展会的有效成员",
           "线索阶段无效",
+          "负责人不存在或已离职",
           "需要登录"
         ],
         "schemaReferences": [],

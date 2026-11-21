@@ -33,6 +33,7 @@
 - `delete_ai_chat_conversations_by_conversationId`：DELETE /api/ai/chat/conversations/:conversationId
 - `delete_ai_config_by_provider_key`：DELETE /api/ai/config/:provider/key
 - `delete_ai_config_embedding_key`：DELETE /api/ai/config/embedding/key
+- `delete_ai_config_translation_key`：DELETE /api/ai/config/translation/key
 - `delete_ai_decision_key`：DELETE /api/ai/decision/key
 - `delete_ai_knowledge_by_documentId`：DELETE /api/ai/knowledge/:documentId
 - `delete_ai_usage`：DELETE /api/ai/usage
@@ -62,6 +63,7 @@
 - `post_ai_config_embedding`：POST /api/ai/config/embedding
 - `post_ai_config_features`：POST /api/ai/config/features
 - `post_ai_config_models_discover`：POST /api/ai/config/models/discover
+- `post_ai_config_translation`：POST /api/ai/config/translation
 - `post_ai_confirm`：POST /api/ai/confirm（仅限本人网站助手通道；业务Agent不得调用、自我确认、读取确认凭据或取消确认）
 - `post_ai_decision_config`：POST /api/ai/decision/config
 - `post_ai_decision_test`：POST /api/ai/decision/test；外部前提候选：真实付费模型、OCR或供应商
@@ -73,13 +75,16 @@
 - `post_ai_scan_waybill`：POST /api/ai/scan-waybill；外部前提候选：真实Paddle面单识别配置
 - `post_ai_test`：POST /api/ai/test；外部前提候选：真实付费模型、OCR或供应商
 - `post_ai_test_embedding`：POST /api/ai/test/embedding；外部前提候选：真实付费模型、OCR或供应商
+- `post_ai_test_translation`：POST /api/ai/test/translation；外部前提候选：真实付费模型、OCR或供应商
 - `post_ai_translate`：POST /api/ai/translate；外部前提候选：真实模型解析或翻译配置
 - `post_ai_translate_batch`：POST /api/ai/translate-batch；外部前提候选：真实模型解析或翻译配置
 - `post_ai_upload`：POST /api/ai/upload
 - `post_ai_waybill_jobs`：POST /api/ai/waybill-jobs
 - `post_chatwoot_accounts_by_accountId_compose_ai_draft_translation`：POST /api/chatwoot/accounts/:accountId/compose/ai/draft-translation；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirm_appointment`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirm-appointment；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token_cancel`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token/cancel（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_confirmations_by_token_confirm`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/confirmations/:token/confirm（excluded，使用原协议）；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
+- `post_chatwoot_accounts_by_accountId_conversations_by_conversationId_ai_summary_preference`：POST /api/chatwoot/accounts/:accountId/conversations/:conversationId/ai/summary-preference；外部前提候选：独立Chatwoot CE只读映射、当前成员授权及对应原生服务；AI动作另需真实模型
 - `put_ai_chat_conversations_by_conversationId`：PUT /api/ai/chat/conversations/:conversationId
 
 验收情景编号：`capability:ai-center`。普通保存保持原operationId，沿用当前任务中目标与范围明确的用户授权，必要的版本和商业信息完整时连续执行，不重复索要同一授权。敏感操作保留prepare票据和网站原确认/版本要求；已有具体授权继续有效，票据本身不构成人类授权。未知结果查回执及对象，不换ID重做。
